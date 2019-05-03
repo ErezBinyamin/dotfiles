@@ -12,7 +12,7 @@ Do these commands, then you'll be good
 
 ```
 cd
-git clone 
+git clone https://github.com/ErezBinyamin/.init.git
 printf '
 INIT_DIR=/home/$USER/.init
 if [ -d ${INIT_DIR} ]; then
