@@ -9,7 +9,7 @@ alias darkMatter='/home/liv/Documents/Programming/Projects/Bash/darkMatter/darkM
 # Commands
 alias music='/usr/bin/pianobar'
 alias bashrc='cd;source .bashrc; cd -'
-alias animate='/usr/bin/curl -s "$(shuf -n 1 /home/liv/.init/data/animations.txt)" | /usr/bin/pv -q -L 9600'
+alias animate='/usr/bin/curl -s "$(shuf -n 1 /home/liv/.init/data/animations.txt)" | /usr/bin/pv -q -L 3000'
 alias local_ip='hostname -I | sed "s/ .*//"'
 
 # Overrides
