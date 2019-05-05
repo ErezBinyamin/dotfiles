@@ -39,17 +39,13 @@ if [ $IP_COLORING -eq 1 ]; then
     __COLOR_4=$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f4))
     if [ $IP_COLORING_LIVE -eq 1 ]
     then
-        # Check connectivity with google
-        # __COLOR_1='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
-        # __COLOR_2='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
-        # __COLOR_3='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
-        # __COLOR_4='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
-
-        # Check connectivity dumb
-        __COLOR_1='`[ $(hostname -I | wc -w) -gt 1 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
-        __COLOR_2='`[ $(hostname -I | wc -w) -gt 1 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
-        __COLOR_3='`[ $(hostname -I | wc -w) -gt 1 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
-        __COLOR_4='`[ $(hostname -I | wc -w) -gt 1 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
+        # Check connectivity with envar
+         __OFFLINE=0
+         __AM_I_OFFLINE='`export __OFFLINE=$(nc -w 3 -z 8.8.8.8 53 && echo 1 || echo 0)`'
+         __COLOR_1='`[ $__OFFLINE -eq 0 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
+         __COLOR_2='`[ $__OFFLINE -eq 0 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
+         __COLOR_3='`[ $__OFFLINE -eq 0 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
+         __COLOR_4='`[ $__OFFLINE -eq 0 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
     fi
 fi
 
@@ -111,7 +107,9 @@ then
         ;;
     esac
 else
-    PS1="${__COLOR_1}${__date_time}${RST}"      # Date and time
+    PS1="${__AM_I_OFFLINE}"
+#    PS1="${__COLOR_1}${__date_time}${RST}"     # Date and time
+    PS1+="${__COLOR_1}${__date_time}${RST}"     # Date and time
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
     PS1+="${__COLOR_4}\w${RST}"                 # Working directory
