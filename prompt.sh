@@ -6,7 +6,8 @@
 DEFAULT=0           # Ignore all prompt customizations and use default
 PROMPT_GIT_PARSE=1  # Git branch and coloring
 IP_COLORING=1       # Use IP octets to color command line
-IP_COLORING_LIVE=0  # Live update IP coloring (not just at bashrc)
+IP_COLORING_LIVE=0  # BROKEN: Live update IP coloring (not just at bashrc)
+RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 #############################################################################################################################################
 
 RST="\[\033[00m\]"
@@ -47,6 +48,13 @@ if [ $IP_COLORING -eq 1 ]; then
          __COLOR_3='`[ $__OFFLINE -eq 0 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
          __COLOR_4='`[ $__OFFLINE -eq 0 ] && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
     fi
+fi
+
+if [ $RANDOM_COLORING -eq 1 ]; then
+    __COLOR_1=$(_assign_color $(( $RANDOM % 255 )))
+    __COLOR_2=$(_assign_color $(( $RANDOM % 255 )))
+    __COLOR_3=$(_assign_color $(( $RANDOM % 255 )))
+    __COLOR_4=$(_assign_color $(( $RANDOM % 255 )))
 fi
 
 # COLORS:
