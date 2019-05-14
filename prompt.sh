@@ -115,9 +115,7 @@ then
         ;;
     esac
 else
-    PS1="${__AM_I_OFFLINE}"
-#    PS1="${__COLOR_1}${__date_time}${RST}"     # Date and time
-    PS1+="${__COLOR_1}${__date_time}${RST}"     # Date and time
+    PS1="${__COLOR_1}${__date_time}${RST}"     # Date and time
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
     PS1+="${__COLOR_4}\w${RST}"                 # Working directory

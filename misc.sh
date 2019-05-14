@@ -10,6 +10,7 @@ alias darkMatter='/home/liv/Documents/Programming/Projects/Bash/darkMatter/darkM
 alias animate='/usr/bin/curl -s "$(shuf -n 1 /home/liv/.init/data/animations.txt)" | /usr/bin/pv -q -L 3000'
 
 # Simple
+alias public_ip='curl http://ifconfig.me; printf "\n"'
 alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
