@@ -264,3 +264,4 @@ ascii code	255	nbsp	(non-breaking space or no-break space)
 		visit :	www.theasciicode.com.ar
 		
 
+● 
