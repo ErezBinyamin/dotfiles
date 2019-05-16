@@ -57,13 +57,6 @@ if [ $RANDOM_COLORING -eq 1 ]; then
     __COLOR_4=$(_assign_color $(( $RANDOM % 255 )))
 fi
 
-# COLORS:
-#       Green : Up to date
-#       Yellow: Ready to commit
-#       Red   : Unstaged changes
-__git_color='`[ $PROMPT_GIT_PARSE -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && printf " " && printf "\[\033[1;48;5;2m\]" && printf "$(git diff-index --quiet --cached HEAD -- || printf "\[\033[1;48;5;3m\]")" && printf "$(git diff --quiet || printf "\[\033[1;48;5;1m\]*")" && printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;48;5;1m\]+")"`'
-__git_branch='`[ $PROMPT_GIT_PARSE -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
-
 #Date and time
 __date_time='[`date "+%m/%d/%Y %H:%M:%S"`]'
 #################################################
@@ -119,6 +112,6 @@ else
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
     PS1+="${__COLOR_4}\w${RST}"                 # Working directory
-    PS1+="${__git_color}${__git_branch}${RST}"  # Colored git branch/status
+    PS1+="${__git_repo}${__git_color}${__git_branch}${RST}"  # Colored git branch/status
     PS1+="${RST}\$ "                            # A '$' and a space
 fi
