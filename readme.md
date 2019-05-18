@@ -10,7 +10,7 @@ Just clone this repo and direct your bashrc source these files
 
 Do these commands, then you'll be good
 
-```
+```bash
 cd
 git clone https://github.com/ErezBinyamin/.init.git
 printf '
