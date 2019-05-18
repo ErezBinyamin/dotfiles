@@ -120,8 +120,8 @@ printf "\[\033[00m\]"`'
 __git_color='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 printf " \[\033[1;38;5;2m\]" && \
-printf "$(git diff-index --quiet --cached HEAD -- || printf "\[\033[1;38;5;3m\]")" && \
-printf "$(git diff --quiet || printf "\[\033[1;38;5;1m\]*")" && \
+printf "$(git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]")" && \
+printf "$(git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]*")" && \
 printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;38;5;1m\]+")"`'
 
 # GIT BRANCH:
