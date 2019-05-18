@@ -1,4 +1,4 @@
-# Everyday
+# Everyday stuff
 alias gs='git status'
 alias gb='git branch'
 alias ga='git add'
