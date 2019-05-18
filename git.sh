@@ -22,20 +22,25 @@ alias gpl='git pull'
 
 # GIT PULL
 #       Determine if a git pull command is needed
+
 #__git_pull='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
 #[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-#git pull --dry-run | grep -q -v "Already up-to-date." && printf "↓"`'
+#git pull --dry-run | grep -q -v "Already up-to-date." && \
+#printf "\[\033[00m\]\[\033[1;5;96m\] ↓\[\033[00m\]"`'
 __git_pull='``'
 
 # GIT PUSH
+
 #       Determine if a git push command is needed
 __git_push='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-git status | grep -q "git push" && printf "\[\033[00m\]\[\033[5;96m ↑ "`'
+git status | grep -q "git push" && \
+printf "\[\033[00m\]\[\033[1;5;96m\] ↑\[\033[00m\]"`'
 
 # GIT REPO:
 #       Shows name of current git repo in random color
 #       Shows oposite color on arrows (Incase of unreadable color)
+
 __git_repo='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 printf "\[\033[00m\] " && \
@@ -55,6 +60,7 @@ printf "\[\033[00m\]"`'
 #       Green : Up to date
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
+
 __git_color='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 printf " \[\033[1;38;5;2m\]" && \
@@ -64,6 +70,7 @@ printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\03
 
 # GIT BRANCH:
 #       Prints current git branch
+
 __git_branch='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
