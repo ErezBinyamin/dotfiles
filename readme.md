@@ -23,5 +23,3 @@ if [ -d ${INIT_DIR} ]; then
 fi
 ' >> /home/user/.bashrc
 ```
-## Demo
-<a href="https://imgflip.com/gif/31bcz5"><img src="https://i.imgflip.com/31bcz5.gif" title="made at imgflip.com"/></a>
