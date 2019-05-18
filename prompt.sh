@@ -112,6 +112,7 @@ else
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
     PS1+="${__COLOR_4}\w${RST}"                 # Working directory
-    PS1+="${__git_repo}${__git_color}${__git_branch}${RST}"  # Colored git branch/status
+#    PS1+="${__git_repo}${__git_color}${__git_branch}${RST}"  # Colored git branch/status
+    PS1+="${__git_repo}${__git_pull}${__git_push}${__git_color}${__git_branch}${RST}"  # Colored git branch/status
     PS1+="${RST}\$ "                            # A '$' and a space
 fi

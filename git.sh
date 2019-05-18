@@ -20,6 +20,19 @@ alias gpl='git pull'
 
 # Git command line prompt
 
+# GIT PULL
+#       Determine if a git pull command is needed
+#__git_pull='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
+#[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
+#git pull --dry-run | grep -q -v "Already up-to-date." && printf "↓"`'
+__git_pull='``'
+
+# GIT PUSH
+#       Determine if a git push command is needed
+__git_push='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
+[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
+git status | grep -q "git push" && printf "↑"`'
+
 # GIT REPO:
 #       Shows name of current git repo in random color
 #       Shows oposite color on arrows (Incase of unreadable color)
