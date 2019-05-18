@@ -79,6 +79,7 @@ if [ $SLOW_NETWORK -eq 0 ]
 then
     __git_pull='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
     [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
+    nc -w 3 -z 8.8.8.8 53 && \
     git pull --dry-run | grep -q -v "Already up-to-date." && \
     printf "\[\033[00m\]\[\033[1;5;96m\] ↓\[\033[00m\]"`'
 else
