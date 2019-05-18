@@ -31,7 +31,7 @@ __git_pull='``'
 #       Determine if a git push command is needed
 __git_push='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-git status | grep -q "git push" && printf "↑"`'
+git status | grep -q "git push" && printf "\[\033[00m\]\[\033[5;96m ↑ "`'
 
 # GIT REPO:
 #       Shows name of current git repo in random color
