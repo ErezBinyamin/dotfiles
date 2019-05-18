@@ -11,8 +11,8 @@ alias glg='git log --graph'
 alias gl1='git log -n 1'
 
 # Reseting
-alias gr='git reset HEAD'
-alias grhh='git reset --hard HEAD'
+alias grhh='git reset --hard HEAD'                            # Reset to last commit
+alias groh='git fetch origin; git reset --hard origin/master' # Reset really hard to origin state
 
 # Remote interaction
 alias gps='git push'
