@@ -3,11 +3,10 @@
 
 # CONTROLS
 #############################################################################################################################################
-DEFAULT=0           # Ignore all prompt customizations and use default
+DEFAULT=0           # Ignore all prompt customizations and use ubuntu default
 SLOW_NETWORK=1      # If you have a slow network, set to a '1' to stop all slow network items
-PROMPT_GIT_PARSE=1  # Git branch and coloring
+GIT_PROMPT=1        # Git branch and coloring
 IP_COLORING=1       # Use IP octets to color command line
-IP_COLORING_LIVE=0  # BROKEN: Live update IP coloring (not just at bashrc)
 RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 #############################################################################################################################################
 
@@ -34,7 +33,7 @@ _assign_color() {
     esac
 }
 
-# Live update IP address
+# IP address definition, either live or on source define
 [ $SLOW_NETWORK -eq 0 ] && __ip_addr='`nc -w 3 -z 8.8.8.8 53 && hostname -I | cut -d" " -f1 || echo OFFLINE`'
 [ $SLOW_NETWORK -eq 1 ] && __ip_addr="$(nc -w 3 -z 8.8.8.8 53 && hostname -I | cut -d' ' -f1 || echo OFFLINE)"
 
@@ -54,7 +53,7 @@ if [ $IP_COLORING -eq 1 ]; then
     fi
 
     # Poll google servers for each color
-    if [ $IP_COLORING_LIVE -eq 1 ] && [ $SLOW_NETWORK -eq 0 ]
+    if [ $SLOW_NETWORK -eq 0 ]
     then
          __COLOR_1='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
          __COLOR_2='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
@@ -77,7 +76,7 @@ fi
 #       Determine if a git pull command is needed
 if [ $SLOW_NETWORK -eq 0 ]
 then
-    __git_pull='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
+    __git_pull='`[ $GIT_PROMPT -eq 1 ] && \
     [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
     nc -w 3 -z 8.8.8.8 53 && \
     git pull --dry-run | grep -q -v "Already up-to-date." && \
@@ -89,7 +88,7 @@ fi
 # GIT PUSH
 
 #       Determine if a git push command is needed
-__git_push='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
+__git_push='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git status | grep -q "git push" && \
 printf "\[\033[00m\]\[\033[1;5;96m\] ↑\[\033[00m\]"`'
@@ -98,7 +97,7 @@ printf "\[\033[00m\]\[\033[1;5;96m\] ↑\[\033[00m\]"`'
 #       Shows name of current git repo in random color
 #       Shows oposite color on arrows (Incase of unreadable color)
 
-__git_repo='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
+__git_repo='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 printf "\[\033[00m\] " && \
 printf "\[\033[1;38;5;"\
@@ -118,7 +117,7 @@ printf "\[\033[00m\]"`'
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
 
-__git_color='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
+__git_color='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 printf " \[\033[1;38;5;2m\]" && \
 printf "$(git diff-index --quiet --cached HEAD -- || printf "\[\033[1;38;5;3m\]")" && \
@@ -128,7 +127,7 @@ printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\03
 # GIT BRANCH:
 #       Prints current git branch
 
-__git_branch='`[ $PROMPT_GIT_PARSE -eq 1 ] && \
+__git_branch='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
 
