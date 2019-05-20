@@ -21,5 +21,7 @@ if [ -d ${INIT_DIR} ]; then
         source $f
     done
 fi
-' >> /home/user/.bashrc
+' >> /home/$USER/.bashrc
+source /home/$USER/.bashrc
+
 ```
