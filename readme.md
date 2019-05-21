@@ -6,7 +6,7 @@ Theese are some scripts that make my bash terminal a fun place to be!
 
 Just clone this repo and direct your bashrc source these files
 
-### Samlpe installation
+### Samlpe Installation
 
 Do these commands, then you'll be good
 
