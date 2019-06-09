@@ -25,3 +25,11 @@ fi
 source /home/$USER/.bashrc
 
 ```
+
+###Example features
+
+## Git command line
+![Git Command line](img/gitcmdline.png)
+
+## Cheat.sh
+![Cheat.sh](img/cheatsh.png)
