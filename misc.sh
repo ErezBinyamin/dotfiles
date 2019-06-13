@@ -10,7 +10,7 @@ alias darkMatter='/home/liv/Documents/Programming/Projects/Bash/darkMatter/darkM
 alias animate='/usr/bin/curl -s "$(shuf -n 1 /home/liv/.init/data/animations.txt)" | /usr/bin/pv -q -L 3000'
 
 # Simple
-alias public_ip='curl http://ifconfig.me; printf "\n"'
+alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
@@ -75,10 +75,6 @@ net_check() {
 # mktouch
 mktouch() {
     mkdir -p $(dirname $1) && $(echo 'touch') $1
-}
-
-public-ip(){
-	dig +short myip.opendns.com @resolver1.opendns.com
 }
 
 goto() {
