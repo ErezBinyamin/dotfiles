@@ -77,9 +77,8 @@ mktouch() {
     mkdir -p $(dirname $1) && $(echo 'touch') $1
 }
 
-update_youtube(){
-	sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-	sudo chmod a+rx /usr/local/bin/youtube-dl
+public-ip(){
+	dig +short myip.opendns.com @resolver1.opendns.com
 }
 
 goto() {
