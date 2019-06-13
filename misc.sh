@@ -1,7 +1,7 @@
 #################################################
-#						                        #
-#		        ----ALIASES----                 #
-#						                        #
+#						#
+#		        ----ALIASES----         #
+#						#
 #################################################
 # Scripts
 alias darkMatter='/home/liv/Documents/Programming/Projects/Bash/darkMatter/darkMatter.sh'
@@ -32,9 +32,9 @@ alias sL='ls'
 alias Sl='ls'
 alias SL='ls'
 #################################################
-#						                        #
-#		       ----FUNCTIONS----                #
-#						                        #
+#						#
+#		       ----FUNCTIONS----        #
+#						#
 #################################################
 # Switch bash
 swb() {
@@ -52,7 +52,7 @@ swb() {
 
 # Help from cheat.sh git repo:
 cheat() {
-	/usr/bin/curl "cheat.sh/$(echo $@ | tr ' ' '/')"
+	/usr/bin/curl 'cheat.sh/'"$(echo $@ | tr ' ' '+')"
 }
 
 # Travel up some number of directories
@@ -82,4 +82,8 @@ goto() {
     then
         cd $(dirname $(type $1 | cut -d' ' -f5 | tr -d \' | tr -d \`))
     fi
+}
+
+ls_tree(){
+	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 }
