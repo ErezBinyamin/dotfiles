@@ -14,6 +14,7 @@ alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
+alias irc='weechat'
 
 # Renames
 alias music='/usr/bin/pianobar'
@@ -48,6 +49,11 @@ swb() {
 
         cd -
         bashrc
+}
+
+# Vulnerability browser
+vbrowse() {
+	/usr/bin/curl 'cve.circl.lu/api/browse'"$(echo $@ | tr ' ' '/')"
 }
 
 # Help from cheat.sh git repo:
