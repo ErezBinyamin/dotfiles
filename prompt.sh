@@ -55,10 +55,10 @@ if [ $IP_COLORING -eq 1 ]; then
     # Poll google servers for each color
     if [ $SLOW_NETWORK -eq 0 ]
     then
-         __COLOR_1='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
-         __COLOR_2='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
-         __COLOR_3='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
-         __COLOR_4='`nc -w 3 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
+         __COLOR_1='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
+         __COLOR_2='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
+         __COLOR_3='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
+         __COLOR_4='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
     fi
 fi
 
@@ -74,6 +74,7 @@ fi
 
 # GIT PULL
 #       Determine if a git pull command is needed
+#	Only execute this check if on a fast network
 if [ $SLOW_NETWORK -eq 0 ]
 then
     __git_pull='`[ $GIT_PROMPT -eq 1 ] && \
@@ -95,7 +96,6 @@ printf "\[\033[00m\]\[\033[1;5;96m\] ↑\[\033[00m\]"`'
 # GIT REPO:
 #       Shows name of current git repo in random color
 #       Shows oposite color on arrows (Incase of unreadable color)
-
 __git_repo='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 printf "\[\033[00m\] " && \
@@ -115,7 +115,6 @@ printf "\[\033[00m\]"`'
 #       Green : Up to date
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
-
 __git_color='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 printf " \[\033[1;38;5;2m\]" && \
@@ -131,9 +130,9 @@ __git_branch='`[ $GIT_PROMPT -eq 1 ] && \
 git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
 
 #################################################
-#						                        #
-#		        ----ACTUALLY SET THE PS1----	#
-#						                        #
+#			                        #
+#	----ACTUALLY SET THE PS1----		#
+#			                        #
 #################################################
 if [ $DEFAULT -eq 1 ]
 then
