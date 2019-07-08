@@ -5,7 +5,7 @@ alias docker='sudo docker'
 # Simply allows me to be lazy with docker things
 # Mostly a tool for deleting stuff
 dockerTool()(
-
+    sudo echo foo > /dev/null
 # Remove all docker CONTAINERS
     rm_containers() {
         [ $(docker ps -a -q | wc -w) -gt 0 ] && docker rm $(docker ps -aq) || echo "$(tput setaf 3)No containers$(tput sgr0)"

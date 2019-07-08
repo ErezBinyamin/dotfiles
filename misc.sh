@@ -3,13 +3,6 @@
 #		        ----ALIASES----         #
 #						#
 #################################################
-# Scripts
-alias darkMatter='/home/liv/Documents/Programming/Projects/Bash/darkMatter/darkMatter.sh'
-
-# Complex
-alias animate='/usr/bin/curl -s "$(shuf -n 1 /home/liv/.init/data/animations.txt)" | /usr/bin/pv -q -L 3000'
-alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
-
 # Simple
 alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias local_ip='hostname -I | sed "s/ .*//"'
@@ -18,12 +11,8 @@ alias bashrc='cd;source .bashrc; cd -'
 alias irc='weechat'
 
 # Renames
-alias music='/usr/bin/pianobar'
 alias hi='history'
 alias jo='jobs'
-
-# Overrides
-alias touch='mktouch'
 
 #Fix mistakes / defence against trains
 alias lS='ls'
