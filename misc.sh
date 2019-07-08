@@ -8,6 +8,7 @@ alias darkMatter='/home/liv/Documents/Programming/Projects/Bash/darkMatter/darkM
 
 # Complex
 alias animate='/usr/bin/curl -s "$(shuf -n 1 /home/liv/.init/data/animations.txt)" | /usr/bin/pv -q -L 3000'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
 
 # Simple
 alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
@@ -37,6 +38,11 @@ alias SL='ls'
 #		       ----FUNCTIONS----        #
 #						#
 #################################################
+# Check network connectivity
+net_check() {
+    nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
+}
+
 # Switch bash
 swb() {
         cd
@@ -53,12 +59,22 @@ swb() {
 
 # Vulnerability browser
 vbrowse() {
-	/usr/bin/curl 'cve.circl.lu/api/browse'"$(echo $@ | tr ' ' '/')"
+	if net_check
+	then
+		/usr/bin/curl -# 'cve.circl.lu/api/browse/'"$(echo $@ | tr ' ' '/')"
+	else
+		echo "ERROR: No network connectivity"
+	fi
 }
 
 # Help from cheat.sh git repo:
 cheat() {
-	/usr/bin/curl 'cheat.sh/'"$(echo $@ | tr ' ' '+')"
+	if net_check
+	then
+		/usr/bin/curl 'cheat.sh/'"$(echo $@ | tr ' ' '+')"
+	else
+		echo "ERROR: No network connectivity"
+	fi
 }
 
 # Travel up some number of directories
@@ -71,11 +87,6 @@ up() {
     done
 
     [[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT}
-}
-
-# Check network connectivity
-net_check() {
-    nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
 }
 
 # mktouch
