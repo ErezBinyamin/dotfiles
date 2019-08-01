@@ -36,9 +36,9 @@ dockerTool()(
 # Show all docker status
 	docker_status() {
 	printf "\n------- IMAGES -------\n"
-        [ $(docker image ls | wc -l) -gt 2 ] && docker images || echo "$(tput setaf 3)No images$(tput sgr0)"
+        [ $(docker image ls | wc -l) -gt 1 ] && docker images || echo "$(tput setaf 3)No images$(tput sgr0)"
 	printf "\n----- CONTAINTERS ----\n"
-        [ $(docker ps -a | wc -l) -gt 2 ] && docker ps -as || echo "$(tput setaf 3)No containers$(tput sgr0)"
+        [ $(docker ps -a | wc -l) -gt 1 ] && docker ps -as || echo "$(tput setaf 3)No containers$(tput sgr0)"
 	printf "\n------- VOLUMES ------\n"
         [ $(docker volume ls | wc -l) -gt 1 ] && docker volume ls || echo "$(tput setaf 3)No volumes$(tput sgr0)"
 	printf "$(tput sgr0)\n"
