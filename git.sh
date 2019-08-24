@@ -1,13 +1,15 @@
 # Everyday stuff
-alias gs='git status'
-alias gb='git branch'
 alias ga='git add'
+alias gb='git branch'
 alias gc='git commit'
 alias gd='git diff'
+alias gs='git status'
+
+alias gdc='git diff --cached'
 
 # logging
 alias gl='git log'
-alias glg='git log --graph'
+alias glg="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 alias gl1='git log -n 1'
 
 # Reseting
@@ -18,3 +20,5 @@ alias groh='git fetch origin; git reset --hard origin/master' # Reset really har
 alias gps='git push'
 alias gpl='git pull'
 
+# Submodules
+alias gsf='git submodule foreach'
