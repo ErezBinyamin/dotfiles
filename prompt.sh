@@ -13,7 +13,9 @@ RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 RST="\[\033[00m\]"
 
 #Date and time
-__date_time='[`date "+%m/%d/%Y %H:%M:%S"`]'
+#for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
+#for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
+__date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
 
 # set variable identifying this machines ip address (used in the prompt below)
 # Color the command line according to the IP, sed away the bad colors
