@@ -56,16 +56,6 @@ vbrowse() {
 	fi
 }
 
-# Help from cheat.sh git repo:
-cheat() {
-	if net_check
-	then
-		/usr/bin/curl 'cheat.sh/'"$(echo $@ | tr ' ' '+')"
-	else
-		echo "ERROR: No network connectivity"
-	fi
-}
-
 # Travel up some number of directories
 up() {
     local HEIGHT=''
