@@ -1,3 +1,5 @@
+#!/bin/bash
+
 alias docker='sudo docker'
 
 # The only function defined in here thus far

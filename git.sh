@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Everyday stuff
 alias ga='git add'
 alias gb='git branch'
