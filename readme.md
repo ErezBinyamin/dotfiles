@@ -1,6 +1,6 @@
 # Erez's bashrc stuff
 
-Theese are some scripts that make my bash terminal a fun place to be!
+These are some scripts that make my bash terminal a fun place to be!
 
 ## Getting Started
 
