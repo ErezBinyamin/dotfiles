@@ -1,4 +1,7 @@
+#Specific files
 private.sh
+
+# File endings
 *.ignore
 *.swp
 *.save
