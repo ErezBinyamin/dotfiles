@@ -12,7 +12,9 @@ cheat() {
 		/usr/bin/curl 'cheat.sh/'"$(echo $@ | tr ' ' '+')"
 	else
 		echo "ERROR: No network connectivity"
+		return 1
 	fi
+	return 0
 }
 
 # Create a temporary webpage for file sharing
@@ -22,6 +24,7 @@ share() {
 		FILE="${1}"
 	else
 		echo "USAGE: share <file>"
+		return 1
 	fi
 
 	if net_check
@@ -29,7 +32,9 @@ share() {
 		cat ${FILE} | /usr/bin/curl -F 'clbin=<-' https://clbin.com
 	else
 		echo "ERROR: No network connectivity"
+		return 1
 	fi
+	return 0
 }
 
 # Command line dictionary
@@ -40,6 +45,8 @@ define() {
 		grep 'og:description' | sed 's/&#[0-9][0-9][0-9]//g' | awk -F "\"" '{print $4}'
 	else
 		echo "ERROR: No network connectivity"
+		return 1
 	fi
+	return 0
 }
 

@@ -30,21 +30,21 @@ alias SL='ls'
 #################################################
 # Check network connectivity
 net_check() {
-    nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
+	nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
 }
 
 # Switch bash
 swb() {
-        cd
+	cd
 
-        [ ! -f .bashrc.bak ] && cp .bashrc .bashrc.bak
+	[ ! -f .bashrc.bak ] && cp .bashrc .bashrc.bak
 
-        cp .bashrc /tmp/bashrc.bak
-        cp .bashrc.bak .bashrc
-        cp /tmp/bashrc.bak .bashrc.bak
+	cp .bashrc /tmp/bashrc.bak
+	cp .bashrc.bak .bashrc
+	cp /tmp/bashrc.bak .bashrc.bak
 
-        cd -
-        bashrc
+	cd -
+	bashrc
 }
 
 # Vulnerability browser
@@ -54,31 +54,35 @@ vbrowse() {
 		/usr/bin/curl -# 'cve.circl.lu/api/browse/'"$(echo $@ | tr ' ' '/')"
 	else
 		echo "ERROR: No network connectivity"
+		return 1
 	fi
+	return 0
 }
 
 # Travel up some number of directories
 up() {
-    local HEIGHT=''
+	local HEIGHT=''
 
-    for i in `seq 1 $1`
-    do
-        HEIGHT+="../"
-    done
+	for i in `seq 1 $1`
+	do
+		HEIGHT+="../"
+	done
 
-    [[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT}
+	[[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT}
 }
 
 # mktouch
 mktouch() {
-    mkdir -p $(dirname $1) && $(echo 'touch') $1
+	mkdir -p $(dirname $1) && $(echo 'touch') $1
 }
 
 goto() {
-    if [ -d "$(dirname $(type $1 | cut -d' ' -f5 | tr -d \' | tr -d \`))" ]
-    then
-        cd $(dirname $(type $1 | cut -d' ' -f5 | tr -d \' | tr -d \`))
-    fi
+	if [ -d "$(dirname $(type $1 | cut -d' ' -f5 | tr -d \' | tr -d \`))" ]
+	then
+		cd $(dirname $(type $1 | cut -d' ' -f5 | tr -d \' | tr -d \`))
+	else
+		return 1
+	fi
 }
 
 ls_tree(){
