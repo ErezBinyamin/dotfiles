@@ -18,8 +18,10 @@ RST="\[\033[00m\]"
 #for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
 __date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
 
-# Shorten path if terminal screen is too small/path is too long
-__wrk_dir='`[ $(( $(tput cols) / 2 )) -lt $(pwd | wc -c) ] && printf \W || printf \w`'
+# Always leave room for at least 25 chars of command
+# 37 is length of the other stuff
+# TERM_WIDTH - 37 - (length of pwd)
+__wrk_dir='`[ $(( $(tput cols) - 37 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
 
 # set variable identifying this machines ip address (used in the prompt below)
 # Color the command line according to the IP, sed away the bad colors
