@@ -18,6 +18,9 @@ RST="\[\033[00m\]"
 #for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
 __date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
 
+# Shorten path if terminal screen is too small/path is too long
+__wrk_dir='`[ $(( $(tput cols) / 2 )) -lt $(pwd | wc -c) ] && printf \W || printf \w`'
+
 # set variable identifying this machines ip address (used in the prompt below)
 # Color the command line according to the IP, sed away the bad colors
 # Helper function for generating IP-color string
@@ -184,7 +187,7 @@ else
     PS1="${__COLOR_1}${__date_time}${RST}"      # Date and time
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
-    PS1+="${__COLOR_4}\w${RST}"                 # Working directory
+    PS1+="${__COLOR_4}${__wrk_dir}${RST}"                 # Working directory
     PS1+="${__git_repo}${RST}"                  # Repo name
     PS1+="${__git_pull}${__git_push}${RST}"     # Push pull arrows
     PS1+="${__git_color}${__git_branch}${RST}"  # Colored git branch/status
