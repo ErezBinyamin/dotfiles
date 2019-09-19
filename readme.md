@@ -14,7 +14,7 @@ Do these commands, then you'll be good
 cd
 git clone https://github.com/ErezBinyamin/Bash_init.git
 printf '
-INIT_DIR=/home/$USER/.init
+INIT_DIR=/home/$USER/Bash_init
 if [ -d ${INIT_DIR} ]; then
     for f in $(ls ${INIT_DIR}/*.sh)
     do
