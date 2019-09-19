@@ -7,7 +7,7 @@ alias gc='git commit'
 alias gd='git diff'
 alias gs='git status'
 
-alias gba='git branch -all'
+alias gba='git branch --all'
 alias gdc='git diff --cached'
 
 # logging
