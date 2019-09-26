@@ -88,3 +88,8 @@ goto() {
 ls_tree(){
 	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 }
+
+# Change bash instance title
+title() {
+	echo -ne "\033]0;$@\007"
+}
