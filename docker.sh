@@ -2,9 +2,6 @@
 
 alias docker='sudo docker'
 
-# Enable runescape container
-alias oldschool="docker container stop osrs; docker container prune; ssh -X root@localhost -p \$(sudo /home/liv/Documents/Programming/gitHub-others/oldschool-runescape-launcher/run.sh 2>&1 >/dev/null | grep ECDSA | tr -d \' | tr ':' '\t' | awk '{print \$5}') 'cd ~/runescape/oldschool && java -Duser.home='.' -Djava.class.path='jagexappletviewer.jar' -Dcom.jagex.config='http://oldschool.runescape.com/jav_config.ws' 'jagexappletviewer' 'oldschool''; docker container stop osrs; docker container prune;"
-
 # The only function defined in here thus far
 # Acts like command line command implementing get-opt and all that
 # Simply allows me to be lazy with docker things
