@@ -142,7 +142,7 @@ git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
 #	ssh  = %
 #	root = #
 #	else = $
-__ending='`[ ! -x ${SSH_CLIENT+x} ] && printf "% " || [ $EUID -eq 0 ] && printf "# " || printf "\$ "`'
+__ending='`[ ! -x ${SSH_CLIENT+x} ] && printf "%% " || printf "\$ "`'
 
 #################################################
 #			                        #
