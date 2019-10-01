@@ -93,3 +93,17 @@ ls_tree(){
 title() {
 	echo -ne "\033]0;$@\007"
 }
+
+alias erez="printf '
+	erez		-	This help menu
+	cheat		-	room of requirement for the command line
+	share		-	quick share some raw text
+	define		-	define a word
+	dockerTool	-	dockerTool -h for info
+	weather		-	the weather
+	up		-	go up n directories
+	hgrep		-	history | grep <ARG>
+	public_ip	-	ya
+	local_ip	-	ya
+'
+"
