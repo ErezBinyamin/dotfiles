@@ -99,7 +99,8 @@ fi
 __git_push='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git status | grep -q "git push" && \
-printf "\[\033[00m\]\[\033[1;5;96m\] ↑\[\033[00m\]"`'
+printf "\[\033[00m\]\[\033[1;5;96m\]^\[\033[00m\]"`'
+#printf "\[\033[00m\]\[\033[1;5;96m\] ↑\[\033[00m\]"`'
 
 # GIT REPO:
 #       Shows name of current git repo in random color
