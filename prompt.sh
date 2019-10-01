@@ -137,6 +137,13 @@ __git_branch='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
 
+
+# Define ending symbol
+#	ssh  = %
+#	root = #
+#	else = $
+__ending='`[ ! -x ${SSH_CLIENT+x} ] && printf "% " || [ $EUID -eq 0 ] && printf "# " || printf "\$ "`'
+
 #################################################
 #			                        #
 #	----ACTUALLY SET THE PS1----		#
@@ -193,5 +200,5 @@ else
     PS1+="${__git_repo}${RST}"                  # Repo name
     PS1+="${__git_pull}${__git_push}${RST}"     # Push pull arrows
     PS1+="${__git_color}${__git_branch}${RST}"  # Colored git branch/status
-    PS1+="${RST}\$ "                            # A '$' and a space
+    PS1+="${RST}${__ending}"                    # A '$' and a space
 fi
