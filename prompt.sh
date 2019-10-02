@@ -100,7 +100,6 @@ __git_push='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git status | grep -q "git push" && \
 printf "\[\033[00m\]\[\033[1;5;96m\]^\[\033[00m\]"`'
-#printf "\[\033[00m\]\[\033[1;5;96m\] ↑\[\033[00m\]"`'
 
 # GIT REPO:
 #       Shows name of current git repo in random color
@@ -118,20 +117,6 @@ printf "\[\033[00m\]\[\033[1;38;5;"\
 "$(( 255 - $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
 "m\]|" && \
 printf "\[\033[00m\]"`'
-
-#__git_repo='`[ $GIT_PROMPT -eq 1 ] && \
-#[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-#printf "\[\033[00m\] " && \
-#printf "\[\033[1;38;5;"\
-#"$(( 255 - $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-#"m\]◀ " && \
-#printf "\[\033[00m\]\[\033[1;4;38;5;"\
-#"$(( $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-#"m\]$(git rev-parse --show-toplevel | xargs basename)" && \
-#printf "\[\033[00m\]\[\033[1;38;5;"\
-#"$(( 255 - $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-#"m\] ▶" && \
-#printf "\[\033[00m\]"`'
 
 # GIT COLOR:
 #       Generates color based upon local change status
