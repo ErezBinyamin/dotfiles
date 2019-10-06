@@ -13,49 +13,6 @@ RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 
 RST="\[\033[00m\]"
 
-# Battery
-_bat_print() {
-	if [ $1 -ge 75 ]
-	then
-		printf "\033[38;5;10m"	# Green
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "||"
-	elif [ $1 -ge 50 ]
-	then
-		printf "\033[38;5;11m"	# Yellow
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "| "
-	elif [ $1 -ge  25 ]
-	then
-		printf "\033[38;5;202m"	# Red
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "  "
-	elif [ $1 -ge  10 ]
-	then
-		printf "\033[38;5;9m"	# Red
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "  "
-	else
-		printf "\033[38;5;9m"	# Red
-		printf "\033[5m"	# Blink
-		printf "["
-		printf "| "
-		printf "$1"
-		printf "  "
-	fi
-	printf "]"
-	printf "\033[0m"
-}
-__bat_life='`_bat_print $(upower --dump | grep percentage | head -n 1 | sed "s/.*://; s/%//")`'
-
 #Date and time
 #for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
 #for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
@@ -236,7 +193,6 @@ then
     esac
 else
     unset PS1
-    PS1+="${__bat_life}"			# Battery life
     PS1+="${__COLOR_1}${__date_time}${RST}"     # Date and time
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
