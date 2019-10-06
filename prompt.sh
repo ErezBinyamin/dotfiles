@@ -18,6 +18,49 @@ RST="\[\033[00m\]"
 #for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
 __date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
 
+# Battery
+_bat_print() {
+	if [ $1 -ge 75 ]
+	then
+		printf "\033[38;5;10m"	# Green
+		printf "["
+		printf "||"
+		printf "$1"
+		printf "||"
+	elif [ $1 -ge 50 ]
+	then
+		printf "\033[38;5;11m"	# Yellow
+		printf "["
+		printf "||"
+		printf "$1"
+		printf "| "
+	elif [ $1 -ge  25 ]
+	then
+		printf "\033[38;5;202m"	# Red
+		printf "["
+		printf "||"
+		printf "$1"
+		printf "  "
+	elif [ $1 -ge  10 ]
+	then
+		printf "\033[38;5;9m"	# Red
+		printf "["
+		printf "||"
+		printf "$1"
+		printf "  "
+	else
+		printf "\033[38;5;9m"	# Red
+		printf "\033[5m"	# Blink
+		printf "["
+		printf "| "
+		printf "$1"
+		printf "  "
+	fi
+	printf "]"
+	printf "\033[0m"
+}
+__bat_life='`_bat_print $(upower --dump | grep percentage | head -n 1 | sed "s/.*://; s/%//")`'
+
 # Always leave room for at least 25 chars of command
 # 37 is length of the other stuff
 # TERM_WIDTH - 37 - (length of pwd)
@@ -193,7 +236,8 @@ then
         ;;
     esac
 else
-    PS1="${__COLOR_1}${__date_time}${RST}"      # Date and time
+    PS1="${__bat_life}"			# Battery life
+    PS1+="${__COLOR_1}${__date_time}${RST}"      # Date and time
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
     PS1+="${__COLOR_4}${__wrk_dir}${RST}"                 # Working directory
