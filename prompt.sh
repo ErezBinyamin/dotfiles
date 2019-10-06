@@ -54,7 +54,7 @@ _bat_print() {
 	printf "]"
 	printf "\033[0m"
 }
-__bat_life='`_bat_print $(upower --dump | grep percentage | head -n 1 | sed "s/.*://; s/%//")`'
+__bat_life='`[[ $(upower --dump | grep state | head -n 1 | sed "s/.*://; s/ //g") == "charging" ]] && printf "»"; _bat_print $(upower --dump | grep percentage | head -n 1 | sed "s/.*://; s/%//")`'
 
 #Date and time
 #for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
