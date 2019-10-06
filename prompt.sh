@@ -13,11 +13,6 @@ RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 
 RST="\[\033[00m\]"
 
-#Date and time
-#for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
-#for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
-__date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
-
 # Battery
 _bat_print() {
 	if [ $1 -ge 75 ]
@@ -61,10 +56,10 @@ _bat_print() {
 }
 __bat_life='`_bat_print $(upower --dump | grep percentage | head -n 1 | sed "s/.*://; s/%//")`'
 
-# Always leave room for at least 25 chars of command
-# 37 is length of the other stuff
-# TERM_WIDTH - 37 - (length of pwd)
-__wrk_dir='`[ $(( $(tput cols) - 37 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
+#Date and time
+#for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
+#for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
+__date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
 
 # set variable identifying this machines ip address (used in the prompt below)
 # Color the command line according to the IP, sed away the bad colors
@@ -120,6 +115,11 @@ if [ $RANDOM_COLORING -eq 1 ]; then
     __COLOR_3=$(_assign_color $(( $RANDOM % 255 )))
     __COLOR_4=$(_assign_color $(( $RANDOM % 255 )))
 fi
+
+# Always leave room for at least 25 chars of command
+# 37 is length of the other stuff
+# TERM_WIDTH - 37 - (length of pwd)
+__wrk_dir='`[ $(( $(tput cols) - 37 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
 
 # Git command line prompt
 
@@ -180,7 +180,6 @@ __git_branch='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
 
-
 # Define ending symbol
 #	ssh  = %
 #	root = #
@@ -236,11 +235,12 @@ then
         ;;
     esac
 else
-    PS1="${__bat_life}"			# Battery life
-    PS1+="${__COLOR_1}${__date_time}${RST}"      # Date and time
+    unset PS1
+    PS1+="${__bat_life}"			# Battery life
+    PS1+="${__COLOR_1}${__date_time}${RST}"     # Date and time
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
-    PS1+="${__COLOR_4}${__wrk_dir}${RST}"                 # Working directory
+    PS1+="${__COLOR_4}${__wrk_dir}${RST}"	# Working directory
     PS1+="${__git_repo}${RST}"                  # Repo name
     PS1+="${__git_pull}${__git_push}${RST}"     # Push pull arrows
     PS1+="${__git_color}${__git_branch}${RST}"  # Colored git branch/status
