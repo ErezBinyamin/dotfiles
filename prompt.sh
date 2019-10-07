@@ -13,6 +13,16 @@ RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 
 RST="\[\033[00m\]"
 
+# Battery life and charging status
+__bat_life='`[[ $(cat /sys/class/power_supply/BAT1/status) != "Discharging" ]] && printf "»";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 75 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 101 ] && printf "\[\033[38;5;10m\][||$(cat /sys/class/power_supply/BAT1/capacity)||]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 50 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 75 ] && printf "\[\033[38;5;11m\][||$(cat /sys/class/power_supply/BAT1/capacity)| ]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 25 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 50 ] && printf "\[\033[38;5;202m\][||$(cat /sys/class/power_supply/BAT1/capacity)  ]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 10 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 25 ] && printf "\[\033[38;5;9m\][| $(cat /sys/class/power_supply/BAT1/capacity)  ]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -lt 10 ] && printf "\[\033[38;5;9m\]\[\033[5m\][| $(cat /sys/class/power_supply/BAT1/capacity)  ]";\
+printf "\[\033[0m\]"
+`'
+
 #Date and time
 #for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
 #for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
@@ -193,6 +203,7 @@ then
     esac
 else
     unset PS1
+    PS1+="${__bat_life}"			# Battery life
     PS1+="${__COLOR_1}${__date_time}${RST}"     # Date and time
     PS1+="${__COLOR_2}\u@${RST}"                # Username '@'
     PS1+="${__COLOR_3}${__ip_addr}:${RST}"      # IP address ':'
