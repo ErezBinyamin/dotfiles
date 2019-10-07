@@ -26,7 +26,34 @@ printf "\[\033[0m\]"
 #Date and time
 #for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
 #for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
-__date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
+#__date_time='[`date "+%m/%d/%y %l:%M:%S"`]'
+__date_time='`printf "[ $(date +%m/%d/%y) ";\
+[ $(date "+%l") -eq 1 ] && [ $(date "+%M") -lt 15 ] && printf "🕐";\
+[ $(date "+%l") -eq 1 ] && [ $(date "+%M") -gt 15 ] && printf "🕜";\
+[ $(date "+%l") -eq 2 ] && [ $(date "+%M") -lt 15 ] && printf "🕑";\
+[ $(date "+%l") -eq 2 ] && [ $(date "+%M") -gt 15 ] && printf "🕝";\
+[ $(date "+%l") -eq 3 ] && [ $(date "+%M") -lt 15 ] && printf "🕒";\
+[ $(date "+%l") -eq 3 ] && [ $(date "+%M") -gt 15 ] && printf "🕞";\
+[ $(date "+%l") -eq 4 ] && [ $(date "+%M") -lt 15 ] && printf "🕓";\
+[ $(date "+%l") -eq 4 ] && [ $(date "+%M") -gt 15 ] && printf "🕟";\
+[ $(date "+%l") -eq 5 ] && [ $(date "+%M") -lt 15 ] && printf "🕔";\
+[ $(date "+%l") -eq 5 ] && [ $(date "+%M") -gt 15 ] && printf "🕠";\
+[ $(date "+%l") -eq 6 ] && [ $(date "+%M") -lt 15 ] && printf "🕕";\
+[ $(date "+%l") -eq 6 ] && [ $(date "+%M") -gt 15 ] && printf "🕡";\
+[ $(date "+%l") -eq 7 ] && [ $(date "+%M") -lt 15 ] && printf "🕖";\
+[ $(date "+%l") -eq 7 ] && [ $(date "+%M") -gt 15 ] && printf "🕢";\
+[ $(date "+%l") -eq 8 ] && [ $(date "+%M") -lt 15 ] && printf "🕗";\
+[ $(date "+%l") -eq 8 ] && [ $(date "+%M") -gt 15 ] && printf "🕣";\
+[ $(date "+%l") -eq 9 ] && [ $(date "+%M") -lt 15 ] && printf "🕘";\
+[ $(date "+%l") -eq 9 ] && [ $(date "+%M") -gt 15 ] && printf "🕤";\
+[ $(date "+%l") -eq 10 ] && [ $(date "+%M") -lt 15 ] && printf "🕙";\
+[ $(date "+%l") -eq 10 ] && [ $(date "+%M") -gt 15 ] && printf "🕥";\
+[ $(date "+%l") -eq 11 ] && [ $(date "+%M") -lt 15 ] && printf "🕚";\
+[ $(date "+%l") -eq 11 ] && [ $(date "+%M") -gt 15 ] && printf "🕦";\
+[ $(date "+%l") -eq 12 ] && [ $(date "+%M") -lt 15 ] && printf "🕛";\
+[ $(date "+%l") -eq 12 ] && [ $(date "+%M") -gt 15 ] && printf "🕧";\
+printf " $(date +%l:%M:%S) ]"
+`'
 
 # set variable identifying this machines ip address (used in the prompt below)
 # Color the command line according to the IP, sed away the bad colors
