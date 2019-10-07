@@ -26,10 +26,19 @@ source /home/$USER/.bashrc
 
 ```
 
-###Example features
+# Example features
 
 ## Git command line
-![Git Command line](img/gitcmdline.png)
+![Git Command line](img/ascii/gitcmdline.png)
+![Git Command line](img/emoji/gitcmdline.png)
+
+## Battery life
+![Git Command line](img/ascii/battery.png)
+![Git Command line](img/emoji/battery.png)
+
+## SSH awareness
+![Git Command line](img/ascii/ssh.png)
+![Git Command line](img/emoji/ssh.png)
 
 ## Cheat.sh
 ![Cheat.sh](img/cheatsh.png)
