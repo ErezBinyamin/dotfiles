@@ -14,7 +14,7 @@ RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 RST="\[\033[00m\]"
 
 # Battery life and charging status
-__bat_life='`[[ -f /sys/class/power_supply/BAT1/capacity -a $(cat /sys/class/power_supply/BAT1/status) != "Discharging" ]] && printf "🔌";\
+__bat_life='`[ -f /sys/class/power_supply/BAT1/capacity ] && [[ $(cat /sys/class/power_supply/BAT1/status) != "Discharging" ]] && printf "🔌";\
 [ -f /sys/class/power_supply/BAT1/capacity -a $(cat /sys/class/power_supply/BAT1/capacity) -ge 75 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 101 ] && printf "\[\033[38;5;10m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
 [ -f /sys/class/power_supply/BAT1/capacity -a $(cat /sys/class/power_supply/BAT1/capacity) -ge 50 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 75 ] && printf "\[\033[38;5;11m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
 [ -f /sys/class/power_supply/BAT1/capacity -a $(cat /sys/class/power_supply/BAT1/capacity) -ge 25 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 50 ] && printf "\[\033[38;5;202m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
