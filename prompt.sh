@@ -52,7 +52,12 @@ __date_time='`printf "[ $(date +%m/%d/%y) ";\
 [ $(date "+%l") -eq 11 ] && [ $(date "+%M") -gt 15 ] && printf "🕦";\
 [ $(date "+%l") -eq 12 ] && [ $(date "+%M") -lt 15 ] && printf "🕛";\
 [ $(date "+%l") -eq 12 ] && [ $(date "+%M") -gt 15 ] && printf "🕧";\
-[[ $(date +%p) == "AM" ]] && printf "🌞" || printf "🌚";
+[ $(date "+%l") -ge 6 ] && [[ $(date +%p) == "AM" ]] && printf "🌞";\
+[ $(date "+%l") -eq 12 ] && [[ $(date +%p) == "PM" ]] && printf "🌞";\
+[ $(date "+%l") -lt 5 ] && [[ $(date +%p) == "PM" ]] && printf "🌞";\
+[ $(date "+%l") -ge 5 ] && [[ $(date +%p) == "PM" ]] && printf "🌚";\
+[ $(date "+%l") -eq 12 ] && [[ $(date +%p) == "AM" ]] && printf "🌚";\
+[ $(date "+%l") -lt 6 ] && [[ $(date +%p) == "AM" ]] && printf "🌚";\
 printf " $(date +%l:%M:%S) ]";\
 `'
 
