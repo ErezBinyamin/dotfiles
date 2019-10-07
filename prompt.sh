@@ -13,48 +13,15 @@ RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 
 RST="\[\033[00m\]"
 
-# Battery
-_bat_print() {
-	if [ $1 -ge 75 ]
-	then
-		printf "\033[38;5;10m"	# Green
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "||"
-	elif [ $1 -ge 50 ]
-	then
-		printf "\033[38;5;11m"	# Yellow
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "| "
-	elif [ $1 -ge  25 ]
-	then
-		printf "\033[38;5;202m"	# Red
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "  "
-	elif [ $1 -ge  10 ]
-	then
-		printf "\033[38;5;9m"	# Red
-		printf "["
-		printf "||"
-		printf "$1"
-		printf "  "
-	else
-		printf "\033[38;5;9m"	# Red
-		printf "\033[5m"	# Blink
-		printf "["
-		printf "| "
-		printf "$1"
-		printf "  "
-	fi
-	printf "]"
-	printf "\033[0m"
-}
-__bat_life='`[[ $(upower --dump | grep state | head -n 1 | sed "s/.*://; s/ //g") == "charging" ]] && printf "»"; _bat_print $(upower --dump | grep percentage | head -n 1 | sed "s/.*://; s/%//")`'
+# Battery life and charging status
+__bat_life='`[[ $(cat /sys/class/power_supply/BAT1/status) != "Discharging" ]] && printf "»";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 75 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 101 ] && printf "\[\033[38;5;10m\][||$(cat /sys/class/power_supply/BAT1/capacity)||]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 50 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 75 ] && printf "\[\033[38;5;11m\][||$(cat /sys/class/power_supply/BAT1/capacity)| ]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 25 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 50 ] && printf "\[\033[38;5;202m\][||$(cat /sys/class/power_supply/BAT1/capacity)  ]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -ge 10 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 25 ] && printf "\[\033[38;5;9m\][| $(cat /sys/class/power_supply/BAT1/capacity)  ]";\
+[ $(cat /sys/class/power_supply/BAT1/capacity) -lt 10 ] && printf "\[\033[38;5;9m\]\[\033[5m\][| $(cat /sys/class/power_supply/BAT1/capacity)  ]";\
+printf "\[\033[0m\]"
+`'
 
 #Date and time
 #for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
