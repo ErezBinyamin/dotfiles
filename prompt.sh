@@ -18,11 +18,12 @@ __bat_life='`[ -f /sys/class/power_supply/BAT1/capacity ] && [[ $(cat /sys/class
 if [ -f /sys/class/power_supply/BAT1/capacity ];\
 then\
 	BAT=$(cat /sys/class/power_supply/BAT1/capacity);\
-	[ $BAT -ge 75 -a $BAT -lt 101 ] && printf "\[\033[38;5;10m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
-	[ $BAT -ge 50 -a $BAT -lt 75 ] && printf "\[\033[38;5;11m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
-	[ $BAT -ge 25 -a $BAT -lt 50 ] && printf "\[\033[38;5;202m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
-	[ $BAT -ge 10 -a $BAT -lt 25 ] && printf "\[\033[38;5;9m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%";\
-	[ $BAT -lt 10 ] && printf "\[\033[38;5;9m\]\[\033[5m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
+	[ $BAT -ge 75 -a $BAT -lt 101 ] && printf "\[\033[38;5;10m\]";\
+	[ $BAT -ge 50 -a $BAT -lt 75 ] && printf "\[\033[38;5;11m\]";\
+	[ $BAT -ge 25 -a $BAT -lt 50 ] && printf "\[\033[38;5;202m\]";\
+	[ $BAT -ge 10 -a $BAT -lt 25 ] && printf "\[\033[38;5;9m\]";\
+	[ $BAT -lt 10 ] && printf "\[\033[38;5;9m\]\[\033[5m\]";\
+	printf "🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
 fi;\
 printf "\[\033[0m\]"\
 `'
