@@ -14,7 +14,7 @@ RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 RST="\[\033[00m\]"
 
 # Battery life and charging status
-__bat_life='`[ -f /sys/class/power_supply/BAT1/capacity ] && [[ $(cat /sys/class/power_supply/BAT1/status) != "Discharging" ]] && printf "🔌";\
+__bat_life='`[ -f /sys/class/power_supply/BAT1/capacity ] && [[ $(cat /sys/class/power_supply/BAT1/status) != "Discharging" ]] && printf "⚡";\
 [ -f /sys/class/power_supply/BAT1/capacity ] && [ $(cat /sys/class/power_supply/BAT1/capacity) -ge 75 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 101 ] && printf "\[\033[38;5;10m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
 [ -f /sys/class/power_supply/BAT1/capacity ] && [ $(cat /sys/class/power_supply/BAT1/capacity) -ge 50 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 75 ] && printf "\[\033[38;5;11m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
 [ -f /sys/class/power_supply/BAT1/capacity ] && [ $(cat /sys/class/power_supply/BAT1/capacity) -ge 25 -a $(cat /sys/class/power_supply/BAT1/capacity) -lt 50 ] && printf "\[\033[38;5;202m\]🔋$(cat /sys/class/power_supply/BAT1/capacity)%%";\
@@ -52,12 +52,9 @@ __date_time='`printf "[ $(date +%m/%d/%y) ";\
 [ $(date "+%l") -eq 11 ] && [ $(date "+%M") -gt 15 ] && printf "🕦";\
 [ $(date "+%l") -eq 12 ] && [ $(date "+%M") -lt 15 ] && printf "🕛";\
 [ $(date "+%l") -eq 12 ] && [ $(date "+%M") -gt 15 ] && printf "🕧";\
-[ $(date "+%l") -ge 6 ] && [[ $(date +%p) == "AM" ]] && printf "🌞";\
-[ $(date "+%l") -eq 12 ] && [[ $(date +%p) == "PM" ]] && printf "🌞";\
-[ $(date "+%l") -lt 5 ] && [[ $(date +%p) == "PM" ]] && printf "🌞";\
-[ $(date "+%l") -ge 5 ] && [[ $(date +%p) == "PM" ]] && printf "🌚";\
-[ $(date "+%l") -eq 12 ] && [[ $(date +%p) == "AM" ]] && printf "🌚";\
-[ $(date "+%l") -lt 6 ] && [[ $(date +%p) == "AM" ]] && printf "🌚";\
+[ $(date "+%H") -ge 6 ] && [ $(date +%H) -lt 17 ] && printf "🌞";\
+[ $(date "+%H") -ge 17 ] && printf "🌚";\
+[ $(date "+%H") -lt 6 ] && printf "🌚";\
 printf " $(date +%l:%M:%S) ]";\
 `'
 
