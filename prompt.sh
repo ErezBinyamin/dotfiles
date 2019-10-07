@@ -29,38 +29,42 @@ printf "\[\033[0m\]"\
 `'
 
 #Date and time
-#for a in {a..z}; do printf "${a}\t"; date "+%${a}"; done
-#for a in {A..Z}; do printf "${a}\t"; date "+%${a}"; done
 #__date_time='[`date "+%m/%d/%y %l:%M:%S"`]'
-__date_time='`printf "[ $(date +%m/%d/%y) ";\
-[ $(date "+%l") -eq 1 ] && [ $(date "+%M") -lt 15 ] && printf "🕐";\
-[ $(date "+%l") -eq 1 ] && [ $(date "+%M") -gt 15 ] && printf "🕜";\
-[ $(date "+%l") -eq 2 ] && [ $(date "+%M") -lt 15 ] && printf "🕑";\
-[ $(date "+%l") -eq 2 ] && [ $(date "+%M") -gt 15 ] && printf "🕝";\
-[ $(date "+%l") -eq 3 ] && [ $(date "+%M") -lt 15 ] && printf "🕒";\
-[ $(date "+%l") -eq 3 ] && [ $(date "+%M") -gt 15 ] && printf "🕞";\
-[ $(date "+%l") -eq 4 ] && [ $(date "+%M") -lt 15 ] && printf "🕓";\
-[ $(date "+%l") -eq 4 ] && [ $(date "+%M") -gt 15 ] && printf "🕟";\
-[ $(date "+%l") -eq 5 ] && [ $(date "+%M") -lt 15 ] && printf "🕔";\
-[ $(date "+%l") -eq 5 ] && [ $(date "+%M") -gt 15 ] && printf "🕠";\
-[ $(date "+%l") -eq 6 ] && [ $(date "+%M") -lt 15 ] && printf "🕕";\
-[ $(date "+%l") -eq 6 ] && [ $(date "+%M") -gt 15 ] && printf "🕡";\
-[ $(date "+%l") -eq 7 ] && [ $(date "+%M") -lt 15 ] && printf "🕖";\
-[ $(date "+%l") -eq 7 ] && [ $(date "+%M") -gt 15 ] && printf "🕢";\
-[ $(date "+%l") -eq 8 ] && [ $(date "+%M") -lt 15 ] && printf "🕗";\
-[ $(date "+%l") -eq 8 ] && [ $(date "+%M") -gt 15 ] && printf "🕣";\
-[ $(date "+%l") -eq 9 ] && [ $(date "+%M") -lt 15 ] && printf "🕘";\
-[ $(date "+%l") -eq 9 ] && [ $(date "+%M") -gt 15 ] && printf "🕤";\
-[ $(date "+%l") -eq 10 ] && [ $(date "+%M") -lt 15 ] && printf "🕙";\
-[ $(date "+%l") -eq 10 ] && [ $(date "+%M") -gt 15 ] && printf "🕥";\
-[ $(date "+%l") -eq 11 ] && [ $(date "+%M") -lt 15 ] && printf "🕚";\
-[ $(date "+%l") -eq 11 ] && [ $(date "+%M") -gt 15 ] && printf "🕦";\
-[ $(date "+%l") -eq 12 ] && [ $(date "+%M") -lt 15 ] && printf "🕛";\
-[ $(date "+%l") -eq 12 ] && [ $(date "+%M") -gt 15 ] && printf "🕧";\
-[ $(date "+%H") -ge 6 ] && [ $(date +%H) -lt 17 ] && printf "🌞";\
-[ $(date "+%H") -ge 17 ] && printf "🌚";\
-[ $(date "+%H") -lt 6 ] && printf "🌚";\
-printf " $(date +%l:%M:%S) ]";\
+__date_time='`printf "[ $(date +%m/%d/%y) "
+HR=$(date "+%l" | tr -d " ")
+MN=$(date "+%M" | tr -d " ")
+case "${HR}" in
+"1")
+	[ $MN -lt 15 ] && printf "🕐" || printf "🕜";;
+"2")
+	[ $MN -lt 15 ] && printf "🕑" || printf "🕝";;
+"3")
+	[ $MN -lt 15 ] && printf "🕒" || printf "🕞";;
+"4")
+	[ $MN -lt 15 ] && printf "🕓" || printf "🕟";;
+"5")
+	[ $MN -lt 15 ] && printf "🕔" || printf "🕠";;
+"6")
+	[ $MN -lt 15 ] && printf "🕕" || printf "🕡";;
+"7")
+	[ $MN -lt 15 ] && printf "🕖" || printf "🕢";;
+"8")
+	[ $MN -lt 15 ] && printf "🕗" || printf "🕣";;
+"9")
+	[ $MN -lt 15 ] && printf "🕘" || printf "🕤";;
+"10")
+	[ $MN -lt 15 ] && printf "🕙" || printf "🕥";;
+"11")
+	[ $MN -lt 15 ] && printf "🕚" || printf "🕦";;
+"12")
+	[ $MN -lt 15 ] && printf "🕛" || printf "🕧";;
+*)
+	echo foo > /dev/null ;;
+esac
+[ $(date "+%H") -lt 6 ] && printf "🌚"
+[ $(date "+%H") -ge 6 ] && [ $(date +%H) -lt 17 ] && printf "🌞"
+[ $(date "+%H") -ge 17 ] && printf "🌚"
+printf " $(date +%l:%M:%S) ]"
 `'
 
 # set variable identifying this machines ip address (used in the prompt below)
