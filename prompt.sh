@@ -52,7 +52,8 @@ __date_time='`printf "[ $(date +%m/%d/%y) ";\
 [ $(date "+%l") -eq 11 ] && [ $(date "+%M") -gt 15 ] && printf "🕦";\
 [ $(date "+%l") -eq 12 ] && [ $(date "+%M") -lt 15 ] && printf "🕛";\
 [ $(date "+%l") -eq 12 ] && [ $(date "+%M") -gt 15 ] && printf "🕧";\
-printf " $(date +%l:%M:%S) ]"
+[[ $(date +%p) == "AM" ]] && printf "🌞" || printf "🌚";
+printf " $(date +%l:%M:%S) ]";\
 `'
 
 # set variable identifying this machines ip address (used in the prompt below)
