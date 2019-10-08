@@ -10,15 +10,16 @@ GIT_PROMPT=1        # Git branch and coloring
 IP_COLORING=1       # Use IP octets to color command line
 RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 #############################################################################################################################################
+#if [ -f /sys/class/power_supply/BAT1/capacity ]
 
 RST="\[\033[00m\]"
 
 # Battery life colored and charging status
 __bat_life='`
-if [ -f /sys/class/power_supply/BAT1/capacity ]
+if [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then
-	[[ $(cat /sys/class/power_supply/BAT1/status) != "Discharging" ]] && printf "⚡"
-	BAT=$(cat /sys/class/power_supply/BAT1/capacity)
+	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "⚡"
+	BAT=$(find /sys/class/power_supply/BAT*/ -name capacity -exec cat {} \;)
 	[ $BAT -ge 75 -a $BAT -lt 101 ] && printf "\[\033[38;5;10m\]"
 	[ $BAT -ge 50 -a $BAT -lt 75 ] && printf "\[\033[38;5;11m\]"
 	[ $BAT -ge 25 -a $BAT -lt 50 ] && printf "\[\033[38;5;202m\]"
