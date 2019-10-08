@@ -15,7 +15,7 @@ RST="\[\033[00m\]"
 
 # Battery life colored and charging status
 __bat_life='`
-if ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
+if [ -d /sys/class/power_supply/ ] && ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then
 	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "»"
 	BAT=$(find /sys/class/power_supply/BAT*/ -name capacity -exec cat {} \;)
