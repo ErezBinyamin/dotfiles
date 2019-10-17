@@ -11,6 +11,9 @@ alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
 alias irc='weechat'
 
+# Aggressive clear
+alias clear='printf "\ec"'
+
 # Renames
 alias hi='history'
 alias jo='jobs'
