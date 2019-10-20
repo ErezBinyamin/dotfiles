@@ -76,15 +76,6 @@ mktouch() {
 	mkdir -p $(dirname $1) && $(echo 'touch') $1
 }
 
-goto() {
-	if [ -d "$(dirname $(type $1 | cut -d' ' -f5 | tr -d \' | tr -d \`))" ]
-	then
-		cd $(dirname $(type $1 | cut -d' ' -f5 | tr -d \' | tr -d \`))
-	else
-		return 1
-	fi
-}
-
 ls_tree(){
 	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 }
