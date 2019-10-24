@@ -88,6 +88,21 @@ title() {
 	echo -ne "\033]0;$@\007"
 }
 
+inv_img() {
+	if [ -z ${1+x} ]
+	then
+		echo "USAGE: inv_img <input.png>"
+		echo "OR"
+		echo "USAGE: inv_img <input.png> <output.png>"
+		return 1
+	fi
+
+	INPUT="$1"
+	[ -z ${2+x} ] && OUTPUT=inverted.png || OUTPUT="$2"
+
+	convert ${INPUT} -channel RGB -negate "${OUTPUT}"
+}
+
 alias erez="printf '
 	erez		-	This help menu
 	cheat		-	room of requirement for the command line
