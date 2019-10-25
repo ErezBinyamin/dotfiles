@@ -87,9 +87,9 @@ if [ $RANDOM_COLORING -eq 1 ]; then
 fi
 
 # Always leave room for at least 20 chars of command
-# 40 is length of the other stuff
-# TERM_WIDTH - 40 - (length of pwd)
-__wrk_dir='`[ $(( $(tput cols) - 40 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
+# 50 is length of the other stuff
+# TERM_WIDTH - 50 - (length of pwd)
+__wrk_dir='`[ $(( $(tput cols) - 50 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
 
 # Git command line prompt
 
