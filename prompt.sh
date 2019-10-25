@@ -86,10 +86,10 @@ if [ $RANDOM_COLORING -eq 1 ]; then
     __COLOR_4=$(_assign_color $(( $RANDOM % 255 )))
 fi
 
-# Always leave room for at least 25 chars of command
-# 37 is length of the other stuff
-# TERM_WIDTH - 37 - (length of pwd)
-__wrk_dir='`[ $(( $(tput cols) - 37 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
+# Always leave room for at least 20 chars of command
+# 40 is length of the other stuff
+# TERM_WIDTH - 40 - (length of pwd)
+__wrk_dir='`[ $(( $(tput cols) - 40 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
 
 # Git command line prompt
 

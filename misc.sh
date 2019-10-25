@@ -12,7 +12,7 @@ alias bashrc='cd;source .bashrc; cd -'
 alias irc='weechat'
 
 # Aggressive clear
-alias clear='printf "\ec"'
+alias CLEAR='printf "\ec"'
 
 # Renames
 alias hi='history'
