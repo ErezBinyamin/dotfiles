@@ -17,7 +17,8 @@ alias CLEAR='printf "\ec"'
 # Renames
 alias hi='history'
 alias jo='jobs'
-alias nano='nano --smooth --positionlog --autoindent --linenumbers --softwrap'
+alias nano='nano --smooth --autoindent --linenumbers --softwrap'
+#alias nano='nano --smooth --positionlog --autoindent --linenumbers --softwrap'
 
 #Fix mistakes / defence against trains
 alias lS='ls'
