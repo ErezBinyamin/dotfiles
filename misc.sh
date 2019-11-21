@@ -21,9 +21,9 @@ alias nano='nano --smooth --autoindent --softwrap'
 #alias nano='nano --smooth --positionlog --autoindent --linenumbers --softwrap'
 
 #Fix mistakes / defence against trains
+alias LS='tree' # Big ls is a tree
 alias lS='ls'
 alias Ls='ls'
-alias LS='ls'
 alias sl='ls'
 alias sL='ls'
 alias Sl='ls'
