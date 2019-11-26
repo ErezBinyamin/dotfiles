@@ -86,12 +86,13 @@ if [ $RANDOM_COLORING -eq 1 ]; then
     __COLOR_4=$(_assign_color $(( $RANDOM % 255 )))
 fi
 
+# TODO: actually calculate size of prompt instead of hardcoding
 # Always leave room for at least 20 chars of command
-# 50 is length of the other stuff
-# TERM_WIDTH - 50 - (length of pwd)
-__wrk_dir='`[ $(( $(tput cols) - 50 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
+# 55 is the stated length of the nonDir_part of the prompt
+# TERM_WIDTH - 55 - (length of pwd)
+__wrk_dir='`[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
 
-# Git command line prompt
+# ---- Git command line prompt ----
 
 # GIT PULL
 #       Determine if a git pull command is needed
@@ -145,10 +146,12 @@ printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\03
 
 # GIT BRANCH:
 #       Prints current git branch
-
 __git_branch='`[ $GIT_PROMPT -eq 1 ] && \
 [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
 git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
+
+# CAPS LOCK notification symbol
+__caps_lock='`xset q | grep -q "00: Caps Lock:   off" || printf "⇪"`'
 
 # Define ending symbol
 #	ssh  = %
@@ -214,5 +217,6 @@ else
     PS1+="${__git_repo}${RST}"                  # Repo name
     PS1+="${__git_pull}${__git_push}${RST}"     # Push pull arrows
     PS1+="${__git_color}${__git_branch}${RST}"  # Colored git branch/status
+    PS1+="${__caps_lock}"                       # Caps lock notification
     PS1+="${RST}${__ending}"                    # A '$' and a space
 fi
