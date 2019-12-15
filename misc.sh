@@ -64,6 +64,15 @@ vbrowse() {
 	return 0
 }
 
+# Get an RFC
+RFC_get() {
+	[ $# -lt 1 ]         && return 1
+	isNum='^[0-9]+$'
+	[[ ${1} =~ $isNum ]] || return 1
+
+	curl "https://www.ietf.org/rfc/rfc${1}.txt"
+}
+
 # Travel up some number of directories
 up() {
 	local HEIGHT=''
