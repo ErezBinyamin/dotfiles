@@ -146,12 +146,22 @@ printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\03
 
 # GIT BRANCH:
 #       Prints current git branch
-__git_branch='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
+#__git_branch='`[ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
+
+__git_branch='`
+if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+then
+	git branch 2> /dev/null | grep -e ^* | sed "s:* ::"
+fi
+`'
 
 # CAPS LOCK notification symbol
-__caps_lock='`xset q | grep -q "00: Caps Lock:   off" || printf "⇪"`'
+__caps_lock='`
+if xset -h &> /dev/null
+then
+	xset q | grep -q "00: Caps Lock:   off" || printf "⇪"
+fi
+`'
 
 # Define ending symbol
 #	ssh  = %
