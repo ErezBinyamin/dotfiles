@@ -110,10 +110,13 @@ fi
 # GIT PUSH
 
 #       Determine if a git push command is needed
-__git_push='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-git status | grep -q "git push" && \
-printf "\[\033[00m\]\[\033[1;5;96m\]^\[\033[00m\]"`'
+__git_push='`
+GIT_PUSH_SYMBOL="^"
+if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+then
+	git status | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
+fi
+`'
 
 # GIT REPO:
 #       Shows name of current git repo in random color
