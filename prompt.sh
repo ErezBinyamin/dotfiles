@@ -160,7 +160,7 @@ fi
 
 # CAPS LOCK notification symbol
 __caps_lock='`
-CAPS_LOCK_SYMBOL="⇪"
+CAPS_LOCK_SYMBOL="©"
 if xset -h &> /dev/null
 then
 	xset q | grep -q "00: Caps Lock:   off" || printf "${CAPS_LOCK_SYMBOL}"
