@@ -93,7 +93,6 @@ fi
 __wrk_dir='`[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
 
 # ---- Git command line prompt ----
-
 # GIT PULL
 #       Determine if a git pull command is needed
 #	Only execute this check if on a fast network
@@ -108,7 +107,6 @@ else
 fi
 
 # GIT PUSH
-
 #       Determine if a git push command is needed
 __git_push='`
 GIT_PUSH_SYMBOL="↑"
@@ -120,14 +118,14 @@ fi
 
 # GIT REPO:
 #       Shows name of current git repo in random color
-#       Shows oposite color on arrows (Incase of unreadable color)
+#       Shows oposite color on border (Incase of unreadable color)
 __git_repo='`
+REPO_BORDER_SYMBOL_LEFT="|"
+REPO_BORDER_SYMBOL_RIGHT="|"
 if [ $GIT_PROMPT -eq 1 ]
 then
 	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 	then
-		REPO_BORDER_SYMBOL_LEFT="|"
-		REPO_BORDER_SYMBOL_RIGHT="|"
 		REPO_NAME="$(git rev-parse --show-toplevel | xargs basename)"
 		REPO_COLOR="$(( $(echo ${REPO_NAME} | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"
 		REPO_INV_COLOR="$(( 255 - ${REPO_COLOR} % 255 ))"
@@ -150,22 +148,13 @@ fi
 #       Green : Up to date
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
-__git_color='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-printf " \[\033[1;38;5;2m\]" && \
-printf "$(git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]")" && \
-printf "$(git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]*")" && \
-printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;38;5;1m\]+")"`'
-
-
 __git_color='`
+GIT_NEW_FILE_SYMBOL="+"
+GIT_EDIT_FILE_SYMBOL="*"
 if [ $GIT_PROMPT -eq 1 ]
 then
 	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 	then
-		GIT_NEW_FILE_SYMBOL="+"
-		GIT_EDIT_FILE_SYMBOL="*"
-
 		printf " \[\033[1;38;5;2m\]"
 		git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]"
 		git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
