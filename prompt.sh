@@ -121,20 +121,6 @@ fi
 # GIT REPO:
 #       Shows name of current git repo in random color
 #       Shows oposite color on arrows (Incase of unreadable color)
-__git_repo='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-printf "\[\033[00m\] " && \
-printf "\[\033[1;38;5;"\
-"$(( 255 - $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-"m\]|" && \
-printf "\[\033[00m\]\[\033[1;4;38;5;"\
-"$(( $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-"m\]$(git rev-parse --show-toplevel | xargs basename)" && \
-printf "\[\033[00m\]\[\033[1;38;5;"\
-"$(( 255 - $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-"m\]|" && \
-printf "\[\033[00m\]"`'
-
 __git_repo='`
 if [ $GIT_PROMPT -eq 1 ]
 then
@@ -170,6 +156,23 @@ printf " \[\033[1;38;5;2m\]" && \
 printf "$(git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]")" && \
 printf "$(git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]*")" && \
 printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;38;5;1m\]+")"`'
+
+
+__git_color='`
+if [ $GIT_PROMPT -eq 1 ]
+then
+	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+	then
+		GIT_NEW_FILE_SYMBOL="+"
+		GIT_EDIT_FILE_SYMBOL="*"
+
+		printf " \[\033[1;38;5;2m\]"
+		git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]"
+		git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
+		[ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
+	fi
+fi
+`'
 
 # GIT BRANCH:
 #       Prints current git branch
