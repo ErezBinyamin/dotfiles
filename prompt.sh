@@ -98,10 +98,16 @@ __wrk_dir='`[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W ||
 #	Only execute this check if on a fast network
 if [ $SLOW_NETWORK -eq 0 ]
 then
-    __git_pull='`[ $GIT_PROMPT -eq 1 ] && \
-    [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-    [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ] && \
-    printf "\[\033[00m\]\[\033[1;5;96m\] ↓\[\033[00m\]"`'
+	__git_pull='`
+	GIT_PULL_SYMBOL="↓"
+	if [ $GIT_PROMPT -eq 1 ]
+	then
+		if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ]
+		then
+			printf "\[\033[00m\]\[\033[1;5;96m\] ${GIT_PULL_SYMBOL}\[\033[00m\]"
+		fi
+	fi
+	`'
 else
     __git_pull='``'
 fi
