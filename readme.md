@@ -4,7 +4,7 @@ These are some scripts that make my bash terminal a fun place to be!
 
 ## Getting Started
 
-Just clone this repo and direct your bashrc source these files
+Just clone this repo and direct your bashrc to source some scripts
 
 ### Samlpe Installation
 
