@@ -11,14 +11,19 @@ alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
 alias irc='weechat'
 
+# Aggressive clear
+alias CLEAR='printf "\ec"'
+
 # Renames
 alias hi='history'
 alias jo='jobs'
+alias nano='nano --smooth --softwrap'
+#alias nano='nano --smooth --positionlog --linenumbers --softwrap'
 
 #Fix mistakes / defence against trains
+alias LS='tree' # Big ls is a tree
 alias lS='ls'
 alias Ls='ls'
-alias LS='ls'
 alias sl='ls'
 alias sL='ls'
 alias Sl='ls'
@@ -59,6 +64,15 @@ vbrowse() {
 	return 0
 }
 
+# Get an RFC
+RFC_get() {
+	[ $# -lt 1 ]         && return 1
+	isNum='^[0-9]+$'
+	[[ ${1} =~ $isNum ]] || return 1
+
+	curl "https://www.ietf.org/rfc/rfc${1}.txt"
+}
+
 # Travel up some number of directories
 up() {
 	local HEIGHT=''
@@ -83,6 +97,21 @@ ls_tree(){
 # Change bash instance title
 title() {
 	echo -ne "\033]0;$@\007"
+}
+
+inv_img() {
+	if [ -z ${1+x} ]
+	then
+		echo "USAGE: inv_img <input.png>"
+		echo "OR"
+		echo "USAGE: inv_img <input.png> <output.png>"
+		return 1
+	fi
+
+	INPUT="$1"
+	[ -z ${2+x} ] && OUTPUT=inverted.png || OUTPUT="$2"
+
+	convert ${INPUT} -channel RGB -negate "${OUTPUT}"
 }
 
 alias erez="printf '

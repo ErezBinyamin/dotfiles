@@ -10,28 +10,30 @@ GIT_PROMPT=1        # Git branch and coloring
 IP_COLORING=1       # Use IP octets to color command line
 RANDOM_COLORING=0   # Randomize prompt colors (override IP coloring)
 #############################################################################################################################################
-#if [ -f /sys/class/power_supply/BAT1/capacity ]
 
 RST="\[\033[00m\]"
 
 # Battery life colored and charging status
 __bat_life='`
+BATTERY_CHARGING="⚡"
+BATTERY_SYMBOL="🔋"
 if [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then
-	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "⚡"
+	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "${BATTERY_CHARGING}"
 	BAT=$(find /sys/class/power_supply/BAT*/ -name capacity -exec cat {} \;)
 	[ $BAT -ge 75 -a $BAT -lt 101 ] && printf "\[\033[38;5;10m\]"
 	[ $BAT -ge 50 -a $BAT -lt 75 ] && printf "\[\033[38;5;11m\]"
 	[ $BAT -ge 25 -a $BAT -lt 50 ] && printf "\[\033[38;5;202m\]"
 	[ $BAT -ge 10 -a $BAT -lt 25 ] && printf "\[\033[38;5;9m\]"
 	[ $BAT -lt 10 ] && printf "\[\033[38;5;9m\]\[\033[5m\]"
-	printf "🔋${BAT}%%"
+	printf "${BATTERY_SYMBOL}${BAT}%%"
 fi
 printf "\[\033[0m\]"
 `'
 
 #Date and time
-__date_time='`printf "[ $(date +%m/%d/%y) "
+__date_time='`
+printf "[ $(date +%m/%d/%y) "
 HR=$(date "+%l" | tr -d " ")
 MN=$(date "+%M" | tr -d " ")
 case "${HR}" in
@@ -123,75 +125,119 @@ if [ $RANDOM_COLORING -eq 1 ]; then
     __COLOR_4=$(_assign_color $(( $RANDOM % 255 )))
 fi
 
-# Always leave room for at least 25 chars of command
-# 37 is length of the other stuff
-# TERM_WIDTH - 37 - (length of pwd)
-__wrk_dir='`[ $(( $(tput cols) - 37 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
+# TODO: actually calculate size of prompt instead of hardcoding
+# Always leave room for at least 20 chars of command
+# 55 is the stated length of the nonDir_part of the prompt
+# TERM_WIDTH - 55 - (length of pwd)
+__wrk_dir='`[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
 
-# Git command line prompt
-
+# ---- Git command line prompt ----
 # GIT PULL
 #       Determine if a git pull command is needed
 #	Only execute this check if on a fast network
 if [ $SLOW_NETWORK -eq 0 ]
 then
-    __git_pull='`[ $GIT_PROMPT -eq 1 ] && \
-    [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-    [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ] && \
-    printf "\[\033[00m\]\[\033[1;5;96m\] ↓\[\033[00m\]"`'
+	__git_pull='`
+	GIT_PULL_SYMBOL="↓"
+	if [ $GIT_PROMPT -eq 1 ]
+	then
+		if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ]
+		then
+			printf "\[\033[00m\]\[\033[1;5;96m\] ${GIT_PULL_SYMBOL}\[\033[00m\]"
+		fi
+	fi
+	`'
 else
     __git_pull='``'
 fi
 
 # GIT PUSH
-
 #       Determine if a git push command is needed
-__git_push='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-git status | grep -q "git push" && \
-printf "\[\033[00m\]\[\033[1;5;96m\]🔼\[\033[00m\]"`'
+__git_push='`
+GIT_PUSH_SYMBOL="🔼"
+if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+then
+	git status | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
+fi
+`'
 
 # GIT REPO:
 #       Shows name of current git repo in random color
-#       Shows oposite color on arrows (Incase of unreadable color)
-__git_repo='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-printf "\[\033[00m\] " && \
-printf "\[\033[1;38;5;"\
-"$(( 255 - $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-"m\]|" && \
-printf "\[\033[00m\]\[\033[1;4;38;5;"\
-"$(( $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-"m\]$(git rev-parse --show-toplevel | xargs basename)" && \
-printf "\[\033[00m\]\[\033[1;38;5;"\
-"$(( 255 - $(git rev-parse --show-toplevel | xargs basename | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"\
-"m\]|" && \
-printf "\[\033[00m\]"`'
+#       Shows oposite color on border (Incase of unreadable color)
+__git_repo='`
+REPO_BORDER_SYMBOL_LEFT="|"
+REPO_BORDER_SYMBOL_RIGHT="|"
+if [ $GIT_PROMPT -eq 1 ]
+then
+	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+	then
+		REPO_NAME="$(git rev-parse --show-toplevel | xargs basename)"
+		REPO_COLOR="$(( $(echo ${REPO_NAME} | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"
+		REPO_INV_COLOR="$(( 255 - ${REPO_COLOR} % 255 ))"
+
+		printf "\[\033[00m\] "
+		printf "\[\033[1;38;5;${REPO_INV_COLOR}m\]"
+		printf "${REPO_BORDER_SYMBOL_LEFT}"
+		printf "\[\033[00m\]\[\033[1;4;38;5;${REPO_COLOR}m\]"
+		printf "${REPO_NAME}"
+		printf "\[\033[00m\]\[\033[1;38;5;${REPO_INV_COLOR}m\]"
+		printf "${REPO_BORDER_SYMBOL_RIGHT}"
+		printf "\[\033[00m\]"
+	fi
+fi
+`'
+
 
 # GIT COLOR:
 #       Generates color based upon local change status
 #       Green : Up to date
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
-__git_color='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-printf " \[\033[1;38;5;2m\]" && \
-printf "$(git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]")" && \
-printf "$(git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]*")" && \
-printf "$( [ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;38;5;1m\]+")"`'
+__git_color='`
+GIT_NEW_FILE_SYMBOL="+"
+GIT_EDIT_FILE_SYMBOL="*"
+if [ $GIT_PROMPT -eq 1 ]
+then
+	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+	then
+		printf " \[\033[1;38;5;2m\]"
+		git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]"
+		git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
+		[ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
+	fi
+fi
+`'
 
 # GIT BRANCH:
 #       Prints current git branch
+__git_branch='`
+if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+then
+	git branch 2> /dev/null | grep -e ^* | sed "s:* ::"
+fi
+`'
 
-__git_branch='`[ $GIT_PROMPT -eq 1 ] && \
-[[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && \
-git branch 2> /dev/null | grep -e ^* | sed "s:* ::"`'
+# CAPS LOCK notification symbol
+__caps_lock='`
+CAPS_LOCK_SYMBOL="©"
+if xset -h &> /dev/null
+then
+	xset q | grep -q "00: Caps Lock:   off" || printf "${CAPS_LOCK_SYMBOL}"
+fi
+`'
 
 # Define ending symbol
-#	ssh  = %
+#	ssh  = 🔒🐚
 #	root = #
-#	else = $
-__ending='`[ ! -x ${SSH_CLIENT+x} ] && printf "🔒🐚 " || printf "🐚 "`'
+#	else = 🐚
+__ending='`
+if [ ! -x ${SSH_CLIENT+x} ]
+then
+	printf "🔒🐚 "
+else
+	printf "🐚 "
+fi
+`'
 
 #################################################
 #			                        #
@@ -251,5 +297,6 @@ else
     PS1+="${__git_repo}${RST}"                  # Repo name
     PS1+="${__git_pull}${__git_push}${RST}"     # Push pull arrows
     PS1+="${__git_color}${__git_branch}${RST}"  # Colored git branch/status
+    PS1+="${__caps_lock}"                       # Caps lock notification
     PS1+="${RST}${__ending}"                    # A '$' and a space
 fi
