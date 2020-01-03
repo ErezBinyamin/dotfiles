@@ -18,7 +18,7 @@ __bat_life='`
 #BATTERY_CHARGING="🔌"
 BATTERY_CHARGING="⚡"
 BATTERY_SYMBOL="🔋"
-if [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
+if [ -d /sys/class/power_supply/ ] && ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then
 	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "${BATTERY_CHARGING}"
 	BAT=$(find /sys/class/power_supply/BAT*/ -name capacity -exec cat {} \;)
