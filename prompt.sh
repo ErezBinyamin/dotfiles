@@ -34,7 +34,7 @@ printf "\[\033[0m\]"
 
 #Date and time
 __date_time='`
-printf "[ $(date +%m/%d/%y) "
+printf "[$(date +%m/%d/%y) "
 HR=$(date "+%l" | tr -d " ")
 MN=$(date "+%M" | tr -d " ")
 case "${HR}" in
@@ -78,7 +78,7 @@ then
 	printf "🌚"
 fi
 
-printf "$(date +%l:%M:%S) ]"
+printf "$(date +%l:%M:%S)]"
 `'
 
 # set variable identifying this machines ip address (used in the prompt below)
