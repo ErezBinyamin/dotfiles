@@ -15,6 +15,7 @@ RST="\[\033[00m\]"
 
 # Battery life colored and charging status
 __bat_life='`
+#BATTERY_CHARGING="🔌"
 BATTERY_CHARGING="⚡"
 BATTERY_SYMBOL="🔋"
 if [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
@@ -37,37 +38,47 @@ printf "[ $(date +%m/%d/%y) "
 HR=$(date "+%l" | tr -d " ")
 MN=$(date "+%M" | tr -d " ")
 case "${HR}" in
-"1")
+  "1")
 	[ $MN -lt 15 ] && printf "🕐" || printf "🕜";;
-"2")
+  "2")
 	[ $MN -lt 15 ] && printf "🕑" || printf "🕝";;
-"3")
+  "3")
 	[ $MN -lt 15 ] && printf "🕒" || printf "🕞";;
-"4")
+  "4")
 	[ $MN -lt 15 ] && printf "🕓" || printf "🕟";;
-"5")
+  "5")
 	[ $MN -lt 15 ] && printf "🕔" || printf "🕠";;
-"6")
+  "6")
 	[ $MN -lt 15 ] && printf "🕕" || printf "🕡";;
-"7")
+  "7")
 	[ $MN -lt 15 ] && printf "🕖" || printf "🕢";;
-"8")
+  "8")
 	[ $MN -lt 15 ] && printf "🕗" || printf "🕣";;
-"9")
+  "9")
 	[ $MN -lt 15 ] && printf "🕘" || printf "🕤";;
-"10")
+  "10")
 	[ $MN -lt 15 ] && printf "🕙" || printf "🕥";;
-"11")
+  "11")
 	[ $MN -lt 15 ] && printf "🕚" || printf "🕦";;
-"12")
+  "12")
 	[ $MN -lt 15 ] && printf "🕛" || printf "🕧";;
-*)
+  *)
 	echo foo > /dev/null ;;
 esac
-[ $(date "+%H") -lt 6 ] && printf "🌚"
-[ $(date "+%H") -ge 6 ] && [ $(date +%H) -lt 17 ] && printf "🌞"
-[ $(date "+%H") -ge 17 ] && printf "🌚"
-printf " $(date +%l:%M:%S) ]"
+
+HR_24=$(date "+%H")
+if [ ${HR_24} -lt 6 ]
+then
+	printf "🌚"
+elif [ ${HR_24} -lt 17 ]
+then
+	printf "🌞"
+elif [ ${HR_24} -ge 17 ]
+then
+	printf "🌚"
+fi
+
+printf "$(date +%l:%M:%S) ]"
 `'
 
 # set variable identifying this machines ip address (used in the prompt below)
@@ -138,7 +149,7 @@ __wrk_dir='`[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W ||
 if [ $SLOW_NETWORK -eq 0 ]
 then
 	__git_pull='`
-	GIT_PULL_SYMBOL="↓"
+	GIT_PULL_SYMBOL="📥"
 	if [ $GIT_PROMPT -eq 1 ]
 	then
 		if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ]
@@ -154,7 +165,7 @@ fi
 # GIT PUSH
 #       Determine if a git push command is needed
 __git_push='`
-GIT_PUSH_SYMBOL="🔼"
+GIT_PUSH_SYMBOL="📤"
 if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 then
 	git status | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
@@ -194,8 +205,8 @@ fi
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
 __git_color='`
-GIT_NEW_FILE_SYMBOL="+"
-GIT_EDIT_FILE_SYMBOL="*"
+GIT_NEW_FILE_SYMBOL="🗒 "
+GIT_EDIT_FILE_SYMBOL="📝"
 if [ $GIT_PROMPT -eq 1 ]
 then
 	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
@@ -219,7 +230,7 @@ fi
 
 # CAPS LOCK notification symbol
 __caps_lock='`
-CAPS_LOCK_SYMBOL="©"
+CAPS_LOCK_SYMBOL="🆑"
 if xset -h &> /dev/null
 then
 	xset q | grep -q "00: Caps Lock:   off" || printf "${CAPS_LOCK_SYMBOL}"
