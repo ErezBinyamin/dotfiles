@@ -120,10 +120,16 @@ alias erez="printf '
 	share		-	quick share some raw text
 	define		-	define a word
 	dockerTool	-	dockerTool -h for info
-	weather		-	the weather
 	up		-	go up n directories
 	hgrep		-	history | grep <ARG>
 	public_ip	-	ya
 	local_ip	-	ya
+	inv_img		-	invert an image
+	weather		-	the weather
+	map		-	interactive ascii map
+	bashrc		-	reload bashrc
+	CLEAR		-	big boy clear
+	LS		-	big boy ls
+
 '
 "
