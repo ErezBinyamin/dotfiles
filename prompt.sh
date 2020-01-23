@@ -30,7 +30,7 @@ printf "\[\033[0m\]"
 `'
 
 #Date and time
-__date_time='[`date "+%m/%d/%y %l:%m:%S"`]'
+__date_time='[`date "+%m/%d/%y %l:%M:%S"`]'
 
 # set variable identifying this machines ip address (used in the prompt below)
 # Color the command line according to the IP, sed away the bad colors
