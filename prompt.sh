@@ -51,23 +51,51 @@ _assign_color() {
 }
 
 # IP address definition, either live or on source define
-[ $SLOW_NETWORK -eq 0 ] && __ip_addr='`nc -w 3 -z 8.8.8.8 53 && hostname -I | cut -d" " -f1 || echo OFFLINE`'
-[ $SLOW_NETWORK -eq 1 ] && __ip_addr="$(nc -w 3 -z 8.8.8.8 53 && hostname -I | cut -d' ' -f1 || echo OFFLINE)"
+if [ $SLOW_NETWORK -eq 0 ]
+then
+__ip_addr='`
+	if whereis nc &>/dev/null && hostname -I &>/dev/null
+	then
+		nc -w 3 -z 8.8.8.8 53 && hostname -I | cut -d" " -f1 || echo OFFLINE
+	else
+		ip addr | grep inet | grep global | head -n1 | tr " " "\t" | tr "//" "\t"| cut -f6 || echo OFFLINE
+	fi
+`'
+else
+__ip_addr="`
+	if whereis nc &>/dev/null && hostname -I &>/dev/null
+	then
+		nc -w 3 -z 8.8.8.8 53 && hostname -I | cut -d' ' -f1 || echo OFFLINE
+	else
+		ip addr | grep inet | grep global | head -n1 | tr ' ' '\t' | tr '//' '\t'| cut -f6 || echo OFFLINE
+	fi
+`"
+fi
 
-if [ $IP_COLORING -eq 1 ]; then
+
+if [ $IP_COLORING -eq 1 ]
+then
     # IF OFFLINE then print gray else color
-    if nc -w 3 -z 8.8.8.8 53
-    then
-        __COLOR_1=$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f1))
-        __COLOR_2=$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f2))
-        __COLOR_3=$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f3))
-        __COLOR_4=$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f4))
-    else
-        __COLOR_1=$(_assign_color "0")
-        __COLOR_2=$(_assign_color "0")
-        __COLOR_3=$(_assign_color "0")
-        __COLOR_4=$(_assign_color "0")
-    fi
+	if [ $SLOW_NETWORK -eq 1 ]
+	then
+		if nc -w 3 -z 8.8.8.8 53
+		then
+			__COLOR_1="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f1))"
+			__COLOR_2="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f2))"
+			__COLOR_3="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f3))"
+			__COLOR_4="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f4))"
+		else
+			__COLOR_1="$(_assign_color '0')"
+			__COLOR_2="$(_assign_color '0')"
+			__COLOR_3="$(_assign_color '0')"
+			__COLOR_4="$(_assign_color '0')"
+		fi
+	else
+		__COLOR_1='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f1) || $(_assign_color "0"))'
+		__COLOR_2='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f2) || $(_assign_color "0"))'
+		__COLOR_3='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f3) || $(_assign_color "0"))'
+		__COLOR_4='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f4) || $(_assign_color "0"))'
+	fi
 
     # Poll google servers for each color
     if [ $SLOW_NETWORK -eq 0 ]
@@ -91,7 +119,9 @@ fi
 # Always leave room for at least 20 chars of command
 # 55 is the stated length of the nonDir_part of the prompt
 # TERM_WIDTH - 55 - (length of pwd)
-__wrk_dir='`[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w`'
+__wrk_dir='`
+[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w
+`'
 
 # ---- Git command line prompt ----
 # GIT PULL
@@ -175,14 +205,14 @@ fi
 __git_branch='`
 if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 then
-	git branch 2> /dev/null | grep -e ^* | sed "s:* ::"
+	git branch 2>/dev/null | grep -e ^* | sed "s:* ::"
 fi
 `'
 
 # CAPS LOCK notification symbol
 __caps_lock='`
 CAPS_LOCK_SYMBOL="©"
-if xset -h &> /dev/null
+if xset -h &>/dev/null
 then
 	xset q | grep -q "00: Caps Lock:   off" || printf "${CAPS_LOCK_SYMBOL}"
 fi
