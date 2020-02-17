@@ -1,38 +1,24 @@
 #!/bin/bash
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-
-# CONTROLS
-#--##############################
-PROMPT_DEFAULT=0		# Ignore all prompt customizations and use ubuntu default
-PROMPT_SLOW_NETWORK=1		# If you have a slow network, set to a '1' to stop all slow network items
-
-PROMPT_IP_COLORING=1		# Use IP octets to color command line
-PROMPT_RANDOM_COLORING=0	# Randomize prompt colors (override IP coloring)
-
-PROMPT_BATTERY=1		# Battery life status
-PROMPT_DATE_TIME=1		# date/time
-PROMPT_IP_ADDR=1		# Local IP address
-PROMPT_WRK_DIR=1		# Current working dir
-PROMPT_GIT_REPO=1		# Git Repo name
-PROMPT_GIT_REMOTE=1		# Git Push/Pull status
-PROMPT_GIT_BRANCH=1		# Git branch name / commit status
-PROMPT_CAPS_LOCK=1		# Caps lock awareness symbol
-PROMPT_SSH_ENDING=1		# SSH awareness symbol
-#--##############################
 
 # Get other prompt tools
-for prompt_tool in $( './battery.sh' './coloring.sh' './date_time.sh' './default.sh' './git.sh' './ip_addr.sh' )
+WRK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+TOOLS=( 'battery.sh' 'coloring.sh' 'date_time.sh' 'default.sh' 'git.sh' 'ip_addr.sh' )
+source "${WRK_DIR}/config.sh"
+for prompt_tool in ${TOOLS[@]}
 do
-	source $prompt_tool
+	source "${WRK_DIR}/${prompt_tool}"
 done
+
 
 # TODO: actually calculate size of prompt instead of hardcoding
 # Always leave room for at least 20 chars of command
 # 55 is the stated length of the nonDir_part of the prompt
 # TERM_WIDTH - 55 - (length of pwd)
 __prompt_wrk_dir='`
-[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w
+if [ $PROMPT_WRK_DIR -eq 1 ]
+then
+	[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w
+fi
 `'
 
 # CAPS LOCK notification symbol
