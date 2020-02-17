@@ -2,24 +2,12 @@
 
 # Get other prompt tools
 WRK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-TOOLS=( 'battery.sh' 'coloring.sh' 'date_time.sh' 'default.sh' 'git.sh' 'ip_addr.sh' )
+TOOLS=( 'battery.sh' 'coloring.sh' 'date_time.sh' 'default.sh' 'git.sh' 'ip_addr.sh' 'wrk_dir.sh' )
 source "${WRK_DIR}/config.sh"
 for prompt_tool in ${TOOLS[@]}
 do
 	source "${WRK_DIR}/${prompt_tool}"
 done
-
-
-# TODO: actually calculate size of prompt instead of hardcoding
-# Always leave room for at least 20 chars of command
-# 55 is the stated length of the nonDir_part of the prompt
-# TERM_WIDTH - 55 - (length of pwd)
-__prompt_wrk_dir='`
-if [ $PROMPT_WRK_DIR -eq 1 ]
-then
-	[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w
-fi
-`'
 
 # CAPS LOCK notification symbol
 __prompt_caps_lock='`
