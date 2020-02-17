@@ -3,7 +3,7 @@
 [ -z "$PS1" ] && return
 
 # Battery life colored and charging status
-__bat_life='`
+__prompt_bat_life='`
 BATTERY_CHARGING="»"
 if [ -d /sys/class/power_supply/ ] && ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then

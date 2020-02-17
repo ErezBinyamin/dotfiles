@@ -22,10 +22,18 @@ PROMPT_SSH_ENDING=1		# SSH awareness symbol
 #--##############################
 
 # Get other prompt tools
-for prompt_tool in $( ls $( dirame $0 )/*.sh )
+for prompt_tool in $( ls *.sh )
 do
 	source $prompt_tool
 done
+
+# TODO: actually calculate size of prompt instead of hardcoding
+# Always leave room for at least 20 chars of command
+# 55 is the stated length of the nonDir_part of the prompt
+# TERM_WIDTH - 55 - (length of pwd)
+__prompt_wrk_dir='`
+[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w
+`'
 
 # CAPS LOCK notification symbol
 __prompt_caps_lock='`
@@ -48,11 +56,13 @@ PROMPT_SSH_SYMBOL="§"
 if [ ${PROMPT_SSH_ENDING} -eq 1 ]
 then
 	if [ ! -x ${SSH_CLIENT+x} ]
-		then
-			printf "${PROMPT_SSH_SYMBOL} "
-		else
-			printf "\$ "
+	then
+		printf "${PROMPT_SSH_SYMBOL} "
+	else
+		printf "\$ "
 	fi
+else
+	printf "\$ "
 fi
 `'
 
@@ -67,7 +77,7 @@ RST="\[\033[00m\]"
 if [ ${PROMPT_DEFAULT} -ne 1 ]
 then
 	unset PS1
-	PS1+="${__prompt_bat_life}"				# Battery life
+	PS1="${__prompt_bat_life}"				# Battery life
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_1}${__prompt_date_time}"		# Date and time
 	PS1+="${RST}"
@@ -85,6 +95,6 @@ then
 	PS1+="${RST}"
 	PS1+="${__prompt_caps_lock}"				# Caps lock notification
 	PS1+="${RST}"
-	PS1+="${_prompt__ending}"				# End with: '$|§' and a space
+	PS1+="${__prompt_ending}"				# End with: '$|§' and a space
 	PS1+="${RST}"
 fi

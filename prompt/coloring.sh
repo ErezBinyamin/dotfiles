@@ -27,30 +27,30 @@ then
 	then
 		if nc -w 3 -z 8.8.8.8 53
 		then
-			__COLOR_1="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f1))"
-			__COLOR_2="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f2))"
-			__COLOR_3="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f3))"
-			__COLOR_4="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f4))"
+			__prompt_COLOR_1="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f1))"
+			__prompt_COLOR_2="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f2))"
+			__prompt_COLOR_3="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f3))"
+			__prompt_COLOR_4="$(_assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f4))"
 		else
-			__COLOR_1="$(_assign_color '0')"
-			__COLOR_2="$(_assign_color '0')"
-			__COLOR_3="$(_assign_color '0')"
-			__COLOR_4="$(_assign_color '0')"
+			__prompt_COLOR_1="$(_assign_color '0')"
+			__prompt_COLOR_2="$(_assign_color '0')"
+			__prompt_COLOR_3="$(_assign_color '0')"
+			__prompt_COLOR_4="$(_assign_color '0')"
 		fi
 	else
-		__COLOR_1='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f1) || $(_assign_color "0"))'
-		__COLOR_2='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f2) || $(_assign_color "0"))'
-		__COLOR_3='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f3) || $(_assign_color "0"))'
-		__COLOR_4='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f4) || $(_assign_color "0"))'
+		__prompt_COLOR_1='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f1) || $(_assign_color "0"))'
+		__prompt_COLOR_2='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f2) || $(_assign_color "0"))'
+		__prompt_COLOR_3='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f3) || $(_assign_color "0"))'
+		__prompt_COLOR_4='$(net_check && _assign_color $(hostname -I | tr "." " " | cut -d" " -f4) || $(_assign_color "0"))'
 	fi
 
     # Poll google servers for each color
     if [ $SLOW_NETWORK -eq 0 ]
     then
-         __COLOR_1='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
-         __COLOR_2='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
-         __COLOR_3='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
-         __COLOR_4='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
+         __prompt_COLOR_1='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
+         __prompt_COLOR_2='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
+         __prompt_COLOR_3='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
+         __prompt_COLOR_4='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
     fi
 fi
 
