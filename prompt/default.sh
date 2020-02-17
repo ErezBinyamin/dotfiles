@@ -1,7 +1,4 @@
 #!/bin/bash
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-
 # CONTROLS
 #############################################################################################################################################
 DEFAULT=0           # Ignore all prompt customizations and use ubuntu default

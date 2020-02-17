@@ -1,11 +1,8 @@
 #!/bin/bash
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-
 # Battery life colored and charging status
-__prompt_bat_life='`
+export __prompt_bat_life='`
 BATTERY_CHARGING="»"
-if [ -d /sys/class/power_supply/ ] && ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
+if [ $PROMPT_BATTERY -eq 1 ] && [ -d /sys/class/power_supply/ ] && ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then
 	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "${BATTERY_CHARGING}"
 	BAT=$(find /sys/class/power_supply/BAT*/ -name capacity -exec cat {} \;)

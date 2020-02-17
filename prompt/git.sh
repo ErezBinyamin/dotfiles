@@ -1,16 +1,14 @@
 #!/bin/bash
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
 
 # ---- Git command line prompt ----
 # GIT PULL
 #       Determine if a git pull command is needed
 #	Only execute this check if on a fast network
-if [ $SLOW_NETWORK -eq 0 ]
+if [ $PROMPT_SLOW_NETWORK -eq 0 ]
 then
-	__prompt_git_pull='`
+	export __prompt_git_pull='`
 	GIT_PULL_SYMBOL="↓"
-	if [ $GIT_PROMPT -eq 1 ]
+	if [ $PROMPT_GIT_REMOTE -eq 1 ]
 	then
 		if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ]
 		then
@@ -19,14 +17,14 @@ then
 	fi
 	`'
 else
-    __prompt_git_pull='``'
+    export __prompt_git_pull='``'
 fi
 
 # GIT PUSH
 #       Determine if a git push command is needed
-__prompt_git_push='`
+export __prompt_git_push='`
 GIT_PUSH_SYMBOL="↑"
-if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+if [ $PROMPT_GIT_REMOTE -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 then
 	git status | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
 fi
@@ -35,10 +33,10 @@ fi
 # GIT REPO:
 #       Shows name of current git repo in random color
 #       Shows oposite color on border (Incase of unreadable color)
-__prompt_git_repo='`
+export __prompt_git_repo='`
 REPO_BORDER_SYMBOL_LEFT="|"
 REPO_BORDER_SYMBOL_RIGHT="|"
-if [ $GIT_PROMPT -eq 1 ]
+if [ $PROMPT_GIT_REPO -eq 1 ]
 then
 	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 	then
@@ -64,10 +62,10 @@ fi
 #       Green : Up to date
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
-__prompt_git_color='`
+export __prompt_git_color='`
 GIT_NEW_FILE_SYMBOL="+"
 GIT_EDIT_FILE_SYMBOL="*"
-if [ $GIT_PROMPT -eq 1 ]
+if [ $PROMPT_GIT_BRANCH -eq 1 ]
 then
 	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 	then
@@ -81,8 +79,8 @@ fi
 
 # GIT BRANCH:
 #       Prints current git branch
-__prompt_git_branch='`
-if [ $GIT_PROMPT -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
+export __prompt_git_branch='`
+if [ $PROMPT_GIT_BRANCH -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 then
 	git branch 2>/dev/null | grep -e ^* | sed "s:* ::"
 fi
