@@ -22,7 +22,7 @@ PROMPT_SSH_ENDING=1		# SSH awareness symbol
 #--##############################
 
 # Get other prompt tools
-for prompt_tool in $( ls *.sh )
+for prompt_tool in $( './battery.sh' './coloring.sh' './date_time.sh' './default.sh' './git.sh' './ip_addr.sh' )
 do
 	source $prompt_tool
 done
