@@ -114,10 +114,18 @@ inv_img() {
 	convert ${INPUT} -channel RGB -negate "${OUTPUT}"
 }
 
+symbol() {
+	SYMBOL="${@}"
+	curl 'https://en.wikipedia.org/wiki/List_of_Unicode_characters' 2>/dev/null | sed 's#</td>##g' | sed -r '/^\s*$/d' | grep '<td>' | grep -B 5 -i $SYMBOL | sed '/^.\{6\}./d' | sed 's#<td>##g; s#--##g' | sed -r '/^\s*$/d'
+
+	curl 'https://en.wikipedia.org/wiki/List_of_Unicode_characters' 2>/dev/null | grep ${SYMBOL^^} | tr '"' '\n' | grep -A 1 title | grep -v title | sed '/^.\{1\}./d' 
+}
+
 alias erez="printf '
 	erez		-	This help menu
 	cheat		-	room of requirement for the command line
 	share		-	quick share some raw text
+	symbol		- 	Search for a unicode symbol
 	define		-	define a word
 	dockerTool	-	dockerTool -h for info
 	up		-	go up n directories
