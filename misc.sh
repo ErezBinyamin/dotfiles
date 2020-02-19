@@ -116,7 +116,7 @@ inv_img() {
 
 symbol() {
 	SYMBOL="${@}"
-	curl 'https://en.wikipedia.org/wiki/List_of_Unicode_characters' 2>/dev/null | sed 's#</td>##g' | sed -r '/^\s*$/d' | grep '<td>' | grep -B 5 -i "$SYMBOL" | sed '/^.\{6\}./d' | sed 's#<td>##g; s#--##g' | sed -r '/^\s*$/d'
+	curl 'https://en.wikipedia.org/wiki/List_of_Unicode_characters' 2>/dev/null | sed 's#</td>##g' | sed -r '/^\s*$/d' | grep '<td>' | grep -B 5 -i "$SYMBOL" | sed '/^.\{6\}./d' | sed 's#<td>##g; s#--##g' | sed -r 's/[0-9]{1,10}$//' | sed -r '/^\s*$/d'
 	curl 'https://en.wikipedia.org/wiki/List_of_Unicode_characters' 2>/dev/null | grep "${SYMBOL^^}" | tr '"' '\n' | grep -A 1 title | grep -v title | sed '/^.\{1\}./d' 
 }
 
