@@ -32,7 +32,7 @@ COMMAND	|	EFFECT	|	STATUS
 print_command_line_demo() {
 	printf "\n"
 
-	echo "${PS1}" | tr -d '`' | sed 's#\\\[##g; s#\\\]##g;' | sed '/printf/!s/\\033\[00m/\\033\[00m\n/' | sed '/printf/!s/m/m"/; /printf/!s/\\033/printf "\\033/' | sed '/date/s/m"/m/; /IP_ADDR/s/\\033/printf "\\033/; /IP_ADDR/s/86m/86m";/; /IP_ADDR/s/:\\033/;printf ":\\033/; /IP_ADDR/s/89m/89m"/; /=/s/m"/m/; /BAT/s/m"/m/; /REPO_COLOR/s/"s/s/; s#/"#/#' | bash
+	echo "${PS1}" | tr -d '`' | sed 's#\\\[##g; s#\\\]##g;' | sed '/printf/!s/\\033\[00m/\\033\[00m\n/' | sed '/printf/!s/m/m"/; /printf/!s/\\033/printf "\\033/' | sed '/date/s/m"/m/; /IP_ADDR/s/\\033/printf "\\033/; /IP_ADDR/s/86m/86m";/; /IP_ADDR/s/:\\033/;printf ":\\033/; /IP_ADDR/s/89m/89m"/; /=/s/m"/m/; /BAT/s/m"/m/; /REPO_COLOR/s/"s/s/; s#/"#/#' | bash | tr -d '\n' 
 
 	printf "\n"
 
@@ -44,6 +44,7 @@ do
 	clear
 	print_menu
 	print_command_line_demo
+	printf "\n\tCOMMAND> "
 	read CHOICE
 	case "${CHOICE^^}" in
 		"B")
