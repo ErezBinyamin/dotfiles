@@ -41,6 +41,7 @@ print_command_line_demo() {
 CHOICE='a'
 while [[ ! ${CHOICE^^} == 'Q' ]]
 do
+	clear
 	print_menu
 	print_command_line_demo
 	read CHOICE
@@ -77,5 +78,4 @@ do
 			;;
 
 	esac	
-	clear
 done
