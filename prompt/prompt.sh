@@ -55,7 +55,7 @@ then
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_1}${__prompt_date_time}"		# Date and time
 	PS1+="${RST}"
-	PS1+="${__prompt_COLOR_2}\u@"				# Username '@'
+	PS1+="${__prompt_COLOR_2}${USER}@"			# Username '@'
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_3}${__prompt_ip_addr}:"		# IP address ':'
 	PS1+="${RST}"

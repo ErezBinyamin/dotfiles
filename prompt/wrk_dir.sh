@@ -7,6 +7,6 @@
 __prompt_wrk_dir='`
 if [ $PROMPT_WRK_DIR -eq 1 ]
 then
-	[ $(( $(tput cols) - 55 - $(pwd | wc -c) )) -lt 20 ] && printf \W || printf \w
+	[ $(( $(tput cols) - 55 - ${#PWD} )) -lt 20 ] && printf $(printf ${PWD} | sed "s#.*/##") || printf ${PWD}
 fi
 `'
