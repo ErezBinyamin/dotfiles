@@ -65,12 +65,23 @@ vbrowse() {
 }
 
 # Get an RFC
-RFC_get() {
-	[ $# -lt 1 ]         && return 1
+RFC_get()
+{
+	[ $# -lt 1 ] && return 1
+	RFC=/tmp/rfc.txt
 	isNum='^[0-9]+$'
-	[[ ${1} =~ $isNum ]] || return 1
 
-	curl "https://www.ietf.org/rfc/rfc${1}.txt"
+	if [[ ${1} =~ $isNum ]]
+	then
+		curl "https://www.ietf.org/rfc/rfc${1}.txt" 2>/dev/null > $RFC
+	else
+		curl "https://www.rfc-editor.org/search/rfc_search_detail.php?title=${1}&pubstatus%5B%5D=Any&pub_date_type=any" 2>/dev/null | sed 's/href="/\n/g; s/.html/.html\n/g' | grep 'http.*.html' | sed 's/.html*//g' | rev | sed 's/cfr.*//' | rev > $RFC
+	fi
+
+	# Remove HEADER, and Footer sections
+	sed -i '/RFC/d; /\[Page/d' $RFC
+
+	cat $RFC | grep -q '<!DOCTYPE html>' && return 1 || cat -s $RFC
 }
 
 # Travel up some number of directories
