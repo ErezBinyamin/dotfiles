@@ -69,19 +69,30 @@ RFC_get()
 {
 	[ $# -lt 1 ] && return 1
 	RFC=/tmp/rfc.txt
+	BAD_RFCS=("8" "9" "14" "26" "51" "92")	# TODO find all "BAD RFCs"
+	MAX_RFC=8650
 	isNum='^[0-9]+$'
 
+	# Get corresponding RFC by number
 	if [[ ${1} =~ $isNum ]]
 	then
-		curl "https://www.ietf.org/rfc/rfc${1}.txt" 2>/dev/null > $RFC
+		[ $1 -gt $MAX_RFC ] && return 1
+		curl "https://www.ietf.org/rfc/rfc${1}.txt" 2>/dev/null > ${RFC}
+	# Print list of available RFCs
+	elif [[ "${1,,}" == ":list" ]]
+	then
+		for i in `seq 1 $MAX_RFC`
+		do
+			echo "${BAD_RFCS[@]}" | tr ' ' '\n' | grep -qFx $i || echo $i
+		done
 	else
-		curl "https://www.rfc-editor.org/search/rfc_search_detail.php?title=${1}&pubstatus%5B%5D=Any&pub_date_type=any" 2>/dev/null | sed 's/href="/\n/g; s/.html/.html\n/g' | grep 'http.*.html' | sed 's/.html*//g' | rev | sed 's/cfr.*//' | rev > $RFC
+	# Print list of RFCs related to keyword
+		curl "https://www.rfc-editor.org/search/rfc_search_detail.php?title=${1}&pubstatus%5B%5D=Any&pub_date_type=any" 2>/dev/null | sed 's/href="/\n/g; s/.html/.html\n/g' | grep 'http.*.html' | sed 's/.html*//g' | rev | sed 's/cfr.*//' | rev > ${RFC}
 	fi
 
-	# Remove HEADER, and Footer sections
-	sed -i '/RFC/d; /\[Page/d' $RFC
-
-	cat $RFC | grep -q '<!DOCTYPE html>' && return 1 || cat -s $RFC
+	# Format nicely and print
+	sed -i '/\[Page/,+2d; /\[page/,+2d;' ${RFC}
+	cat ${RFC} | grep -q '<!DOCTYPE html>' && return 1 || cat -s ${RFC}
 }
 
 # Travel up some number of directories
