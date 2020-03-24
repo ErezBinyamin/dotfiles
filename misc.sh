@@ -86,12 +86,13 @@ RFC_get()
 			echo "${BAD_RFCS[@]}" | tr ' ' '\n' | grep -qFx $i || echo $i
 		done
 	else
-	# Print list of RFCs related to keyword
-		curl "https://www.rfc-editor.org/search/rfc_search_detail.php?title=${1}&pubstatus%5B%5D=Any&pub_date_type=any" 2>/dev/null | sed 's/href="/\n/g; s/.html/.html\n/g' | grep 'http.*.html' | sed 's/.html*//g' | rev | sed 's/cfr.*//' | rev > ${RFC}
+		# Print list of RFCs related to keyword
+		ARG="${@}"
+		curl "https://www.rfc-editor.org/search/rfc_search_detail.php?title=${ARG}" 2> /dev/null | sed 's/href="/\n/g; s/.html/.html\n/g' | grep -A 1 --color=auto 'http.*.html' | sed '/boldtext/d; s/"target/<"target/g; s/<[^>]*>//g; /HTML,/d; s/HTML//; /--/d' | grep -v -B 1 html | rev | sed 's/lmth\.//; s/cfr.*//; /--/d' | rev | sed 's/[A-Z]\..*//; /mail-archive/,+1d; s/^[ \t]*//' | sed  's/&nbsp.*//g; s/<a//g; N ; s/\n/:\t/' > $RFC
 	fi
 
 	# Format nicely and print
-	sed -i '/\[Page/,+2d; /\[page/,+2d;' ${RFC}
+	sed -i '/Page [0-9]/,+2d; /page [0-9]/,+2d' ${RFC}
 	cat ${RFC} | grep -q '<!DOCTYPE html>' && return 1 || cat -s ${RFC}
 }
 
