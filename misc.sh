@@ -10,6 +10,7 @@ alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
 alias irc='weechat'
+alias prompt="source ${HOME}/Bash_init/prompt/editor.sh"
 
 # Aggressive clear
 alias CLEAR='printf "\ec"'
@@ -150,22 +151,24 @@ symbol() {
 }
 
 alias erez="printf '
-	erez		-	This help menu
-	cheat		-	room of requirement for the command line
-	share		-	quick share some raw text
-	symbol		- 	Search for a unicode symbol
-	define		-	define a word
-	dockerTool	-	dockerTool -h for info
-	up		-	go up n directories
-	hgrep		-	history | grep <ARG>
-	public_ip	-	ya
-	local_ip	-	ya
-	inv_img		-	invert an image
-	weather		-	the weather
-	map		-	interactive ascii map
 	bashrc		-	reload bashrc
 	CLEAR		-	big boy clear
+	cheat		-	room of requirement for the command line
+	define		-	define a word
+	dockerTool	-	dockerTool -h for info
+	erez		-	This help menu
+	hgrep		-	history | grep <ARG>
+	inv_img		-	invert an image
 	LS		-	big boy ls
+	local_ip	-	ya
+	map		-	interactive ascii map
+	prompt		-	interactive prompt editor
+	public_ip	-	ya
+	RFC_get		-	Read/Search for an RFC
+	share		-	quick share some raw text
+	symbol		- 	Search for a unicode symbol
+	up		-	go up n directories
+	weather		-	the weather
 
 '
 "
