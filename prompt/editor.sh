@@ -25,17 +25,16 @@ COMMAND	|	EFFECT	|	STATUS
    P	| Git Push/Pull |	${PROMPT_GIT_REMOTE}
    R	|  Git Branch	|	${PROMPT_GIT_BRANCH}
    C	|   Caps Lock	|	${PROMPT_CAPS_LOCK}
-   S	|  SSH Ending	|	${PROMPT_CAPS_LOCK}
-	"
+   S	|  SSH Ending	|	${PROMPT_SSH_ENDING}
+	" | grep -C 100 -e '0' -e ' '
 }
 
 print_command_line_demo() {
 	printf "\n"
 
-	echo "${PS1}" | tr -d '`' | sed 's#\\\[##g; s#\\\]##g;' | sed '/printf/!s/\\033\[00m/\\033\[00m\n/' | sed '/printf/!s/m/m"/; /printf/!s/\\033/printf "\\033/' | sed '/date/s/m"/m/; /IP_ADDR/s/\\033/printf "\\033/; /IP_ADDR/s/86m/86m";/; /IP_ADDR/s/:\\033/;printf ":\\033/; /IP_ADDR/s/89m/89m"/; /=/s/m"/m/; /BAT/s/m"/m/; /REPO_COLOR/s/"s/s/; s#/"#/#' | bash | tr -d '\n' 
+	echo "${PS1}" | sed 's#\\\[##g; s#\\\]##g; s/`\\033/printf "\\033/; s/192m`/192m"/; s/00m`/00m"/; /``/d; s#1m`#1m"\n#; s/`:/\nprintf "/; s/m`/m"/' | tail +2 | head -n -1 | bash | tr -d '\n'
 
 	printf "\n"
-
 }
 
 CHOICE='a'
@@ -77,6 +76,5 @@ do
 		"*")
 			echo "Invalid command"
 			;;
-
-	esac	
+	esac
 done
