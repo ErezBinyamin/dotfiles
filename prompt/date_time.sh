@@ -8,29 +8,29 @@ then
 	MN=$(date "+%M" | tr -d " ")
 	case "${HR}" in
 	  "1")
-		[ $MN -lt 15 ] && printf "🕐" || printf "🕜";;
+		[ $MN -lt 30 ] && printf "🕐" || printf "🕜";;
 	  "2")
-		[ $MN -lt 15 ] && printf "🕑" || printf "🕝";;
+		[ $MN -lt 30 ] && printf "🕑" || printf "🕝";;
 	  "3")
-		[ $MN -lt 15 ] && printf "🕒" || printf "🕞";;
+		[ $MN -lt 30 ] && printf "🕒" || printf "🕞";;
 	  "4")
-		[ $MN -lt 15 ] && printf "🕓" || printf "🕟";;
+		[ $MN -lt 30 ] && printf "🕓" || printf "🕟";;
 	  "5")
-		[ $MN -lt 15 ] && printf "🕔" || printf "🕠";;
+		[ $MN -lt 30 ] && printf "🕔" || printf "🕠";;
 	  "6")
-		[ $MN -lt 15 ] && printf "🕕" || printf "🕡";;
+		[ $MN -lt 30 ] && printf "🕕" || printf "🕡";;
 	  "7")
-		[ $MN -lt 15 ] && printf "🕖" || printf "🕢";;
+		[ $MN -lt 30 ] && printf "🕖" || printf "🕢";;
 	  "8")
-		[ $MN -lt 15 ] && printf "🕗" || printf "🕣";;
+		[ $MN -lt 30 ] && printf "🕗" || printf "🕣";;
 	  "9")
-		[ $MN -lt 15 ] && printf "🕘" || printf "🕤";;
+		[ $MN -lt 30 ] && printf "🕘" || printf "🕤";;
 	  "10")
-		[ $MN -lt 15 ] && printf "🕙" || printf "🕥";;
+		[ $MN -lt 30 ] && printf "🕙" || printf "🕥";;
 	  "11")
-		[ $MN -lt 15 ] && printf "🕚" || printf "🕦";;
+		[ $MN -lt 30 ] && printf "🕚" || printf "🕦";;
 	  "12")
-		[ $MN -lt 15 ] && printf "🕛" || printf "🕧";;
+		[ $MN -lt 30 ] && printf "🕛" || printf "🕧";;
 	  *)
 		echo foo > /dev/null ;;
 	esac
@@ -46,6 +46,6 @@ then
 	then
 		printf "🌚"
 	fi
+	printf "$(date +%l:%M:%S)]"
 fi
-printf "$(date +%l:%M:%S)]"
 `'
