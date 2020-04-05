@@ -47,4 +47,5 @@ then
 		printf "🌚"
 	fi
 fi
+printf "$(date +%l:%M:%S)]"
 `'
