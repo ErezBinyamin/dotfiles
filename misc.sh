@@ -164,6 +164,7 @@ alias erez="printf '
 	map		-	interactive ascii map
 	prompt		-	interactive prompt editor
 	public_ip	-	ya
+	rez_git		-	list of git aliases/tools
 	RFC_get		-	Read/Search for an RFC
 	share		-	quick share some raw text
 	symbol		- 	Search for a unicode symbol

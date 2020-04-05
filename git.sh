@@ -27,3 +27,24 @@ alias ghome="git config --get remote.origin.url | sed 's/\.git//; s/git@/www\./;
 
 # Submodules
 alias gsf='git submodule foreach'
+
+alias rez_git='printf "
+	ga	-	git add
+	gb	-	git branch
+	gc	-	git commit
+	gd	-	git diff
+	gs	-	git status
+	gba	-	all git branches
+	gdc	-	show staged (added) diffs
+	grm	- 	stage all removed files
+	gl	-	git log
+	gl1	-	show last log
+	glg	-	pretty git log graph
+	grhh	-	Return to last local commit
+	groh	-	Return to last remote push
+	gps	-	git push
+	gpl	-	git pull
+	ghome	-	launch firfox web-browser to navigate to origin URL
+	gsf	-	git submodule foreach
+
+"'
