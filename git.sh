@@ -9,7 +9,7 @@ alias gs='git status'
 
 alias gba='git branch --all'
 alias gdc='git diff --cached'
-alias grm="git rm \$(git status -s | grep D | awk '{print \$2}')"
+alias grm="git rm \$(git status -s | grep '^ D' | sed 's/ D //')"
 
 # logging
 alias gl='git log'
