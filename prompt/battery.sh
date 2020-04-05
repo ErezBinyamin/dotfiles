@@ -1,8 +1,8 @@
 #!/bin/bash
 # Battery life colored and charging status
 export __prompt_bat_life='`
-#BATTERY_CHARGING="🔌"
-BATTERY_CHARGING="⚡"
+BATTERY_CHARGING="🔌"
+#BATTERY_CHARGING="⚡"
 BATTERY_DISCHARGING="🔋"
 if [ $PROMPT_BATTERY -eq 1 ] && [ -d /sys/class/power_supply/ ] && ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then
