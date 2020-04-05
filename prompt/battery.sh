@@ -1,10 +1,12 @@
 #!/bin/bash
 # Battery life colored and charging status
 export __prompt_bat_life='`
-BATTERY_CHARGING="»"
+#BATTERY_CHARGING="🔌"
+BATTERY_CHARGING="⚡"
+BATTERY_DISCHARGING="🔋"
 if [ $PROMPT_BATTERY -eq 1 ] && [ -d /sys/class/power_supply/ ] && ls /sys/class/power_supply/ | grep -q BAT && [ $(echo $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) | wc -c) -gt 3 ]
 then
-	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "${BATTERY_CHARGING}"
+	[[ $(find /sys/class/power_supply/BAT*/ -name status -exec cat {} \;) != "Discharging" ]] && printf "${BATTERY_CHARGING}" || printf "${BATTERY_DISCHARGING}"
 	BAT=$(find /sys/class/power_supply/BAT*/ -name capacity -exec cat {} \;)
 	[ $BAT -ge 75 -a $BAT -lt 101 ] && printf "\[\033[38;5;10m\][||${BAT}||]"
 	[ $BAT -ge 50 -a $BAT -lt 75 ] && printf "\[\033[38;5;11m\][||${BAT}| ]"

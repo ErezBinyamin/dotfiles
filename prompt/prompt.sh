@@ -9,9 +9,10 @@ do
 	source "${WRK_DIR}/${prompt_tool}"
 done
 
+
 # CAPS LOCK notification symbol
 __prompt_caps_lock='`
-PROMPT_CAPS_LOCK_SYMBOL="©"
+PROMPT_CAPS_LOCK_SYMBOL="🆑"
 if [ ${PROMPT_CAPS_LOCK} -eq 1 ]
 then
 	if [ ${PROMPT_CAPS_LOCK} -eq 1 ] && xset -h &>/dev/null
@@ -22,21 +23,21 @@ fi
 `'
 
 # Define ending symbol
-#	ssh  = §
+#	ssh  = 🔒🐚
 #	root = #
-#	else = $
+#	else = 🐚
 __prompt_ending='`
-PROMPT_SSH_SYMBOL="§"
+PROMPT_SSH_SYMBOL="🔒🐚"
 if [ ${PROMPT_SSH_ENDING} -eq 1 ]
 then
 	if [ ! -x ${SSH_CLIENT+x} ]
 	then
 		printf "${PROMPT_SSH_SYMBOL} "
 	else
-		printf "\$ "
+		printf "🐚 "
 	fi
 else
-	printf "\$ "
+	printf "🐚 "
 fi
 `'
 
