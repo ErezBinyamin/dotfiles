@@ -37,6 +37,26 @@ share() {
 	return 0
 }
 
+# Retrieve from a shared URL
+share_get() {
+	if [ $# -eq 1 ] && [ ${#1} -gt 4 ]
+	then
+		END="${1}"
+	else
+		echo "USAGE: share_get <clbin ending>"
+		return 1
+	fi
+
+	if net_check
+	then
+		/usr/bin/curl "https://clbin.com/${END}"
+	else
+		echo "ERROR: No network connectivity"
+		return 1
+	fi
+	return 0
+}
+
 # Command line dictionary
 define() {
 	if net_check
