@@ -7,7 +7,7 @@
 if [ $PROMPT_SLOW_NETWORK -eq 0 ]
 then
 	export __prompt_git_pull='`
-	GIT_PULL_SYMBOL="↓"
+	GIT_PULL_SYMBOL="📥"
 	if [ $PROMPT_GIT_REMOTE -eq 1 ]
 	then
 		if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]] && [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ]
@@ -23,7 +23,7 @@ fi
 # GIT PUSH
 #       Determine if a git push command is needed
 export __prompt_git_push='`
-GIT_PUSH_SYMBOL="↑"
+GIT_PUSH_SYMBOL="📤"
 if [ $PROMPT_GIT_REMOTE -eq 1 ] && [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
 then
 	git status | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
@@ -63,8 +63,8 @@ fi
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
 export __prompt_git_color='`
-GIT_NEW_FILE_SYMBOL="+"
-GIT_EDIT_FILE_SYMBOL="*"
+GIT_NEW_FILE_SYMBOL="🗒 "
+GIT_EDIT_FILE_SYMBOL="📝"
 if [ $PROMPT_GIT_BRANCH -eq 1 ]
 then
 	if [[ "$(git rev-parse --git-dir 2> /dev/null)" =~ git ]]
