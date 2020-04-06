@@ -109,18 +109,8 @@ up() {
 	[[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT}
 }
 
-# mktouch
-mktouch() {
-	mkdir -p $(dirname $1) && $(echo 'touch') $1
-}
-
 ls_tree(){
 	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
-}
-
-# Change bash instance title
-title() {
-	echo -ne "\033]0;$@\007"
 }
 
 inv_img() {
@@ -159,14 +149,17 @@ alias erez="printf '
 	erez		-	This help menu
 	hgrep		-	history | grep <ARG>
 	inv_img		-	invert an image
-	LS		-	big boy ls
+	LS		-	big boy ls = tree
+	ls_tree		-	ls implementation of tree
 	local_ip	-	ya
 	map		-	interactive ascii map
-	prompt		-	interactive prompt editor
+	prompt		-	interactive PS1 prompt editor
 	public_ip	-	ya
 	rez_git		-	list of git aliases/tools
 	RFC_get		-	Read/Search for an RFC
-	share		-	quick share some raw text
+	share		-	quick share a file
+	share_get	-	quick recieve shared file
+	swb		-	toggle PS1 prompt bar
 	symbol		- 	Search for a unicode symbol
 	up		-	go up n directories
 	weather		-	the weather
