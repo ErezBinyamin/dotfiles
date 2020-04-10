@@ -23,7 +23,7 @@ export __prompt_git_push='`
 GIT_PUSH_SYMBOL="↑"
 if [ $PROMPT_GIT_REMOTE -eq 1 ] && git rev-parse --git-dir 2>/dev/null | grep -q '.git'
 then
-	git status | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
+	git status 2>/dev/null | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
 fi
 `'
 
@@ -35,7 +35,7 @@ REPO_BORDER_SYMBOL_LEFT="|"
 REPO_BORDER_SYMBOL_RIGHT="|"
 if [ $PROMPT_GIT_REPO -eq 1 ] && git rev-parse --git-dir 2>/dev/null | grep -q '.git'
 then
-	REPO_NAME="$(git rev-parse --show-toplevel | xargs basename)"
+	REPO_NAME="$(git config --get remote.origin.url | grep -o "/.*\." | sed "s/.$//; s/^.//")"
 	REPO_COLOR="$(( $(echo ${REPO_NAME} | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"
 	REPO_INV_COLOR="$(( 255 - ${REPO_COLOR} % 255 ))"
 
