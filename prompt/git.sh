@@ -35,7 +35,7 @@ REPO_BORDER_SYMBOL_LEFT="|"
 REPO_BORDER_SYMBOL_RIGHT="|"
 if [ $PROMPT_GIT_REPO -eq 1 ] && git rev-parse --git-dir &>/dev/null
 then
-	REPO_NAME="$(echo $(git config --get remote.origin.url || git rev-parse --absolute-git-dir) | tr -d "\n" | sed 's/\.git//g' | xargs basename)"
+	REPO_NAME="$(echo $(git config --get remote.origin.url || git rev-parse --absolute-git-dir) | sed 's/\.git//g' | xargs basename)"
 	REPO_COLOR="$(( $(echo ${REPO_NAME} | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"
 	REPO_INV_COLOR="$(( 255 - ${REPO_COLOR} % 255 ))"
 
