@@ -62,9 +62,9 @@ GIT_EDIT_FILE_SYMBOL="*"
 if [ $PROMPT_GIT_BRANCH -eq 1 ] && git rev-parse --git-dir 2>/dev/null | grep -q '.git'
 then
 	printf " \[\033[1;38;5;2m\]"
-	git diff-index --quiet --cached HEAD -- &> /dev/null || printf "\[\033[1;38;5;3m\]"
-	git diff --quiet &> /dev/null || printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
-	[ -z "$(git ls-files --exclude-standard --others)" ] || printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
+	git diff-index --quiet --cached HEAD -- 2>/dev/null || printf "\[\033[1;38;5;3m\]"
+	git diff --quiet 2>/dev/null || printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
+	[ -z "$(git ls-files --exclude-standard --others 2>/dev/null)" ] || printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
 fi
 `'
 
