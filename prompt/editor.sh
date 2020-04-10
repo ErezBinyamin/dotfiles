@@ -15,26 +15,29 @@
 
 print_menu() {
 	printf "
-COMMAND	|	EFFECT	|	STATUS
---------------------------------------------
-   B	|    Battery 	|	${PROMPT_BATTERY}
-   D	|  Date & Time	|	${PROMPT_DATE_TIME}
-   I	|   IP address	|	${PROMPT_IP_ADDR}
-   W	|  Working Dir	|	${PROMPT_WRK_DIR}
-   G	| Git Repo Name |	${PROMPT_GIT_REPO}
-   P	| Git Push/Pull |	${PROMPT_GIT_REMOTE}
-   R	|  Git Branch	|	${PROMPT_GIT_BRANCH}
-   C	|   Caps Lock	|	${PROMPT_CAPS_LOCK}
-   S	|  SSH Ending	|	${PROMPT_SSH_ENDING}
-	" | grep -C 100 -e '0' -e ' '
++---------+---------------+-------------+
+| COMMAND |    EFFECT	  |   STATUS	|
++---------+---------------+-------------+
+|    B    |    Battery    |	${PROMPT_BATTERY}	|
+|    D    |  Date & Time  |	${PROMPT_DATE_TIME}	|
+|    I    |   IP address  |	${PROMPT_IP_ADDR}	|
+|    W    |  Working Dir  |	${PROMPT_WRK_DIR}	|
+|    G    | Git Repo Name |	${PROMPT_GIT_REPO}	|
+|    P    | Git Push/Pull |	${PROMPT_GIT_REMOTE}	|
+|    R    |  Git Branch   |	${PROMPT_GIT_BRANCH}	|
+|    C    |   Caps Lock	  |	${PROMPT_CAPS_LOCK}	|
+|    S    |  SSH Ending	  |	${PROMPT_SSH_ENDING}	|
+|    Q    |  Quit_Editor  |	-	|
++---------+---------------+-------------+
+	" | grep -C 100 -e '0' -e ' ' 2>/dev/null
 }
 
 print_command_line_demo() {
 	printf "\n"
 
-	echo "${PS1}" | sed 's#\\\[##g; s#\\\]##g; s/`\\033/printf "\\033/; s/192m`/192m"/; s/00m`/00m"/; /``/d; s#1m`#1m"\n#; s/`:/\nprintf "/; s/m`/m"/' | tail +2 | head -n -1 | bash | tr -d '\n'
+	echo "${PS1}" | sed 's#\\\[##g; s#\\\]##g; s/`\\033/printf "\\033/; s/192m`/192m"/; s/00m`/00m"/; /``/d; s#1m`#1m"\n#; s/`:/\nprintf "/; s/m`/m"/g; s/m"/m"\n/' | tail +2 | head -n -1 | bash 2>/dev/null | tr -d '\n'
 
-	printf "\n"
+	printf "\e[0m\n"
 }
 
 CHOICE='a'
