@@ -61,7 +61,7 @@ GIT_NEW_FILE_SYMBOL="+"
 GIT_EDIT_FILE_SYMBOL="*"
 if [ $PROMPT_GIT_BRANCH -eq 1 ] && git rev-parse --git-dir &>/dev/null
 then
-	if echo "$PWD" | grep -q ".git"
+	if echo "$PWD" | grep -q "/.git"
 	then
 		printf " \[\033[1;38;5;4m\]"
 	else
