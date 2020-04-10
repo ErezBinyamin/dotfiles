@@ -59,11 +59,12 @@ fi
 export __prompt_git_color='`
 GIT_NEW_FILE_SYMBOL="+"
 GIT_EDIT_FILE_SYMBOL="*"
+GIT_DIR_SYMBOL="@"
 if [ $PROMPT_GIT_BRANCH -eq 1 ] && git rev-parse --git-dir &>/dev/null
 then
 	if echo "$PWD" | grep -q "/.git"
 	then
-		printf " \[\033[1;38;5;4m\]"
+		printf " \[\033[1;38;5;4m\]${GIT_DIR_SYMBOL}"
 	else
 		printf " \[\033[1;38;5;2m\]"
 		git diff-index --quiet --cached HEAD -- 2>/dev/null || printf "\[\033[1;38;5;3m\]"
