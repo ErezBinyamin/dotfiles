@@ -81,3 +81,4 @@ do
 			;;
 	esac
 done
+clear
