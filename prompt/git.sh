@@ -7,7 +7,8 @@
 if [ $PROMPT_SLOW_NETWORK -eq 0 ]
 then
 	export __prompt_git_pull='`
-	GIT_PULL_SYMBOL="↓"
+	#GIT_PULL_SYMBOL="↓"
+	GIT_PULL_SYMBOL="v"
 	if [ $PROMPT_GIT_REMOTE -eq 1 ] && git rev-parse --git-dir &>/dev/null && [ $(git pull --dry-run 2>&1 | wc -l) -gt 1 ]
 	then
 		printf "\[\033[00m\]\[\033[1;5;96m\] ${GIT_PULL_SYMBOL}\[\033[00m\]"
@@ -20,7 +21,8 @@ fi
 # GIT PUSH
 #       Determine if a git push command is needed
 export __prompt_git_push='`
-GIT_PUSH_SYMBOL="↑"
+#GIT_PUSH_SYMBOL="↑"
+GIT_PUSH_SYMBOL="^"
 if [ $PROMPT_GIT_REMOTE -eq 1 ] && git rev-parse --git-dir &>/dev/null
 then
 	git status 2>/dev/null | grep -q "git push" && printf "\[\033[00m\]\[\033[1;5;96m\]${GIT_PUSH_SYMBOL}\[\033[00m\]"
