@@ -32,6 +32,14 @@ Both ascii and emoji branches are shown below. To learn about more capabilities 
 erez
 ```
 
+## Toggle command line features
+Turn on and off command line functionality via an text interactive interface.  
+```bash
+prompt
+```
+
+![](img/prompt.gif)
+
 ## Git command line
 Autodetect git repository. Show repo name (in unique random color) and current branch name/status.
 
