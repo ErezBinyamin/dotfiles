@@ -18,15 +18,16 @@ print_menu() {
 +---------+---------------+-------------+
 | COMMAND |    EFFECT	  |   STATUS	|
 +---------+---------------+-------------+
-|    B    |    Battery    |	${PROMPT_BATTERY}	|
+|    L    |   Bat Life    |	${PROMPT_BATTERY}	|
 |    D    |  Date & Time  |	${PROMPT_DATE_TIME}	|
 |    I    |   IP address  |	${PROMPT_IP_ADDR}	|
 |    W    |  Working Dir  |	${PROMPT_WRK_DIR}	|
-|    G    | Git Repo Name |	${PROMPT_GIT_REPO}	|
+|    N    | Git Repo Name |	${PROMPT_GIT_REPO}	|
+|    S    |  Git Symbols  |	${PROMPT_GIT_SYMBOLS}	|
+|    B    |  Git Branch   |	${PROMPT_GIT_BRANCH}	|
 |    P    | Git Push/Pull |	${PROMPT_GIT_REMOTE}	|
-|    R    |  Git Branch   |	${PROMPT_GIT_BRANCH}	|
+|    H    |  SSH Ending	  |	${PROMPT_SSH_ENDING}	|
 |    C    |   Caps Lock	  |	${PROMPT_CAPS_LOCK}	|
-|    S    |  SSH Ending	  |	${PROMPT_SSH_ENDING}	|
 |    Q    |  Quit_Editor  |	-	|
 +---------+---------------+-------------+
 	" | grep -C 100 -e '0' -e ' ' 2>/dev/null
@@ -49,7 +50,7 @@ do
 	printf "\n\tCOMMAND> "
 	read CHOICE
 	case "${CHOICE^^}" in
-		"B")
+		"L")
 			PROMPT_BATTERY=$(( (${PROMPT_BATTERY} + 1) % 2))
 			;;
 		"D")
@@ -61,20 +62,23 @@ do
 		"W")
 			PROMPT_WRK_DIR=$(( (${PROMPT_WRK_DIR} + 1) % 2))
 			;;
-		"G")
+		"N")
 			PROMPT_GIT_REPO=$(( (${PROMPT_GIT_REPO} + 1) % 2))
+			;;
+		"S")
+			PROMPT_GIT_SYMBOLS=$(( (${PROMPT_GIT_SYMBOLS} + 1) % 2))
+			;;
+		"B")
+			PROMPT_GIT_BRANCH=$(( (${PROMPT_GIT_BRANCH} + 1) % 2))
 			;;
 		"P")
 			PROMPT_GIT_REMOTE=$(( (${PROMPT_GIT_REMOTE} + 1) % 2))
 			;;
-		"R")
-			PROMPT_GIT_BRANCH=$(( (${PROMPT_GIT_BRANCH} + 1) % 2))
+		"H")
+			PROMPT_SSH_ENDING=$(( (${PROMPT_SSH_ENDING} + 1) % 2))
 			;;
 		"C")
 			PROMPT_CAPS_LOCK=$(( (${PROMPT_CAPS_LOCK} + 1) % 2))
-			;;
-		"S")
-			PROMPT_SSH_ENDING=$(( (${PROMPT_SSH_ENDING} + 1) % 2))
 			;;
 		"*")
 			echo "Invalid command"

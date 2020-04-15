@@ -13,6 +13,7 @@ export PROMPT_WRK_DIR=1		# Current working dir
 export PROMPT_GIT_REPO=1	# Git Repo name
 export PROMPT_GIT_REMOTE=1	# Git Push/Pull status
 export PROMPT_GIT_BRANCH=1	# Git branch name / commit status
+export PROMPT_GIT_SYMBOLS=1	# Git branch status symbols
 export PROMPT_CAPS_LOCK=1	# Caps lock awareness symbol
 export PROMPT_SSH_ENDING=1	# SSH awareness symbol
 #--##############################

@@ -39,7 +39,7 @@ if [ $PROMPT_GIT_REPO -eq 1 ] && git rev-parse --git-dir &>/dev/null
 then
 	REPO_NAME="$(echo $(git config --get remote.origin.url || git rev-parse --absolute-git-dir) | sed 's/\.git//g' | xargs basename)"
 	REPO_COLOR="$(( $(echo ${REPO_NAME} | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))"
-	REPO_INV_COLOR="$(( 255 - ${REPO_COLOR} % 255 ))"
+	REPO_INV_COLOR="$(( 255 - ${REPO_COLOR} ))"
 
 	printf "\[\033[00m\] "
 	printf "\[\033[1;38;5;${REPO_INV_COLOR}m\]"
@@ -59,11 +59,15 @@ fi
 #       Yellow: Ready to commit
 #       Red   : Unstaged changes
 export __prompt_git_color='`
-GIT_NEW_FILE_SYMBOL="+"
-GIT_EDIT_FILE_SYMBOL="*"
-GIT_DIR_SYMBOL="@"
 if [ $PROMPT_GIT_BRANCH -eq 1 ] && git rev-parse --git-dir &>/dev/null
 then
+	if [ $PROMPT_GIT_SYMBOLS -eq 1 ]
+	then
+		GIT_NEW_FILE_SYMBOL="+"
+		GIT_REM_FILE_SYMBOL="-"
+		GIT_EDIT_FILE_SYMBOL="*"
+		GIT_DIR_SYMBOL="@"
+	fi
 	if echo "$PWD" | grep -q "/.git"
 	then
 		printf " \[\033[1;38;5;4m\]${GIT_DIR_SYMBOL}"
@@ -71,7 +75,8 @@ then
 		printf " \[\033[1;38;5;2m\]"
 		git diff-index --quiet --cached HEAD -- 2>/dev/null || printf "\[\033[1;38;5;3m\]"
 		git diff --quiet 2>/dev/null || printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
-		git status -s | grep -q -m 1 '??' && printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
+		git status -s | cut -d" " -f1 | grep -q -m 1 '??' && printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
+		git status -s | cut -d" " -f2 | grep -q -m 1 'D'  && printf "\[\033[1;38;5;1m\]${GIT_REM_FILE_SYMBOL}"
 	fi
 fi
 `'
