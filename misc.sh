@@ -101,7 +101,6 @@ alias erez="printf '
 	CLEAR		-	big boy clear
 	cheat		-	room of requirement for the command line
 	define		-	define a word
-	dockerTool	-	dockerTool -h for info
 	erez		-	This help menu
 	hgrep		-	history | grep <ARG>
 	inv_img		-	invert an image
