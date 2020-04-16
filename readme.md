@@ -61,4 +61,4 @@ Prompt is either a shell or a secure shell
 * [ ] Allow configuration of commands (eg ```${BROWSER}``` instead of using ```firefox```) 
 * [ ] Installer script with dependencies
 * [ ] Automatically shorten prompt based upon ```tput cols```  
-* [ ] Maintain _ascii_ branch somehow
+* [ ] Maintain _emoji_ branch somehow
