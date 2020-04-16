@@ -58,7 +58,10 @@ Prompt is either a shell or a secure shell
 ![Git Command line](img/ascii/ssh.png)
 
 # TODO
-* [ ] Allow configuration of commands (eg ```${BROWSER}``` instead of using ```firefox```) 
+* [ ] change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
 * [ ] Installer script with dependencies
+* [ ] Allow configuration of prompt symbols in global config file (outside of [prompt](prompt/) dir)
+* [ ] Allow configuration of commands (eg ```${BROWSER}``` instead of using ```firefox```) 
+* [ ] Do not store information in enviroment variables. Use some other method.
 * [ ] Automatically shorten prompt based upon ```tput cols```  
 * [ ] Maintain _emoji_ branch somehow
