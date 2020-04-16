@@ -36,7 +36,7 @@ erez
 ```bash
 prompt
 ```
-![](img/ascii/prompt.gif)
+![Prompt Editor](img/ascii/prompt.gif)
 
 ## Git command line
 Autodetect git repository. Show repo name (in unique random color) and current branch name/status.
@@ -47,5 +47,5 @@ Battery life that goes from Green -> yellow -> orange -> red -> blinking red
 ![Git Command line](img/ascii/battery.png)
 
 ## SSH awareness
-Prompt is either a shell or a secure shell
+Prompt is either a shell or a secure shell  
 ![Git Command line](img/ascii/ssh.png)
