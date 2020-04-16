@@ -34,10 +34,27 @@ print_menu() {
 }
 
 print_command_line_demo() {
+	RST="\033[00m"
 	printf "\n"
-
-	echo "${PS1}" | sed 's#\\\[##g; s#\\\]##g; s/`\\033/printf "\\033/; s/192m`/192m"/; s/00m`/00m"/; /``/d; s#1m`#1m"\n#; s/`:/\nprintf "/; s/m`/m"/g; s/m"/m"\n/' | tail +2 | head -n -1 | bash 2>/dev/null | tr -d '\n'
-
+	echo "$__prompt_bat_life"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	printf "${RST}${__prompt_COLOR_1}" | sed 's#\\\[##g; s#\\\]##g'
+	echo "$__prompt_date_time"         | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	printf "${RST}${__prompt_COLOR_2}" | sed 's#\\\[##g; s#\\\]##g'
+	printf "${USER}"
+	printf "${RST}${__prompt_COLOR_3}" | sed 's#\\\[##g; s#\\\]##g'
+	echo "$__prompt_ip_addr"           | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	printf "${RST}${__prompt_COLOR_4}" | sed 's#\\\[##g; s#\\\]##g'
+	echo "$__prompt_wrk_dir"           | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	echo "$__prompt_git_repo"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	echo "$__prompt_git_color"         | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	echo "$__prompt_git_branch"        | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash | tr -d '\n'
+	printf "${RST}"
+	echo "$__prompt_git_push"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	echo "$__prompt_git_pull"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	printf "${RST}"
+	echo "$__prompt_caps_lock"         | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
+	printf "${RST}"
+	echo "$__prompt_ending"            | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
 	printf "\e[0m\n"
 }
 
