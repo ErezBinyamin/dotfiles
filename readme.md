@@ -56,3 +56,9 @@ Battery life that goes from Green -> yellow -> orange -> red -> blinking red
 ## SSH awareness
 Prompt is either a shell or a secure shell  
 ![Git Command line](img/ascii/ssh.png)
+
+# TODO
+* [ ] Allow configuration of commands (eg ```${BROWSER}``` instead of using ```firefox```) 
+* [ ] Installer script with dependencies
+* [ ] Automatically shorten prompt based upon ```tput cols```  
+* [ ] Maintain _ascii_ branch somehow
