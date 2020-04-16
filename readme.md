@@ -36,11 +36,18 @@ erez
 ```bash
 prompt
 ```
+Default feature options are set in this [config file](prompt/config.sh)
 ![Prompt Editor](img/ascii/prompt.gif)
 
 ## Git command line
 Autodetect git repository. Show repo name (in unique random color) and current branch name/status.
 ![Git Command line](img/ascii/git.gif)
+#### Git status symbols
+> ```-``` removed a file  
+> ```+``` added   a file  
+> ```*``` edited  a file  
+> ```^``` need to push  
+> ```@``` in .git directory  
 
 ## Battery life
 Battery life that goes from Green -> yellow -> orange -> red -> blinking red
