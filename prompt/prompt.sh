@@ -10,7 +10,7 @@ do
 done
 
 # CAPS LOCK notification symbol
-__prompt_caps_lock='`
+export __prompt_caps_lock='`
 PROMPT_CAPS_LOCK_SYMBOL="©"
 if [ ${PROMPT_CAPS_LOCK} -eq 1 ]
 then
@@ -25,7 +25,7 @@ fi
 #	ssh  = §
 #	root = #
 #	else = $
-__prompt_ending='`
+export __prompt_ending='`
 PROMPT_SSH_SYMBOL="§"
 if [ ${PROMPT_SSH_ENDING} -eq 1 ]
 then
@@ -55,9 +55,9 @@ then
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_1}${__prompt_date_time}"		# Date and time
 	PS1+="${RST}"
-	PS1+="${__prompt_COLOR_2}${USER}@"			# Username '@'
+	PS1+="${__prompt_COLOR_2}${USER}"			# Username
 	PS1+="${RST}"
-	PS1+="${__prompt_COLOR_3}${__prompt_ip_addr}:"		# IP address ':'
+	PS1+="${__prompt_COLOR_3}${__prompt_ip_addr}"		# IP address
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_4}${__prompt_wrk_dir}"		# Working directory
 	PS1+="${RST}"
@@ -69,6 +69,6 @@ then
 	PS1+="${RST}"
 	PS1+="${__prompt_caps_lock}"				# Caps lock notification
 	PS1+="${RST}"
-	PS1+="${__prompt_ending}"				# End with: '$|§' and a space
+	PS1+="${__prompt_ending}"				# End with: "${__prompt_ending}"
 	PS1+="${RST}"
 fi
