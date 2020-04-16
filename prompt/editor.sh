@@ -15,19 +15,16 @@
 
 print_menu() {
 	printf "
++---------+---------------+-------------+	+---------+---------------+-------------+	+---------+---------------+-------------+
+| COMMAND |    EFFECT	  |   STATUS	|	| COMMAND |    EFFECT	  |   STATUS	|	| COMMAND |    EFFECT     |   STATUS    |
++---------+---------------+-------------+	+---------+---------------+-------------+	+---------+---------------+-------------+
+|    L    |   Bat Life    |	${PROMPT_BATTERY}	|	|    N    | Git Repo Name |	${PROMPT_GIT_REPO}	|	|    H    |  SSH Ending	  |	${PROMPT_SSH_ENDING}	|
+|    D    |  Date & Time  |	${PROMPT_DATE_TIME}	|	|    S    |  Git Symbols  |	${PROMPT_GIT_SYMBOLS}	|	|    C    |   Caps Lock	  |	${PROMPT_CAPS_LOCK}	|
+|    I    |   IP address  |	${PROMPT_IP_ADDR}	|	|    B    |  Git Branch   |	${PROMPT_GIT_BRANCH}	|	|	  |		  |		|
+|    W    |  Working Dir  |	${PROMPT_WRK_DIR}	|	|    P    | Git Push/Pull |	${PROMPT_GIT_REMOTE}	|	|	  |		  |		|
++---------+---------------+-------------+	+---------+---------------+-------------+	+---------+---------------+-------------+
+
 +---------+---------------+-------------+
-| COMMAND |    EFFECT	  |   STATUS	|
-+---------+---------------+-------------+
-|    L    |   Bat Life    |	${PROMPT_BATTERY}	|
-|    D    |  Date & Time  |	${PROMPT_DATE_TIME}	|
-|    I    |   IP address  |	${PROMPT_IP_ADDR}	|
-|    W    |  Working Dir  |	${PROMPT_WRK_DIR}	|
-|    N    | Git Repo Name |	${PROMPT_GIT_REPO}	|
-|    S    |  Git Symbols  |	${PROMPT_GIT_SYMBOLS}	|
-|    B    |  Git Branch   |	${PROMPT_GIT_BRANCH}	|
-|    P    | Git Push/Pull |	${PROMPT_GIT_REMOTE}	|
-|    H    |  SSH Ending	  |	${PROMPT_SSH_ENDING}	|
-|    C    |   Caps Lock	  |	${PROMPT_CAPS_LOCK}	|
 |    Q    |  Quit_Editor  |	-	|
 +---------+---------------+-------------+
 	" | grep -C 100 -e '0' -e ' ' 2>/dev/null
