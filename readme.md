@@ -58,7 +58,8 @@ Prompt is either a shell or a secure shell
 ![Git Command line](img/ascii/ssh.png)
 
 # TODO
-* [ ] change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
+* [ ] Change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
+* [ ] Create single script that when sourced delivers enviroment. (No for loop in ```.bashrc```)
 * [ ] Installer script with dependencies
 * [ ] Allow configuration of prompt symbols in global config file (outside of [prompt](prompt/) dir)
 * [ ] Allow configuration of commands (eg ```${BROWSER}``` instead of using ```firefox```) 

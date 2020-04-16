@@ -9,7 +9,6 @@ alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
-alias irc='weechat'
 alias prompt="source ${HOME}/Bash_init/prompt/editor.sh"
 
 # Aggressive clear
