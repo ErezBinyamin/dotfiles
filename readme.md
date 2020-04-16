@@ -27,17 +27,15 @@ source /home/$USER/.bashrc
 ```
 
 # Example features
-Both ascii and emoji branches are shown below. To learn about more capabilities of this fun repo, use the command:
+To learn about more capabilities of this fun repo, use the command:
 ```
 erez
 ```
 
 ## Toggle command line features
-Turn on and off command line functionality via an text interactive interface.  
 ```bash
 prompt
 ```
-
 ![](img/ascii/prompt.gif)
 
 ## Git command line
@@ -46,10 +44,8 @@ Autodetect git repository. Show repo name (in unique random color) and current b
 
 ## Battery life
 Battery life that goes from Green -> yellow -> orange -> red -> blinking red
-
 ![Git Command line](img/ascii/battery.png)
 
 ## SSH awareness
-Prompt is either a shell or a secure shell :)
-
+Prompt is either a shell or a secure shell
 ![Git Command line](img/ascii/ssh.png)
