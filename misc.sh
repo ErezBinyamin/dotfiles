@@ -52,18 +52,6 @@ swb() {
 	bashrc
 }
 
-# Vulnerability browser
-vbrowse() {
-	if net_check
-	then
-		/usr/bin/curl -# 'cve.circl.lu/api/browse/'"$(echo $@ | tr ' ' '/')"
-	else
-		echo "ERROR: No network connectivity"
-		return 1
-	fi
-	return 0
-}
-
 # Travel up some number of directories
 up() {
 	local HEIGHT=''
@@ -80,21 +68,6 @@ ls_tree(){
 	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 }
 
-inv_img() {
-	if [ -z ${1+x} ]
-	then
-		echo "USAGE: inv_img <input.png>"
-		echo "OR"
-		echo "USAGE: inv_img <input.png> <output.png>"
-		return 1
-	fi
-
-	INPUT="$1"
-	[ -z ${2+x} ] && OUTPUT=inverted.png || OUTPUT="$2"
-
-	convert ${INPUT} -channel RGB -negate "${OUTPUT}"
-}
-
 alias erez="printf '
 	bashrc		-	reload bashrc
 	CLEAR		-	big boy clear
@@ -102,7 +75,6 @@ alias erez="printf '
 	define		-	define a word
 	erez		-	This help menu
 	hgrep		-	history | grep <ARG>
-	inv_img		-	invert an image
 	LS		-	big boy ls = tree
 	ls_tree		-	ls implementation of tree
 	local_ip	-	ya
