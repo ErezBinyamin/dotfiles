@@ -79,7 +79,7 @@ alias erez="printf '
 	ls_tree		-	ls implementation of tree
 	local_ip	-	ya
 	map		-	interactive ascii map
-	prompt		-	interactive PS1 prompt editor
+	PS1		-	interactive PS1 prompt editor
 	public_ip	-	ya
 	rez_git		-	list of git aliases/tools
 	share		-	quick share a file
