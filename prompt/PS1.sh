@@ -30,31 +30,11 @@ print_menu() {
 	" | grep -C 100 -e '0' -e ' ' 2>/dev/null
 }
 
+# FROM: cheat bash/ print PS1
+# sed script removes escape codes ^A and ^B
 print_command_line_demo() {
-	RST="\033[00m"
-	printf "\n"
-	echo "$__prompt_bat_life"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	printf "${RST}${__prompt_COLOR_1}" | sed 's#\\\[##g; s#\\\]##g'
-	echo "$__prompt_date_time"         | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	printf "${RST}${__prompt_COLOR_2}" | sed 's#\\\[##g; s#\\\]##g'
-	printf "${USER}"
-	printf "${RST}${__prompt_COLOR_3}" | sed 's#\\\[##g; s#\\\]##g'
-	echo "$__prompt_ip_addr"           | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	printf "${RST}${__prompt_COLOR_4}" | sed 's#\\\[##g; s#\\\]##g'
-	echo "$__prompt_wrk_dir"           | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	echo "$__prompt_git_repo"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	echo "$__prompt_git_color"         | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	echo "$__prompt_git_branch"        | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash | tr -d '\n'
-	printf "${RST}"
-	echo "$__prompt_git_push"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	echo "$__prompt_git_pull"          | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	printf "${RST}"
-	echo "$__prompt_caps_lock"         | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	printf "${RST}"
-	echo "$__prompt_ending"            | sed 's/`//g; s#\\\[##g; s#\\\]##g' | bash
-	printf "\e[0m\n"
+	echo "${PS1@P}" | sed "s#\x1##g; s#\x2##g;"
 }
-
 CHOICE='a'
 while [[ ! ${CHOICE^^} == 'Q' ]]
 do
