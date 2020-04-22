@@ -34,7 +34,7 @@ erez
 
 ## Toggle command line features
 ```bash
-prompt
+PS1
 ```
 Default feature options are set in this [config file](prompt/config.sh)
 ![Prompt Editor](img/ascii/prompt.gif)
@@ -58,7 +58,9 @@ Prompt is either a shell or a secure shell
 ![Git Command line](img/ascii/ssh.png)
 
 # TODO
-* [ ] Change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
+* [ ] Update gifs
+* [X] Change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
+* [ ] Auto resizing PS1 script based upon ```tput cols```
 * [ ] Create single script that when sourced delivers enviroment. (No for loop in ```.bashrc```)
 * [ ] Installer script with dependencies
 * [ ] Allow configuration of prompt symbols in global config file (outside of [prompt](prompt/) dir)
