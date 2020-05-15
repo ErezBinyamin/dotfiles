@@ -15,8 +15,8 @@
 
 print_commands() {
 	local RST="\e[0m"
-	local ON="\e[1;7;36m"
-	local OFF="\e[1;7;33m"
+	local ON="\e[7;36m"
+	local OFF="\e[7;33m"
 	local B D I W G P S R E C
 	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}B${RST}" || B="${OFF}B${RST}"
 	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}D${RST}" || D="${OFF}D${RST}"
@@ -29,7 +29,6 @@ print_commands() {
 	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}C${RST}" || C="${OFF}C${RST}"
 	[ $PROMPT_SSH_ENDING -eq 1 ]  && E="${ON}E${RST}" || E="${OFF}E${RST}"
 	printf "COMMANDS  :     $B         $D              $I         $W       $G     $P   $S    $R      $C    $E\n"
-	#printf "                |         |              |         |       |     |   |    |      |    |\n"
 }
 
 print_components() {
@@ -37,19 +36,17 @@ print_components() {
 	local ON="\e[38;5;10m"
 	local OFF="\e[38;5;9m"
 	local B D U I W G P S R E C
-
-	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}[ BAT ]${RST}" || B="${OFF}[ BAT ]${RST}"
+	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}[ BAT ]${RST}"      || B="${OFF}[ BAT ]${RST}"
 	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}[DATE  TIME]${RST}" || D="${OFF}[DATE  TIME]${RST}"
-	[ $PROMPT_IP_ADDR -eq 1 ]     && I="${ON}:IP.A.DD.R${RST}" || I="${OFF}:IP.A.DD.R${RST}"
-	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}:/wrk/dir${RST}" || W="${OFF}:/wrk/dir${RST}"
-	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON} | Repo | ${RST}" || G="${OFF} | Repo | ${RST}"
-	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}v^ ${RST}" || P="${OFF}v^ ${RST}"
-	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}@*+${RST}" || S="${OFF}@*+${RST}"
-	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON} branch ${RST}" || R="${OFF} branch ${RST}"
-	[ $PROMPT_SSH_ENDING -eq 1 ]  && E="${ON} \$§H ${RST}" || E="${OFF} \$§H ${RST}"
-	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}©CAP©${RST}" || C="${OFF}©CAP©${RST}"
 	U=$(printf "${__prompt_COLOR_2@P}user\e[0m" | sed "s#\x1##g; s#\x2##g;")
-
+	[ $PROMPT_IP_ADDR -eq 1 ]     && I="${ON}:IP.A.DD.R${RST}"   || I="${OFF}:IP.A.DD.R${RST}"
+	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}:/wrk/dir${RST}"    || W="${OFF}:/wrk/dir${RST}"
+	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON} | Repo | ${RST}"   || G="${OFF} | Repo | ${RST}"
+	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}v^ ${RST}"          || P="${OFF}v^ ${RST}"
+	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}@*+${RST}"          || S="${OFF}@*+${RST}"
+	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON} branch ${RST}"     || R="${OFF} branch ${RST}"
+	[ $PROMPT_SSH_ENDING -eq 1 ]  && E="${ON} \$§H ${RST}"       || E="${OFF} \$§H ${RST}"
+	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}©CAP©${RST}"        || C="${OFF}©CAP©${RST}"
 	printf "COMPONENTS:  $B$D$U$I$W$G$P$S$R$C$E\n\n"
 }
 
