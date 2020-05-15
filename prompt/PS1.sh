@@ -14,26 +14,61 @@
 #--##############################
 
 print_menu() {
-	printf "
-+---------+---------------+-------------+	+---------+---------------+-------------+	+---------+---------------+-------------+
-| COMMAND |    EFFECT	  |   STATUS	|	| COMMAND |    EFFECT	  |   STATUS	|	| COMMAND |    EFFECT     |   STATUS    |
-+---------+---------------+-------------+	+---------+---------------+-------------+	+---------+---------------+-------------+
-|    L    |   Bat Life    |	${PROMPT_BATTERY}	|	|    N    | Git Repo Name |	${PROMPT_GIT_REPO}	|	|    H    |  SSH Ending	  |	${PROMPT_SSH_ENDING}	|
-|    D    |  Date & Time  |	${PROMPT_DATE_TIME}	|	|    S    |  Git Symbols  |	${PROMPT_GIT_SYMBOLS}	|	|    C    |   Caps Lock	  |	${PROMPT_CAPS_LOCK}	|
-|    I    |   IP address  |	${PROMPT_IP_ADDR}	|	|    B    |  Git Branch   |	${PROMPT_GIT_BRANCH}	|	|	  |		  |		|
-|    W    |  Working Dir  |	${PROMPT_WRK_DIR}	|	|    P    | Git Push/Pull |	${PROMPT_GIT_REMOTE}	|	|	  |		  |		|
-+---------+---------------+-------------+	+---------+---------------+-------------+	+---------+---------------+-------------+
+	[ $PROMPT_BATTERY -eq 0 ] && printf "\e[2m[  b" || printf "\e[38;5;11m[  b"
+	printf "\e[0m\e[1;7;36mA\e[0m"
+	[ $PROMPT_BATTERY -eq 0 ] && printf "\e[2mt  ]" || printf "\e[38;5;11mt  ]"
+	printf "\e[0m"
 
-+---------+---------------+-------------+
-|    Q    |  Quit_Editor  |	-	|
-+---------+---------------+-------------+
-	" | grep -C 100 -e '0' -e ' ' 2>/dev/null
+	[ $PROMPT_DATE_TIME -eq 0 ] && printf "\e[2m[date    " || printf "${__prompt_COLOR_1@P}[date    " | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m\e[1;7;36mD\e[0m"
+	[ $PROMPT_DATE_TIME -eq 0 ] && printf "\e[2m    time]" || printf "${__prompt_COLOR_1@P}    time]" | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m"
+
+	printf "${__prompt_COLOR_2@P}USER" | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m"
+
+	[ $PROMPT_IP_ADDR -eq 0 ] && printf "\e[2mip.  " || printf "${__prompt_COLOR_3@P}ip.  " | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m\e[1;7;36mI\e[0m"
+	[ $PROMPT_IP_ADDR -eq 0 ] && printf "\e[2m  .addr" || printf "${__prompt_COLOR_3@P}  .addr" | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m"
+
+	[ $PROMPT_WRK_DIR -eq 0 ] && printf "\e[2m/wrk/ " || printf "${__prompt_COLOR_4@P}/wrk/ " | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m\e[1;7;36mW\e[0m"
+	[ $PROMPT_WRK_DIR -eq 0 ] && printf "\e[2m /dir" || printf "${__prompt_COLOR_4@P} /dir" | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m"
+
+	REPO_COLOR=$(( $(echo "  N  " | md5sum | tr -d -c 0-9 | cut -c 1-18 | sed "s/^0*//") % 255 ))
+        REPO_INV_COLOR="$(( 255 - ${REPO_COLOR} ))"
+	if [ $PROMPT_GIT_REPO -eq 0 ]
+	then
+		printf "\e[0m\e[2m | "
+		printf "\e[0m\e[1;7;36mR\e[0m"
+		printf "\e[0m\e[2;4mepo\e[0m\e[2m |"
+	else
+		printf "\e[0m\e[1;38;5;${REPO_INV_COLOR}m | "
+		printf "\e[0m\e[1;7;36mR\e[0m"
+		printf "\e[0m\e[1;4;38;5;${REPO_COLOR}mepo\e[0m\e[1;38;5;${REPO_INV_COLOR}m |"
+	fi
+
+	[ $PROMPT_GIT_REMOTE -eq 0 ] && printf "\e[2m"
+	printf "\e[0m"
+
+	printf "\e[0m \e[1;7;36mB\e[0m"
+	[ $PROMPT_GIT_BRANCH -eq 0 ] && printf "\e[2mranch" || printf "\e[32mranch" | sed "s#\x1##g; s#\x2##g;"
+	printf "\e[0m"
+
+	[ $PROMPT_CAPS_LOCK  -eq 0 ] && printf "\e[2m"
+	printf "\e[0m"
+	[ $PROMPT_SSH_ENDING -eq 0 ] && printf "\e[2m"
+	printf "\e[0m"
+
+	printf "\n\n"
 }
 
 # FROM: cheat bash/ print PS1
 # sed script removes escape codes ^A and ^B
 print_command_line_demo() {
-	echo "${PS1@P}" | sed "s#\x1##g; s#\x2##g;"
+	echo "${PS1@P@P}"  | sed "s#\x1##g; s#\x2##g;"
 }
 CHOICE='a'
 while [[ ! ${CHOICE^^} == 'Q' ]]
@@ -43,8 +78,8 @@ do
 	print_command_line_demo
 	printf "\n\tCOMMAND> "
 	read CHOICE
-	case "${CHOICE^^}" in
-		"L")
+	case "${CHOICE^^}"  in
+		"A")
 			PROMPT_BATTERY=$(( (${PROMPT_BATTERY} + 1) % 2))
 			;;
 		"D")
@@ -56,7 +91,7 @@ do
 		"W")
 			PROMPT_WRK_DIR=$(( (${PROMPT_WRK_DIR} + 1) % 2))
 			;;
-		"N")
+		"R")
 			PROMPT_GIT_REPO=$(( (${PROMPT_GIT_REPO} + 1) % 2))
 			;;
 		"S")
