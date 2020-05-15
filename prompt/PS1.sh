@@ -13,28 +13,31 @@
 #     PROMPT_SSH_ENDING		# SSH awareness symbol
 #--##############################
 
-print_menu() {
+print_commands() {
 	# B D I W G P S R E C
 	printf "COMMANDS  :  "
-	printf "     \e[0m\e[1;7;36mB\e[0m     "
-	printf "        \e[0m\e[1;7;36mD\e[0m        "
-	printf "     "
-	printf "      \e[0m\e[1;7;36mI\e[0m      "
-	printf "      \e[0m\e[1;7;36mW\e[0m      "
-	printf "   \e[0m\e[1;7;36mG\e[0m    "
-	printf " \e[0m\e[1;7;36mP\e[0m  "
-	printf " \e[0m\e[1;7;36mS\e[0m "
-	printf "  \e[0m\e[1;7;36mR\e[0m   "
-	printf "   \e[0m\e[1;7;36mC\e[0m   "
-	printf " \e[0m\e[1;7;36mE\e[0m"
-	printf "\n"
 
+	[ $PROMPT_BATTERY -eq 1 ]     && printf "     \e[0m\e[1;7;36mB\e[0m     "       || printf "     \e[0m\e[1;7;33mB\e[0m     " 
+	[ $PROMPT_DATE_TIME -eq 1 ]   && printf "        \e[0m\e[1;7;36mD\e[0m        " || printf "        \e[0m\e[1;7;33mD\e[0m        "
+	printf "     "
+	[ $PROMPT_IP_ADDR -eq 1 ]     && printf "      \e[0m\e[1;7;36mI\e[0m      "     || printf "      \e[0m\e[1;7;33mI\e[0m      "
+	[ $PROMPT_WRK_DIR -eq 1 ]     && printf "      \e[0m\e[1;7;36mW\e[0m      "     || printf "      \e[0m\e[1;7;33mW\e[0m      "
+	[ $PROMPT_GIT_REPO -eq 1 ]    && printf "   \e[0m\e[1;7;36mG\e[0m    "          || printf "   \e[0m\e[1;7;33mG\e[0m    "
+	[ $PROMPT_GIT_REMOTE -eq 1 ]  && printf " \e[0m\e[1;7;36mP\e[0m  "              || printf " \e[0m\e[1;7;33mP\e[0m  "
+	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && printf " \e[0m\e[1;7;36mS\e[0m "               || printf " \e[0m\e[1;7;33mS\e[0m "
+	[ $PROMPT_GIT_BRANCH -eq 1 ]  && printf "  \e[0m\e[1;7;36mR\e[0m   "            || printf "  \e[0m\e[1;7;33mR\e[0m   "
+	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && printf "   \e[0m\e[1;7;36mC\e[0m   "           || printf "   \e[0m\e[1;7;33mC\e[0m   "
+	[ $PROMPT_SSH_ENDING -eq 1 ]  && printf " \e[0m\e[1;7;36mE\e[0m"                || printf " \e[0m\e[1;7;33mE\e[0m"
+	printf "\n"
+}
+
+print_components() {
 	printf "COMPONENTS:  "
 	[ $PROMPT_BATTERY -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
 	printf "[ BATTERY ]\e[0m"
 
 	[ $PROMPT_DATE_TIME -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "[ DATE     TIME ]\e[0m"
+	printf "[ DATE    TIME ]\e[0m"
 
 	printf "${__prompt_COLOR_2@P}user\e[0m" | sed "s#\x1##g; s#\x2##g;"
 
@@ -69,16 +72,17 @@ print_menu() {
 
 # FROM: cheat bash/ print PS1
 # sed script removes escape codes ^A and ^B
-print_command_line_demo() {
-	echo "PREVIEW:"
+print_preview() {
+	printf "PREVIEW   :  "
 	echo "${PS1@P@P}"  | sed "s#\x1##g; s#\x2##g;"
 }
 CHOICE='a'
 while [[ ! ${CHOICE^^} == 'Q' ]]
 do
 	clear
-	print_menu
-	print_command_line_demo
+	print_commands
+	print_components
+	print_preview
 	printf "\n\tCOMMAND> "
 	read CHOICE
 	case "${CHOICE^^}"  in
