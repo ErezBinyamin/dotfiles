@@ -14,55 +14,21 @@
 #--##############################
 
 print_commands() {
-	local N="\e[0m"
-	local Y="\e[1;7;36m"
-	local N="\e[1;7;33m"
+	local RST="\e[0m"
+	local ON="\e[1;7;36m"
+	local OFF="\e[1;7;33m"
 	# B D I W G P S R E C
-	printf "COMMANDS  :  "
-
-	printf "\e[0m   "
-	[ $PROMPT_BATTERY -eq 1 ]     && printf "\e[1;7;36mB" || printf "\e[1;7;33mB"
-	printf "\e[0m   "
-
-	printf "\e[0m      "
-	[ $PROMPT_DATE_TIME -eq 1 ]   && printf "\e[1;7;36mD" || printf "\e[1;7;33mD"
-	printf "\e[0m      "
-	printf "     "
-
-	printf "\e[0m   "
-	[ $PROMPT_IP_ADDR -eq 1 ]     && printf "\e[1;7;36mI" || printf "\e[1;7;33mI"
-	printf "\e[0m   "
-
-	printf "\e[0m      "
-	[ $PROMPT_WRK_DIR -eq 1 ]     && printf "\e[1;7;36mW" || printf "\e[1;7;33mW"
-	printf "\e[0m      "
-
-	printf "\e[0m "
-	[ $PROMPT_GIT_REPO -eq 1 ]    && printf "\e[1;7;36mG" || printf "\e[1;7;33mG"
-	printf "\e[0m   "
-
-	printf "\e[0m  "
-	[ $PROMPT_GIT_REMOTE -eq 1 ]  && printf "\e[1;7;36mP" || printf "\e[1;7;33mP"
-	printf "\e[0m  "
-
-	printf "\e[0m "
-	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && printf "\e[1;7;36mS" || printf "\e[1;7;33mS"
-	printf "\e[0m "
-
-	printf "\e[0m   "
-	[ $PROMPT_GIT_BRANCH -eq 1 ]  && printf "\e[1;7;36mR" || printf "\e[1;7;33mR"
-	printf "\e[0m   "
-
-	printf "\e[0m   "
-	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && printf "\e[1;7;36mC" || printf "\e[1;7;33mC"
-	printf "\e[0m   "
-
-	printf "\e[0m "
-	[ $PROMPT_SSH_ENDING -eq 1 ]  && printf "\e[1;7;36mE" || printf "\e[1;7;33mE"
-	printf "\e[0m "
-	printf "\n"
-
-	#printf "                B         D              I         W       G     P   S    R      C    E\n"
+	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}B${RST}" || B="${OFF}B${RST}"
+	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}D${RST}" || D="${OFF}D${RST}"
+	[ $PROMPT_IP_ADDR -eq 1 ]     && I="${ON}I${RST}" || I="${OFF}I${RST}"
+	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}W${RST}" || W="${OFF}W${RST}"
+	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON}G${RST}" || G="${OFF}G${RST}"
+	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}P${RST}" || P="${OFF}P${RST}"
+	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}S${RST}" || S="${OFF}S${RST}"
+	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON}R${RST}" || R="${OFF}R${RST}"
+	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}C${RST}" || C="${OFF}C${RST}"
+	[ $PROMPT_SSH_ENDING -eq 1 ]  && E="${ON}E${RST}" || E="${OFF}E${RST}"
+	printf "COMMANDS  :     $B         $D              $I         $W       $G     $P   $S    $R      $C    $E\n"
 	#printf "                |         |              |         |       |     |   |    |      |    |\n"
 }
 
