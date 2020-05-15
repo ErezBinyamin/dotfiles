@@ -14,31 +14,34 @@
 #--##############################
 
 print_commands() {
+	local N="\e[0m"
+	local Y="\e[1;7;36m"
+	local N="\e[1;7;33m"
 	# B D I W G P S R E C
 	printf "COMMANDS  :  "
 
-	printf "\e[0m     "
+	printf "\e[0m   "
 	[ $PROMPT_BATTERY -eq 1 ]     && printf "\e[1;7;36mB" || printf "\e[1;7;33mB"
-	printf "\e[0m     "
+	printf "\e[0m   "
 
-	printf "\e[0m        "
+	printf "\e[0m      "
 	[ $PROMPT_DATE_TIME -eq 1 ]   && printf "\e[1;7;36mD" || printf "\e[1;7;33mD"
-	printf "\e[0m        "
+	printf "\e[0m      "
 	printf "     "
 
-	printf "\e[0m     "
+	printf "\e[0m   "
 	[ $PROMPT_IP_ADDR -eq 1 ]     && printf "\e[1;7;36mI" || printf "\e[1;7;33mI"
-	printf "\e[0m     "
+	printf "\e[0m   "
 
 	printf "\e[0m      "
 	[ $PROMPT_WRK_DIR -eq 1 ]     && printf "\e[1;7;36mW" || printf "\e[1;7;33mW"
 	printf "\e[0m      "
 
-	printf "\e[0m    "
-	[ $PROMPT_GIT_REPO -eq 1 ]    && printf "\e[1;7;36mG" || printf "\e[1;7;33mG"
-	printf "\e[0m    "
-
 	printf "\e[0m "
+	[ $PROMPT_GIT_REPO -eq 1 ]    && printf "\e[1;7;36mG" || printf "\e[1;7;33mG"
+	printf "\e[0m   "
+
+	printf "\e[0m  "
 	[ $PROMPT_GIT_REMOTE -eq 1 ]  && printf "\e[1;7;36mP" || printf "\e[1;7;33mP"
 	printf "\e[0m  "
 
@@ -58,25 +61,28 @@ print_commands() {
 	[ $PROMPT_SSH_ENDING -eq 1 ]  && printf "\e[1;7;36mE" || printf "\e[1;7;33mE"
 	printf "\e[0m "
 	printf "\n"
+
+	#printf "                B         D              I         W       G     P   S    R      C    E\n"
+	#printf "                |         |              |         |       |     |   |    |      |    |\n"
 }
 
 print_components() {
 	printf "COMPONENTS:  "
 	[ $PROMPT_BATTERY -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "[ BATTERY ]\e[0m"
+	printf "[ BAT ]\e[0m"
 
 	[ $PROMPT_DATE_TIME -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "[ DATE    TIME ]\e[0m"
+	printf "[DATE  TIME]\e[0m"
 
 	printf "${__prompt_COLOR_2@P}user\e[0m" | sed "s#\x1##g; s#\x2##g;"
 
 	printf ":"
 	[ $PROMPT_IP_ADDR -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "IP.ADD.RE.SS\e[0m"
+	printf "IP.A.DD.R\e[0m"
 	printf ":"
 
 	[ $PROMPT_WRK_DIR -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "/wrk/ing/dir\e[0m"
+	printf "/wrk/dir\e[0m"
 
 	[ $PROMPT_GIT_REPO -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
 	printf " | Repo | \e[0m"
@@ -91,10 +97,10 @@ print_components() {
 	printf "branch\e[0m"
 
 	[ $PROMPT_CAPS_LOCK  -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf " ©CAPS©\e[0m"
+	printf " ©CAP©\e[0m"
 
 	[ $PROMPT_SSH_ENDING -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf ' $#\e[0m'
+	printf ' $§H\e[0m'
 
 	printf "\n\n"
 }
