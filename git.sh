@@ -23,7 +23,7 @@ alias groh='git fetch origin; git reset --hard origin/master' # Reset really har
 # Remote interaction
 alias gps='git push'
 alias gpl='git pull'
-alias ghome="git config --get remote.origin.url 2>/dev/null && git config --get remote.origin.url | sed 's/\.git//; s/git@//; s#https://##; s#:#/#g' | xargs firefox || echo 'Error: no git remote URL'"
+alias ghome="git config --get remote.origin.url &>/dev/null && git config --get remote.origin.url | sed 's/\.git//; s/git@//; s#https://##; s#:#/#g' | xargs firefox || echo 'Error: no git remote URL'"
 
 # Submodules
 alias gsf='git submodule foreach'
