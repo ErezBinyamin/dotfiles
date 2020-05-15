@@ -17,7 +17,7 @@ print_commands() {
 	local RST="\e[0m"
 	local ON="\e[1;7;36m"
 	local OFF="\e[1;7;33m"
-	# B D I W G P S R E C
+	local B D I W G P S R E C
 	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}B${RST}" || B="${OFF}B${RST}"
 	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}D${RST}" || D="${OFF}D${RST}"
 	[ $PROMPT_IP_ADDR -eq 1 ]     && I="${ON}I${RST}" || I="${OFF}I${RST}"
@@ -33,42 +33,24 @@ print_commands() {
 }
 
 print_components() {
-	printf "COMPONENTS:  "
-	[ $PROMPT_BATTERY -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "[ BAT ]\e[0m"
+	local RST="\e[0m"
+	local ON="\e[38;5;10m"
+	local OFF="\e[38;5;9m"
+	local B D U I W G P S R E C
 
-	[ $PROMPT_DATE_TIME -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "[DATE  TIME]\e[0m"
+	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}[ BAT ]${RST}" || B="${OFF}[ BAT ]${RST}"
+	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}[DATE  TIME]${RST}" || D="${OFF}[DATE  TIME]${RST}"
+	[ $PROMPT_IP_ADDR -eq 1 ]     && I="${ON}:IP.A.DD.R${RST}" || I="${OFF}:IP.A.DD.R${RST}"
+	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}:/wrk/dir${RST}" || W="${OFF}:/wrk/dir${RST}"
+	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON} | Repo | ${RST}" || G="${OFF} | Repo | ${RST}"
+	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}v^ ${RST}" || P="${OFF}v^ ${RST}"
+	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}@*+${RST}" || S="${OFF}@*+${RST}"
+	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON} branch ${RST}" || R="${OFF} branch ${RST}"
+	[ $PROMPT_SSH_ENDING -eq 1 ]  && E="${ON} \$§H ${RST}" || E="${OFF} \$§H ${RST}"
+	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}©CAP©${RST}" || C="${OFF}©CAP©${RST}"
+	U=$(printf "${__prompt_COLOR_2@P}user\e[0m" | sed "s#\x1##g; s#\x2##g;")
 
-	printf "${__prompt_COLOR_2@P}user\e[0m" | sed "s#\x1##g; s#\x2##g;"
-
-	printf ":"
-	[ $PROMPT_IP_ADDR -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "IP.A.DD.R\e[0m"
-	printf ":"
-
-	[ $PROMPT_WRK_DIR -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "/wrk/dir\e[0m"
-
-	[ $PROMPT_GIT_REPO -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf " | Repo | \e[0m"
-
-	[ $PROMPT_GIT_REMOTE -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "v^ \e[0m"
-
-	[ $PROMPT_GIT_SYMBOLS -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "@*+ \e[0m"
-
-	[ $PROMPT_GIT_BRANCH -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf "branch\e[0m"
-
-	[ $PROMPT_CAPS_LOCK  -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf " ©CAP©\e[0m"
-
-	[ $PROMPT_SSH_ENDING -eq 0 ] && printf "\e[38;5;9m" || printf "\e[38;5;10m"
-	printf ' $§H\e[0m'
-
-	printf "\n\n"
+	printf "COMPONENTS:  $B$D$U$I$W$G$P$S$R$C$E\n\n"
 }
 
 # FROM: cheat bash/ print PS1
