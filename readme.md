@@ -37,7 +37,7 @@ erez
 PS1
 ```
 Default feature options are set in this [config file](prompt/config.sh)
-![Prompt Editor](img/ascii/prompt.gif)
+![Prompt Editor](img/ascii/ps1.gif)
 
 ## Git command line
 Autodetect git repository. Show repo name (in unique random color) and current branch name/status.
