@@ -58,7 +58,7 @@ Prompt is either a shell or a secure shell
 ![Git Command line](img/ascii/ssh.png)
 
 # TODO
-* [ ] Update gifs/images
+* [X] Update gifs/images
 * [X] Change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
 * [X] Automatically shorten prompt based upon ```tput cols```  
 * [ ] Create single script that when sourced delivers enviroment. (No for loop in ```.bashrc```)
