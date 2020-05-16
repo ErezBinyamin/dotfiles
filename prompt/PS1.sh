@@ -54,7 +54,7 @@ print_components() {
 # FROM: cheat bash/ print PS1
 # sed script removes escape codes ^A and ^B
 print_preview() {
-	printf "PREVIEW   :"
+	printf "PREVIEW   :\n"
 	echo "${PS1@P@P}"  | sed "s#\x1##g; s#\x2##g;"
 }
 CHOICE='-'
