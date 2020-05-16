@@ -8,6 +8,7 @@
 #     PROMPT_WRK_DIR		# Current working dir
 #     PROMPT_GIT_REPO		# Git Repo name
 #     PROMPT_GIT_REMOTE		# Git Push/Pull status
+#     PROMPT_GIT_SYMBOLS	# Git change-file/add-file symbols
 #     PROMPT_GIT_BRANCH		# Git branch name / commit status
 #     PROMPT_CAPS_LOCK		# Caps lock awareness symbol
 #     PROMPT_SSH_ENDING		# SSH awareness symbol
@@ -53,10 +54,10 @@ print_components() {
 # FROM: cheat bash/ print PS1
 # sed script removes escape codes ^A and ^B
 print_preview() {
-	printf "PREVIEW   :  "
+	printf "PREVIEW   :"
 	echo "${PS1@P@P}"  | sed "s#\x1##g; s#\x2##g;"
 }
-CHOICE='a'
+CHOICE='-'
 while [[ ! ${CHOICE^^} == 'Q' ]]
 do
 	clear
