@@ -71,4 +71,15 @@ then
 	PS1+="${RST}"
 	PS1+="${__prompt_ending}"				# End with: "${__prompt_ending}"
 	PS1+="${RST}"
+
+	unset PS1_noDir
+	PS1_noDir="${__prompt_bat_life}"			 # Battery life
+	PS1_noDir+="${__prompt_date_time}"			 # Date and time
+	PS1_noDir+="${USER}"					 # Username
+	PS1_noDir+="${__prompt_ip_addr}"			 # IP address
+	PS1_noDir+="${__prompt_git_repo}"			 # Repo name
+	PS1_noDir+="${__prompt_git_pull}${__prompt_git_push}"	 # Push pull arrows
+	PS1_noDir+="${__prompt_git_color}${__prompt_git_branch}" # Colored git branch/status
+	PS1_noDir+="${__prompt_caps_lock}"			 # Caps lock notification
+	PS1_noDir+="${__prompt_ending}"				 # End with: "${__prompt_ending}"
 fi
