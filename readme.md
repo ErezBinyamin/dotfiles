@@ -13,17 +13,18 @@ Do these commands, then you'll be good
 ```bash
 cd
 git clone https://github.com/ErezBinyamin/Bash_init.git
-printf '
-INIT_DIR=/home/$USER/Bash_init
+printf "
+INIT_DIR=${PWD}/Bash_init"'
 if [ -d ${INIT_DIR} ]; then
     for f in $(ls ${INIT_DIR}/*.sh)
     do
         source $f
     done
+else
+    echo "ERROR: INIT_DIR Not found! : ${INIT_DIR}"
 fi
 ' >> /home/$USER/.bashrc
 source /home/$USER/.bashrc
-
 ```
 
 # Example features
