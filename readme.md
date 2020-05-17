@@ -36,7 +36,7 @@ erez
 ```bash
 PS1
 ```
-Default feature options are set in this [config file](prompt/config.sh)
+Command line components can be toggled **ON**/**OFF** to simplify work enviroment. Working Directory component resizes from full path to just current directory to allow for at least **20 chars** of free space. Default component options are set in this [config file](prompt/config.sh)
 ![Prompt Editor](img/ascii/ps1.gif)
 
 ## Git command line
