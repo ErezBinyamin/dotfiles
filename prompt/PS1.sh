@@ -14,10 +14,11 @@
 #     PROMPT_SSH_ENDING		# SSH awareness symbol
 #--##############################
 
+# Print each command char highlighted with the ON(blue) or OFF(yellow) color
 print_commands() {
 	local RST="\e[0m"
-	local ON="\e[7;36m"
-	local OFF="\e[7;33m"
+	local ON="\e[7;36m"	# Highlight Blue
+	local OFF="\e[7;33m"	# Highlight Yellow
 	local B D I W G P S R E C
 	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}B${RST}" || B="${OFF}B${RST}"
 	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}D${RST}" || D="${OFF}D${RST}"
@@ -32,10 +33,11 @@ print_commands() {
 	printf "COMMANDS  :     $B         $D              $I         $W       $G     $P   $S    $R      $C    $E\n"
 }
 
+# Print each command component with the ON(green) or OFF(red) color
 print_components() {
 	local RST="\e[0m"
-	local ON="\e[38;5;10m"
-	local OFF="\e[38;5;9m"
+	local ON="\e[38;5;10m"	# Green
+	local OFF="\e[38;5;9m"	# Red
 	local B D U I W G P S R E C
 	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}[ BAT ]${RST}"      || B="${OFF}[ BAT ]${RST}"
 	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}[DATE  TIME]${RST}" || D="${OFF}[DATE  TIME]${RST}"

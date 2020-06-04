@@ -56,6 +56,7 @@ alias rez_git='printf "
 	groh	-	Return to last remote push
 	gps	-	git push
 	gpl	-	git pull
+        gr      -       git remote
 	ghome	-	launch firfox web-browser to navigate to origin URL
 	gsf	-	git submodule foreach
 
