@@ -11,20 +11,17 @@ Just clone this repo and direct your bashrc to source some scripts
 Do these commands, then you'll be good
 
 ```bash
-cd
 git clone https://github.com/ErezBinyamin/Bash_init.git
+
+[ -f ~/.bashrc ] && cp ~/.bashrc ~/.bashrc.bak
+
 printf "
+# Bash_Init: https://github.com/ErezBinyamin/Bash_init.git
 INIT_DIR=${PWD}/Bash_init"'
-if [ -d ${INIT_DIR} ]; then
-    for f in $(ls ${INIT_DIR}/*.sh)
-    do
-        source $f
-    done
-else
-    echo "ERROR: INIT_DIR Not found! : ${INIT_DIR}"
-fi
+[ -d ${INIT_DIR} ] && source ${INIT_DIR}/top.sh || echo "[ERROR] DirectoryNotFound: ${INIT_DIR}
 ' >> /home/$USER/.bashrc
-source /home/$USER/.bashrc
+
+source ~/.bashrc
 ```
 
 # Example features
