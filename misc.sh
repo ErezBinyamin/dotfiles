@@ -9,8 +9,8 @@ alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='cd;source .bashrc; cd -'
-alias PS1="source ${HOME}/Bash_init/prompt/PS1.sh"
-alias ps1="source ${HOME}/Bash_init/prompt/PS1.sh"
+alias PS1="source ${INIT_DIR}/prompt/PS1.sh"
+alias ps1="source ${INIT_DIR}/prompt/PS1.sh"
 
 # Aggressive clear
 alias CLEAR='printf "\ec"'

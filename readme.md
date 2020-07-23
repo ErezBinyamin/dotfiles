@@ -19,7 +19,7 @@ printf "
 # Bash_Init: https://github.com/ErezBinyamin/Bash_init.git
 INIT_DIR=${PWD}/Bash_init"'
 [ -d ${INIT_DIR} ] && source ${INIT_DIR}/top.sh || echo "[ERROR] DirectoryNotFound: ${INIT_DIR}
-' >> /home/$USER/.bashrc
+' >> ~/.bashrc
 
 source ~/.bashrc
 ```
