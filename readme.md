@@ -59,7 +59,7 @@ Prompt is either a shell or a secure shell
 * [X] Update gifs/images
 * [X] Change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
 * [X] Automatically shorten prompt based upon ```tput cols```  
-* [ ] Create single script that when sourced delivers enviroment. (No for loop in ```.bashrc```)
+* [X] Create single script that when sourced delivers enviroment. (No for loop in ```.bashrc```)
 * [ ] Minimize dependencies
 * [ ] Installer script with dependencies
 * [ ] Allow configuration of prompt symbols in global config file (outside of [prompt](prompt/) dir)
