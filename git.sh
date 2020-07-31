@@ -15,6 +15,9 @@ alias grm="git rm \$(git status -s | grep '^ D' | sed 's/ D //')"
 alias gl='git log'
 alias glg="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 alias gl1='git log -n 1'
+gln() {
+	git log -n $1
+}
 
 # Reseting
 alias grhh='git reset --hard HEAD'                            # Reset to last commit
