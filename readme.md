@@ -11,7 +11,7 @@ Just clone this repo and direct your bashrc to source some scripts
 Do these commands, then you'll be good
 
 ```bash
-git clone https://github.com/ErezBinyamin/Bash_init.git
+git clone --recursive https://github.com/ErezBinyamin/Bash_init.git
 
 [ -f ~/.bashrc ] && cp ~/.bashrc ~/.bashrc.bak
 
@@ -60,8 +60,7 @@ Prompt is either a shell or a secure shell
 * [X] Change ```prompt``` commad to ```PS1``` it'd be a coool gimmick
 * [X] Automatically shorten prompt based upon ```tput cols```  
 * [X] Create single script that when sourced delivers enviroment. (No for loop in ```.bashrc```)
-* [ ] Minimize dependencies
-* [ ] Installer script with dependencies
+* [X] Installer script with dependencies
 * [ ] Allow configuration of prompt symbols in global config file (outside of [prompt](prompt/) dir)
 * [ ] Allow configuration of commands (eg ```${BROWSER}``` instead of using ```firefox```) 
 * [ ] Do not store information in enviroment variables. Use some other method.
