@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Get other prompt tools
-WRK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+PROMPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 TOOLS=( 'battery.sh' 'coloring.sh' 'date_time.sh' 'default.sh' 'git.sh' 'ip_addr.sh' 'wrk_dir.sh' )
-source "${WRK_DIR}/config.sh"
+source "${PROMPT_DIR}/config.sh"
 for prompt_tool in ${TOOLS[@]}
 do
-	source "${WRK_DIR}/${prompt_tool}"
+	source "${PROMPT_DIR}/${prompt_tool}"
 done
 
 # CAPS LOCK notification symbol
