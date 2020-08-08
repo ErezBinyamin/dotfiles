@@ -1,0 +1,3 @@
+[submodule "submodules/goto"]
+	path = submodules/goto
+	url = https://github.com/iridakos/goto.git
