@@ -74,9 +74,9 @@ then
 	else
 		printf " \[\033[1;38;5;2m\]"
 		git diff-index --quiet --cached HEAD -- 2>/dev/null || printf "\[\033[1;38;5;3m\]"
-		git diff --quiet 2>/dev/null || printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
-		git status -s | cut -d" " -f1 | grep -q -m 1 "??" && printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
-		git status -s | cut -d" " -f2 | grep -q -m 1 "D" && printf "\[\033[1;38;5;1m\]${GIT_REM_FILE_SYMBOL}"
+		git status -s | cut -c1-2 | grep -q -m 1 " M" && printf "\[\033[1;38;5;1m\]${GIT_EDIT_FILE_SYMBOL}"
+		git status -s | cut -c1-2 | grep -q -m 1 "??" && printf "\[\033[1;38;5;1m\]${GIT_NEW_FILE_SYMBOL}"
+		git status -s | cut -c1-2 | grep -q -m 1 " D" && printf "\[\033[1;38;5;1m\]${GIT_REM_FILE_SYMBOL}"
 	fi
 fi
 `'
