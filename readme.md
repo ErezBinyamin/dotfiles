@@ -11,13 +11,13 @@ Just clone this repo and direct your bashrc to source some scripts
 Do these commands, then you'll be good
 
 ```bash
-git clone --recursive https://github.com/ErezBinyamin/Bash_init.git
+git clone --recursive https://github.com/ErezBinyamin/dotfiles.git
 
 [ -f ~/.bashrc ] && cp ~/.bashrc ~/.bashrc.bak
 
 printf "
-# Bash_Init: https://github.com/ErezBinyamin/Bash_init.git
-INIT_DIR=${PWD}/Bash_init"'
+# Dotfiles: https://github.com/ErezBinyamin/dotfiles.git
+INIT_DIR=${PWD}/dotfiles"'
 [ -d ${INIT_DIR} ] && source ${INIT_DIR}/top.sh || echo "[ERROR] DirectoryNotFound: ${INIT_DIR}
 ' >> ~/.bashrc
 
