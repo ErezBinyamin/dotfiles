@@ -8,7 +8,7 @@
 alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
-alias bashrc='cd;source .bashrc; cd -'
+alias bashrc='source ~/.bashrc'
 alias PS1="source ${INIT_DIR}/prompt/PS1.sh"
 alias ps1="source ${INIT_DIR}/prompt/PS1.sh"
 
@@ -19,10 +19,10 @@ alias CLEAR='printf "\ec"'
 alias hi='history'
 alias jo='jobs'
 alias less='less -R'
-alias nano='nano --smooth --softwrap'
+alias watch='watch --color'
 
-#Fix mistakes / defence against trains
 alias LS='tree' # Big ls is a tree
+#Fix mistakes / defence against trains
 alias lS='ls'
 alias Ls='ls'
 alias sl='ls'
@@ -34,6 +34,11 @@ alias SL='ls'
 #		       ----FUNCTIONS----        #
 #						#
 #################################################
+# Make a tree with ls
+ls_tree(){
+	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+}
+
 # Check network connectivity
 net_check() {
 	nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
@@ -41,32 +46,21 @@ net_check() {
 
 # Switch bash
 swb() {
-	cd
-
-	[ ! -f .bashrc.bak ] && cp .bashrc .bashrc.bak
-
-	cp .bashrc /tmp/bashrc.bak
-	cp .bashrc.bak .bashrc
-	cp /tmp/bashrc.bak .bashrc.bak
-
-	cd -
+	[ ! -f ~/.bashrc.bak ] && cp ~/.bashrc ~/.bashrc.bak
+	cp ~/.bashrc /tmp/bashrc.bak
+	cp ~/.bashrc.bak ~/.bashrc
+	cp /tmp/bashrc.bak ~/.bashrc.bak
 	bashrc
 }
 
 # Travel up some number of directories
 up() {
 	local HEIGHT=''
-
 	for i in `seq 1 $1`
 	do
 		HEIGHT+="../"
 	done
-
-	[[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT}
-}
-
-ls_tree(){
-	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+	[[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT} || echo 'up: usage: up [n]'
 }
 
 alias erez="printf '
