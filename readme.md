@@ -18,7 +18,7 @@ git clone --recursive https://github.com/ErezBinyamin/dotfiles.git
 printf "
 # Dotfiles: https://github.com/ErezBinyamin/dotfiles.git
 INIT_DIR=${PWD}/dotfiles"'
-[ -d ${INIT_DIR} ] && source ${INIT_DIR}/top.sh || echo "[ERROR] DirectoryNotFound: ${INIT_DIR}
+[ -d ${INIT_DIR} ] && source ${INIT_DIR}/top.sh || echo "[ERROR] DirectoryNotFound: ${INIT_DIR}"
 ' >> ~/.bashrc
 
 source ~/.bashrc
