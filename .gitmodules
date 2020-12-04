@@ -1,3 +1,6 @@
 [submodule "submodules/goto"]
 	path = submodules/goto
 	url = https://github.com/iridakos/goto.git
+[submodule "submodules/ticker.sh"]
+	path = submodules/ticker.sh
+	url = https://github.com/pstadler/ticker.sh.git
