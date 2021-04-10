@@ -1,7 +1,7 @@
 #!/bin/bash
 #################################################
 #						#
-#		        ----ALIASES----         #
+#		----ALIASES----			#
 #						#
 #################################################
 # Simple
@@ -19,24 +19,24 @@ alias CLEAR='printf "\ec"'
 alias hi='history'
 alias jo='jobs'
 alias less='less -R'
-alias watch='watch --color'
 
-alias LS='tree' # Big ls is a tree
 #Fix mistakes / defence against trains
-alias lS='ls'
-alias Ls='ls'
 alias sl='ls'
 alias sL='ls'
 alias Sl='ls'
 alias SL='ls'
+alias lS='ls'
+alias Ls='ls'
+alias LS='[ which tree &> /dev/null ] && tree || ls_tree' # Big ls is a tree
 #################################################
 #						#
-#		       ----FUNCTIONS----        #
+#	       ----FUNCTIONS----	        #
 #						#
 #################################################
 # Make a tree with ls
 ls_tree(){
-	ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+	LS_ARGS=${@:-.}
+	ls -R ${LS_ARGS} | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 }
 
 # Check network connectivity
