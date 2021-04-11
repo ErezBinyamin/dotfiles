@@ -1,6 +1,9 @@
 #!/bin/bash
 # Functions that will launch docker containers
 
+# Launches arduino GUI
+# May need to install python dependencies
+# docker exec --user root -it <Container Name> bash -c "apt update; apt install python python-pip; pip install pyserial"
 arduino() {
     DEVICE=${1:-/dev/ttyUSB0}
     CHOME=/home/developer
@@ -9,7 +12,7 @@ arduino() {
         echo "DirectoryNotFound: $HOME/Arduino"
         return 1
     fi
-    if [ ! -f ${DEVICE} ]
+    if [ ! -e ${DEVICE} ]
     then
         echo "FileNotFound: $DEVICE"
         return 1
