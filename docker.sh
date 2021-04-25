@@ -33,12 +33,13 @@ arduino() {
 
 # FROM: https://github.com/austin-millan/oldschool-runescape-launcher
 osrs() {
-    docker run -ti \
-       -e DISPLAY=$DISPLAY \
-       -v /tmp/.X11-unix:/tmp/.X11-unix \
-       aamillan/oldschool-runescape-launcher \
-       oldschool
-    return $?
+	xhost +local:$(id -un)
+	docker run -ti \
+	   -e DISPLAY=$DISPLAY \
+	   -v /tmp/.X11-unix:/tmp/.X11-unix \
+	   aamillan/oldschool-runescape-launcher \
+	   oldschool
+	return $?
 }
 
 # Usefull docker aliases/functions
