@@ -4,7 +4,7 @@
 #	then print a short wrk_dir
 #	else print the full wrk_dir
 export __prompt_wrk_dir='`
-MIN_SPACE=10
+MIN_SPACE=15
 WID=0
 if [ $PROMPT_WRK_DIR -eq 1 ]
 then
