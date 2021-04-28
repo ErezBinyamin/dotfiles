@@ -49,6 +49,12 @@ then
          export __prompt_COLOR_2='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
          export __prompt_COLOR_3='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
          export __prompt_COLOR_4='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
+    elif [ ${PROMPT_RANDOM_COLORING} -eq 1 ]
+    then
+	    export __prompt_COLOR_1="$(__assign_color $(( ${RANDOM} % 255 )) )"
+	    export __prompt_COLOR_2="$(__assign_color $(( ${RANDOM} % 255 )) )"
+	    export __prompt_COLOR_3="$(__assign_color $(( ${RANDOM} % 255 )) )"
+	    export __prompt_COLOR_4="$(__assign_color $(( ${RANDOM} % 255 )) )"
     fi
 fi
 
