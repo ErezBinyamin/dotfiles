@@ -26,6 +26,9 @@ export PROMPT_IP_ADDR=1
 # Current working dir
 export PROMPT_WRK_DIR=1		
 
+# All git related things
+export PROMPT_GIT=1
+
 # Git Repo name
 export PROMPT_GIT_REPO=1	
 
