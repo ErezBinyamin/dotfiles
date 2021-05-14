@@ -59,6 +59,24 @@ docker-del() (
 		return 0
 	}
 
+	rm_images() {
+		[ $(docker image ls | wc -l) -gt 1 ] && docker image prune -f
+		[ $(docker image ls | wc -l) -gt 1 ] && docker rmi -f $(docker images -a -q)
+		[ $(docker image ls | wc -l) -gt 1 ] || echo "No more images to remove"
+	}
+
+	rm_containers() {
+		[ $(docker container ls | wc -l) -gt 1 ] && docker container prune -f
+		[ $(docker container ls | wc -l) -gt 1 ] && docker rm -vf $(docker ps -a -q)
+	       	[ $(docker container ls | wc -l) -gt 1 ] || echo "No more containers to remove"
+	}
+
+	rm_volumes() {
+		[ $(docker volume ls | wc -l) -gt 1 ] && docker volume prune -f
+		[ $(docker volume ls | wc -l) -gt 1 ] && docker volume rm $(docker volume ls -q)
+	       	[ $(docker volume ls | wc -l) -gt 1 ] || echo "No more volumes to remove"
+	}
+
 	[ $# -eq 0 ] && usage
 	while getopts "acivh" o
 	do
@@ -67,30 +85,28 @@ docker-del() (
 			echo "Delete all docker containers, images, and volumes? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
-			[ $(docker container ls | wc -l) -gt 1 ] && docker rm -vf $(docker ps -a -q) || echo "No containers to remove"
-			[ $(docker image ls | wc -l)     -gt 1 ] && docker volume rm $(docker volume ls -q --filter dangling=true) || echo "No images to remove"
-			[ $(docker volume ls | wc -l)    -gt 1 ] && docker rmi -f $(docker images -a -q) || echo "No volumes to remove"
+			docker system prune -f
+			rm_images
+			rm_containers
+			rm_volumes
 			;;
 		c)
-			[ $(docker container ls | wc -l) -gt 1 ] || echo "No containers to remove"
 			echo "Delete all docker containers? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
-			[ $(docker container ls | wc -l) -gt 1 ] && docker rm -vf $(docker ps -a -q)
+			rm_containers
 			;;
 		i)
-			[ $(docker image ls | wc -l)     -gt 1 ] || echo "No images to remove"
 			echo "Delete all docker images? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
-			[ $(docker image ls | wc -l)     -gt 1 ] && docker volume rm $(docker volume ls -q --filter dangling=true) 
+			rm_images
 			;;
 		v)
-			[ $(docker volume ls | wc -l)    -gt 1 ] || echo "No volumes to remove"
 			echo "Delete all docker volumes? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
-			[ $(docker volume ls | wc -l)    -gt 1 ] && docker rmi -f $(docker images -a -q)
+			rm_volumes
 			;;
 		h)
 			help
