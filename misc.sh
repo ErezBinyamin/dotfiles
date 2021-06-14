@@ -39,26 +39,14 @@ ls_tree(){
 	ls -R ${LS_ARGS} | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 }
 
-# Check network connectivity
+# Check network connectivity the fastest way this system supports
 net_check() {
-	if which wget &>/dev/null
-	then
-		wget -q --spider http://google.com && return 0 || return 1
-	elif which ping &>/dev/null
-	then
-		ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` &> /dev/null && return 0 || return 1
-	elif which nc &>/dev/null
-	then
-		nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
-	elif which ip &>/dev/null
-	then
-		ip addr | grep inet | grep -q global && return 0 || return 1
-	else
-		echo "ERROR: Cannot detect network connection status!"
-		return 0
-	fi
-
-
+	which ping &>/dev/null && return $(ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` &> /dev/null && echo 0 || echo 1)
+	which wget &>/dev/null && return $(wget -q --spider http://google.com && echo 0 || echo 1) 
+	which nc   &>/dev/null && return $(nc -w 3 -z 8.8.8.8 53 && echo 0 || echo 1)
+	which ip   &>/dev/null && return $(ip addr | grep inet | grep -q global && echo 0 || echo 1)
+	echo "ERROR: Cannot detect network connection status!"
+	return 0
 }
 
 # Switch bash
