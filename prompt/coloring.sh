@@ -23,7 +23,7 @@ then
     # IF OFFLINE then print gray else color
 	if [ $PROMPT_SLOW_NETWORK -eq 1 ]
 	then
-		if nc -w 3 -z 8.8.8.8 53
+		if net_check
 		then
 			export __prompt_COLOR_1="$(__assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f1))"
 			export __prompt_COLOR_2="$(__assign_color $(hostname -I | tr '.' ' ' | cut -d' ' -f2))"
@@ -45,10 +45,10 @@ then
     # Poll google servers for each color
     if [ $PROMPT_SLOW_NETWORK -eq 0 ]
     then
-         export __prompt_COLOR_1='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
-         export __prompt_COLOR_2='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
-         export __prompt_COLOR_3='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
-         export __prompt_COLOR_4='`nc -w 2 -z 8.8.8.8 53 && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
+         export __prompt_COLOR_1='`net_check && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
+         export __prompt_COLOR_2='`net_check && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
+         export __prompt_COLOR_3='`net_check && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f3)"m\]" || echo "\[\033[48;5;m\]"`'
+         export __prompt_COLOR_4='`net_check && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f4)"m\]" || echo "\[\033[48;5;m\]"`'
     elif [ ${PROMPT_RANDOM_COLORING} -eq 1 ]
     then
 	    export __prompt_COLOR_1="$(__assign_color $(( ${RANDOM} % 255 )) )"
