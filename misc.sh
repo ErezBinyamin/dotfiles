@@ -41,7 +41,24 @@ ls_tree(){
 
 # Check network connectivity
 net_check() {
-	nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
+	if which wget &>/dev/null
+	then
+		wget -q --spider http://google.com && return 0 || return 1
+	elif which ping &>/dev/null
+	then
+		ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` &> /dev/null && return 0 || return 1
+	elif which nc &>/dev/null
+	then
+		nc -w 3 -z 8.8.8.8 53 && return 0 || return 1
+	elif which ip &>/dev/null
+	then
+		ip addr | grep inet | grep -q global && return 0 || return 1
+	else
+		echo "ERROR: Cannot detect network connection status!"
+		return 0
+	fi
+
+
 }
 
 # Switch bash
