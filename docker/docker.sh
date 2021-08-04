@@ -42,6 +42,65 @@ osrs() {
 	return $?
 }
 
+
+bettercap() {
+	TMP=$(mktemp -d /tmp/bettercap.XXXXX)
+	VOLUME_ARG=${TMP}:/tmp/out
+	echo "TMP DIR mounted: ${VOLUME_ARG}"
+	docker run -it --privileged --net=host -p 8080:8080 -v ${VOLUME_ARG} bettercap/bettercap
+	read -p "Delete mounted directory: $TMP? [y/n]: " X
+	[[ "${X,,}" =~ "y" ]] && rm -rf ${TMP}
+}
+
+pi-hole() {
+	if docker container ls 2>/dev/null | grep -q 'pihole'
+	then
+		echo "Stopping pihole..."
+		docker container stop pihole
+		docker container rm pihole
+		echo "pihole stopped"
+	else
+		# https://github.com/pi-hole/docker-pi-hole/blob/master/README.md 
+		PIHOLE_BASE="${PIHOLE_BASE:-$(pwd)}"
+		[[ -d "$PIHOLE_BASE" ]] || mkdir -p "$PIHOLE_BASE" || { echo "Couldn't create storage directory: $PIHOLE_BASE"; exit 1; }
+		
+		# Note: ServerIP should be replaced with your external ip.
+		TUP_PORT=$(next_port 53)
+		WEB_PORT=$(next_port 80)
+		docker run -d \
+		    --name pihole \
+		    -p ${TUP_PORT}:53/tcp -p ${TUP_PORT}:53/udp \
+		    -p ${WEB_PORT}:80 \
+		    -e TZ="America/Chicago" \
+		    -v "${PIHOLE_BASE}/etc-pihole/:/etc/pihole/" \
+		    -v "${PIHOLE_BASE}/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
+		    --dns=127.0.0.1 --dns=1.1.1.1 \
+		    --restart=unless-stopped \
+		    --hostname pi.hole \
+		    -e VIRTUAL_HOST="pi.hole" \
+		    -e PROXY_LOCATION="pi.hole" \
+		    -e ServerIP="127.0.0.1" \
+		    pihole/pihole:latest
+		
+		printf 'Starting up pihole container '
+		for i in $(seq 1 20); do
+		    if [ "$(docker inspect -f "{{.State.Health.Status}}" pihole)" == "healthy" ] ; then
+		        printf ' OK'
+		        echo -e "\n$(docker logs pihole 2> /dev/null | grep 'password:') for your pi-hole: https://${IP}/admin/"
+		        return 0
+		    else
+		        sleep 3
+		        printf '.'
+		    fi
+		
+		    if [ $i -eq 20 ] ; then
+		        echo -e "\nTimed out waiting for Pi-hole start, consult your container logs for more info (\`docker logs pihole\`)"
+		        return 1
+		    fi
+		done;
+	fi
+}
+
 # Usefull docker aliases/functions
 docker-del() (
 	usage() {

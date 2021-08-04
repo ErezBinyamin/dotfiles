@@ -49,6 +49,18 @@ net_check() {
 	return 0
 }
 
+# Print next available port
+next_port() {
+	local PORT=${1}
+	local USED_PORTS=$(echo $(netstat -awlpunt 2>/dev/null | grep -Eo ':[0-9]+ ' | tr -d ':' | sort -un))
+	local NEXT_PORT=${PORT:-1023}
+	while [[ "${USED_PORTS}" =~ "${NEXT_PORT}" ]]
+	do
+		let NEXT_PORT++
+	done
+	echo ${NEXT_PORT}
+}
+
 # Switch bash
 swb() {
 	[ ! -f ~/.bashrc.bak ] && cp ~/.bashrc ~/.bashrc.bak
