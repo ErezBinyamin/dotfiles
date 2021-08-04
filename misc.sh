@@ -53,7 +53,7 @@ net_check() {
 next_port() {
 	local PORT=${1}
 	local USED_PORTS=$(echo $(netstat -awlpunt 2>/dev/null | grep -Eo ':[0-9]+ ' | tr -d ':' | sort -un))
-	local NEXT_PORT=${PORT:-1023}
+	local NEXT_PORT=${PORT:-1024}
 	while [[ "${USED_PORTS}" =~ "${NEXT_PORT}" ]]
 	do
 		let NEXT_PORT++
