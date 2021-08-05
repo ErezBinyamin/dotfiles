@@ -52,7 +52,12 @@ bettercap() {
 	[[ "${X,,}" =~ "y" ]] && rm -rf ${TMP}
 }
 
-pi-hole() {
+matlab() {
+	xhost +
+	docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab:r2021a
+}
+
+pihole() {
 	if docker container ls 2>/dev/null | grep -q 'pihole'
 	then
 		echo "Stopping pihole..."
@@ -65,24 +70,35 @@ pi-hole() {
 		[[ -d "$PIHOLE_BASE" ]] || mkdir -p "$PIHOLE_BASE" || { echo "Couldn't create storage directory: $PIHOLE_BASE"; exit 1; }
 		
 		# Note: ServerIP should be replaced with your external ip.
-		TUP_PORT=$(next_port 53)
-		WEB_PORT=$(next_port 80)
+		local P_DNS=$(next_port 53)
+		local P_67=$(next_port 67)
+		local P_HTTP=$(next_port 80)
+		local P_HTTPS=$(next_port 443)
+		local TIMEZONE='America/New_York' # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+		local EXTERNAL_IP=$(public_ip)
 		docker run -d \
 		    --name pihole \
-		    -p ${TUP_PORT}:53/tcp -p ${TUP_PORT}:53/udp \
-		    -p ${WEB_PORT}:80 \
-		    -e TZ="America/Chicago" \
+		    -p ${P_DNS}:53/tcp \
+		    -p ${P_DNS}:53/udp \
+		    -p ${P_67}:67/udp \
+		    -p ${P_HTTP}:80/tcp \
+		    -p ${P_HTTPS}:443/tcp \
 		    -v "${PIHOLE_BASE}/etc-pihole/:/etc/pihole/" \
 		    -v "${PIHOLE_BASE}/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
-		    --dns=127.0.0.1 --dns=1.1.1.1 \
+		    --dns=127.0.0.1 \
+		    --dns=1.1.1.1 \
 		    --restart=unless-stopped \
 		    --hostname pi.hole \
 		    -e VIRTUAL_HOST="pi.hole" \
 		    -e PROXY_LOCATION="pi.hole" \
-		    -e ServerIP="127.0.0.1" \
+		    -e PIHOLE_DNS_="127.0.0.1#5353;8.8.8.8;8.8.4.4;1.1.1.1" \
+		    -e TZ=${TIMEZONE} \
+		    -e ServerIP=${EXTERNAL_IP} \
+		    --restart=unless-stopped \
 		    pihole/pihole:latest
 		
-		printf 'Starting up pihole container '
+		printf "\nStarting up pihole container: http://localhost:${P_HTTP}"
+		printf "\nUsing Ports:\n\tDNS: ${P_DNS}\n\tHTTP: ${P_HTTP}\n\tHTTPS: ${P_HTTPS}\n\t67: ${P_67}\n"
 		for i in $(seq 1 20); do
 		    if [ "$(docker inspect -f "{{.State.Health.Status}}" pihole)" == "healthy" ] ; then
 		        printf ' OK'

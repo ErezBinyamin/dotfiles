@@ -5,7 +5,6 @@
 #						#
 #################################################
 # Simple
-alias public_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='source ~/.bashrc'
@@ -47,6 +46,14 @@ net_check() {
 	which ip   &>/dev/null && return $(ip addr | grep inet | grep -q global && echo 0 || echo 1)
 	echo "ERROR: Cannot detect network connection status!"
 	return 0
+}
+
+public_ip() {
+	which curl &>/dev/null && curl ipinfo.io/ip && return 0
+	which wget &>/dev/null && wget -q -O - ipinfo.io/ip && return 0
+	MAINIF=$( route -n | grep '^0\.0\.0\.0' | head -n 1 | awk '{print $NF}' )
+	IP=$( ifconfig $MAINIF | { IFS=' :';read r;read r r a r;echo $a; } )
+	echo $IP
 }
 
 # Print next available port
