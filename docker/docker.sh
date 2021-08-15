@@ -52,6 +52,11 @@ bettercap() {
 	[[ "${X,,}" =~ "y" ]] && rm -rf ${TMP}
 }
 
+metasploit () {
+    docker run --net=host -it metasploitframework/metasploit-framework
+}
+
+
 matlab() {
 	xhost +
 	docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab:r2021a
