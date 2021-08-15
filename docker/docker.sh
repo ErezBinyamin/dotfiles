@@ -1,11 +1,11 @@
 #!/bin/bash
 # Functions that will launch docker containers
 
-# FROM https://github.com/tombenke/darduino
-# Launches arduino GUI
-# May need to install python dependencies
-# docker exec --user root -it <Container Name> bash -c "apt update; apt install python python-pip; pip install pyserial"
 arduino() {
+    # FROM https://github.com/tombenke/darduino
+    # Launches arduino GUI
+    # May need to install python dependencies
+    # docker exec --user root -it <Container Name> bash -c "apt update; apt install python python-pip; pip install pyserial"
     DEVICE=${1:-/dev/ttyUSB0}
     CHOME=/home/developer
     if [ ! -d $HOME/Arduino ]
@@ -31,8 +31,8 @@ arduino() {
     return $?
 }
 
-# FROM: https://github.com/austin-millan/oldschool-runescape-launcher
 osrs() {
+	# FROM: https://github.com/austin-millan/oldschool-runescape-launcher
 	xhost +local:$(id -un)
 	docker run -ti \
 	   -e DISPLAY=$DISPLAY \
@@ -99,6 +99,9 @@ pihole() {
 		
 		printf "\nStarting up pihole container: http://localhost:${P_HTTP}"
 		printf "\nUsing Ports:\n\tDNS: ${P_DNS}\n\tHTTP: ${P_HTTP}\n\tHTTPS: ${P_HTTPS}\n\t67: ${P_67}\n"
+		sleep 10
+		wait
+
 		for i in $(seq 1 20); do
 		    if [ "$(docker inspect -f "{{.State.Health.Status}}" pihole)" == "healthy" ] ; then
 		        printf ' OK'
