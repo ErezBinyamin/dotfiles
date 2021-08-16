@@ -34,7 +34,7 @@ arduino() {
 osrs() {
 	# FROM: https://github.com/austin-millan/oldschool-runescape-launcher
 	xhost +local:$(id -un)
-	docker run -ti \
+	docker run -ti --rm \
 	   -e DISPLAY=$DISPLAY \
 	   -v /tmp/.X11-unix:/tmp/.X11-unix \
 	   aamillan/oldschool-runescape-launcher \
@@ -47,22 +47,22 @@ bettercap() {
 	TMP=$(mktemp -d /tmp/bettercap.XXXXX)
 	VOLUME_ARG=${TMP}:/tmp/out
 	echo "TMP DIR mounted: ${VOLUME_ARG}"
-	docker run -it --privileged --net=host -p 8080:8080 -v ${VOLUME_ARG} bettercap/bettercap
+	docker run -it --privileged --rm --net=host -p 8080:8080 -v ${VOLUME_ARG} bettercap/bettercap
 	read -p "Delete mounted directory: $TMP? [y/n]: " X
 	[[ "${X,,}" =~ "y" ]] && rm -rf ${TMP}
 }
 
 metasploit() {
-    docker run --net=host -it metasploitframework/metasploit-framework
+    docker run --net=host --rm -it metasploitframework/metasploit-framework
 }
 
 smtp_server() {
-	docker run --net=host maildev/maildev
+	docker run --net=host --rm maildev/maildev
 }
 
 matlab() {
 	xhost +
-	docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab:r2021a
+	docker run --net=host --rm -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab:r2021a
 }
 
 pihole() {
@@ -84,7 +84,7 @@ pihole() {
 		local P_HTTPS=$(next_port 443)
 		local TIMEZONE='America/New_York' # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 		local EXTERNAL_IP=$(public_ip)
-		docker run -d \
+		docker run -d --rm \
 		    --name pihole \
 		    -p ${P_DNS}:53/tcp \
 		    -p ${P_DNS}:53/udp \
@@ -205,3 +205,13 @@ docker-del() (
 	shift $((OPTIND-1))
 )
 
+alias rez_docker='printf "
+	arduino		-	arduino GUI
+	osrs         	-	Oldschool Runescape GUI
+	bettercap    	-	bettercap CLI console
+	metasploit   	-	metasploit CLI console
+	smtp_server  	-	localhost testing smtp mail server
+	matlab       	-	MatLab GUI
+	pihole       	-	pihole blakchole for adds (Set router DNS server)
+	docker-del   	-	Brute force docker deleting tool
+"'

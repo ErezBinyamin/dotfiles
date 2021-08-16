@@ -40,12 +40,12 @@ ls_tree(){
 
 # Check network connectivity the fastest way this system supports
 net_check() {
-	which ping &>/dev/null && return $(ping -q -w 1 -c 1 `ip r | grep default | cut -d ' ' -f 3` &> /dev/null && echo 0 || echo 1)
-	which wget &>/dev/null && return $(wget -q --spider http://google.com && echo 0 || echo 1) 
-	which nc   &>/dev/null && return $(nc -w 3 -z 8.8.8.8 53 && echo 0 || echo 1)
+	which ping &>/dev/null && return $(ping -q -w 1 -c 1 _gateway &> /dev/null && echo 0 || echo 1)
+	which wget &>/dev/null && return $(wget -q --spider _gateway && echo 0 || echo 1) 
+	which nc   &>/dev/null && return $(nc -w 3 -z _gateway 80 && echo 0 || echo 1)
 	which ip   &>/dev/null && return $(ip addr | grep inet | grep -q global && echo 0 || echo 1)
 	echo "ERROR: Cannot detect network connection status!"
-	return 0
+	return 1
 }
 
 public_ip() {
@@ -101,6 +101,7 @@ alias erez="printf '
 	PS1		-	interactive PS1 prompt editor
 	public_ip	-	ya
 	rez_git		-	list of git aliases/tools
+	rez_docker	-	list of docker aliases/tools
 	share		-	quick share a file
 	share_get	-	quick recieve shared file
 	swb		-	toggle PS1 prompt bar
