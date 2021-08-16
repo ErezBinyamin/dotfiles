@@ -52,10 +52,13 @@ bettercap() {
 	[[ "${X,,}" =~ "y" ]] && rm -rf ${TMP}
 }
 
-metasploit () {
+metasploit() {
     docker run --net=host -it metasploitframework/metasploit-framework
 }
 
+smtp_server() {
+	docker run --net=host -it mailhog/mailhog
+}
 
 matlab() {
 	xhost +
@@ -73,7 +76,7 @@ pihole() {
 		# https://github.com/pi-hole/docker-pi-hole/blob/master/README.md 
 		PIHOLE_BASE="${PIHOLE_BASE:-$(pwd)}"
 		[[ -d "$PIHOLE_BASE" ]] || mkdir -p "$PIHOLE_BASE" || { echo "Couldn't create storage directory: $PIHOLE_BASE"; exit 1; }
-		
+
 		# Note: ServerIP should be replaced with your external ip.
 		local P_DNS=$(next_port 53)
 		local P_67=$(next_port 67)
@@ -101,7 +104,7 @@ pihole() {
 		    -e ServerIP=${EXTERNAL_IP} \
 		    --restart=unless-stopped \
 		    pihole/pihole:latest
-		
+
 		printf "\nStarting up pihole container: http://localhost:${P_HTTP}"
 		printf "\nUsing Ports:\n\tDNS: ${P_DNS}\n\tHTTP: ${P_HTTP}\n\tHTTPS: ${P_HTTPS}\n\t67: ${P_67}\n"
 		sleep 10
@@ -116,7 +119,7 @@ pihole() {
 		        sleep 3
 		        printf '.'
 		    fi
-		
+
 		    if [ $i -eq 20 ] ; then
 		        echo -e "\nTimed out waiting for Pi-hole start, consult your container logs for more info (\`docker logs pihole\`)"
 		        return 1
