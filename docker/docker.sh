@@ -57,7 +57,7 @@ metasploit() {
 }
 
 smtp_server() {
-	docker run --net=host -it mailhog/mailhog
+	docker run --net=host maildev/maildev
 }
 
 matlab() {
