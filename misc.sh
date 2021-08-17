@@ -40,10 +40,11 @@ ls_tree(){
 
 # Check network connectivity the fastest way this system supports
 net_check() {
-	which ping &>/dev/null && return $(ping -q -w 1 -c 1 _gateway &> /dev/null && echo 0 || echo 1)
-	which wget &>/dev/null && return $(wget -q --spider _gateway && echo 0 || echo 1) 
-	which nc   &>/dev/null && return $(nc -w 3 -z _gateway 80 && echo 0 || echo 1)
+	TEST='www.google.com'
 	which ip   &>/dev/null && return $(ip addr | grep inet | grep -q global && echo 0 || echo 1)
+	which ping &>/dev/null && return $(ping -q -w 1 -c 1 ${TEST} &> /dev/null && echo 0 || echo 1)
+	which wget &>/dev/null && return $(wget -q --spider ${TEST} && echo 0 || echo 1) 
+	which nc   &>/dev/null && return $(nc -w 3 -z ${TEST} 80 && echo 0 || echo 1)
 	echo "ERROR: Cannot detect network connection status!"
 	return 1
 }
