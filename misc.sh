@@ -10,6 +10,7 @@ alias hgrep='history | grep -e'
 alias bashrc='source ~/.bashrc'
 alias PS1="source ${INIT_DIR}/prompt/PS1.sh"
 alias ps1="source ${INIT_DIR}/prompt/PS1.sh"
+alias rez_update='pushd .; cd $INIT_DIR; git pull; popd'
 
 # Aggressive clear
 alias CLEAR='printf "\ec"'
@@ -108,6 +109,7 @@ alias erez="printf '
 	swb		-	toggle PS1 prompt bar
 	up		-	go up n directories
 	weather		-	the weather
+	rez_update	-	update this project
 
 '
 "
