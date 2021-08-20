@@ -8,10 +8,10 @@ alias gc='git commit'
 alias gd='git diff'
 alias gr='git revert'
 alias gs='git status'
-
 alias gba='git branch --all'
 alias gdc='git diff --cached'
 alias grm="git rm"
+alias gcd='git checkout'
 
 # logging
 alias gl="git log --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
@@ -57,6 +57,7 @@ alias rez_git='printf "
 	gba	-	all git branches
 	gdc	-	show staged (added) diffs
 	grm	- 	git rm
+	gcd	- 	git checkout
 	gl	-	git log
 	gl1	-	show last log
 	gln <n>	-	show last 'n' logs
