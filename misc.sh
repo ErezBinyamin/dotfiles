@@ -60,11 +60,11 @@ net_check() {
 }
 
 public_ip() {
-	which curl &>/dev/null && curl ipinfo.io/ip && return 0
-	which wget &>/dev/null && wget -q -O - ipinfo.io/ip && return 0
+	which curl &>/dev/null && curl --silent ipinfo.io/ip && return $?
+	which wget &>/dev/null && wget -q -O - ipinfo.io/ip && return $?
 	MAINIF=$( route -n | grep '^0\.0\.0\.0' | head -n 1 | awk '{print $NF}' )
 	IP=$( ifconfig $MAINIF | { IFS=' :';read r;read r r a r;echo $a; } )
-	echo $IP
+	printf "$IP"
 }
 
 # Print next available port
