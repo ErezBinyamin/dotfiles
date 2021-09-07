@@ -19,6 +19,7 @@ alias CLEAR='printf "\ec"'
 alias hi='history'
 alias jo='jobs'
 alias less='less -R'
+alias nmap='nmap -T5 --min-parallelism=50 -n --min-rate=300'
 
 #Fix mistakes / defence against trains
 alias sl='ls'
@@ -37,6 +38,14 @@ alias LS='[ which tree &> /dev/null ] && tree || ls_tree' # Big ls is a tree
 ls_tree(){
 	LS_ARGS=${@:-.}
 	ls -R ${LS_ARGS} | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+}
+
+# Swap two files
+swap()
+{
+    local TMPFILE=tmp.$$
+    [[ $# -ne 2 || ! -f $1 || ! -f $2 ]] && return 1
+    mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
 }
 
 # Check network connectivity the fastest way this system supports
@@ -102,14 +111,15 @@ alias erez="printf '
 	map		-	interactive ascii map
 	PS1		-	interactive PS1 prompt editor
 	public_ip	-	ya
-	rez_git		-	list of git aliases/tools
 	rez_docker	-	list of docker aliases/tools
+	rez_git		-	list of git aliases/tools
+	rez_update	-	update this project
 	share		-	quick share a file
 	share_get	-	quick recieve shared file
+	swap		-	swap two files
 	swb		-	toggle PS1 prompt bar
 	up		-	go up n directories
 	weather		-	the weather
-	rez_update	-	update this project
 
 '
 "
