@@ -146,7 +146,7 @@ cAdvisor() {
 		docker container stop cadvisor
 		docker container prune
 	else
-		echo "cAdvisor serving on port: ${PORT}"
+		echo "cAdvisor: http://localhost:${PORT}"
 		sleep 1
 		docker run \
 			--volume=/:/rootfs:ro \
