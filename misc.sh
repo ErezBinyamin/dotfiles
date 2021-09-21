@@ -48,6 +48,11 @@ swap()
     mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
 }
 
+# Readelf with better formatting (because readelf normally sucks)
+readelf() {
+	/usr/bin/readelf $@ | sed '/\[..\]/{N;s/\n//}; /[A-Z][A-Z][A-Z].*[[:space:]]0x/{N;s/\n//}; /Type           Offset/{N;s/\n//}'
+}
+
 # Check network connectivity the fastest way this system supports
 net_check() {
 	TEST='www.google.com'
