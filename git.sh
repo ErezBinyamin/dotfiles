@@ -6,11 +6,12 @@ choice() {
 	while true; do
 		read -p "${PROMPT}" yn
 		case $yn in
-			[Yy]* ) break;;
-			[Nn]* ) exit;;
+			[Yy]* ) RVAL=0; break;;
+			[Nn]* ) RVAL=1; break;;
 			    * ) echo "Please answer yes or no.";;
 		esac
 	done
+	return $RVAL
 }
 
 
@@ -41,6 +42,7 @@ gloc() {
 	local REPO_NAME=${1}
 	local VALID_REPO=0
 	local TMP=$(mktemp -d)
+	local LOG=$(mktemp)
 	local LOC=0
 	local RVAL=1
 
@@ -59,26 +61,26 @@ gloc() {
 	# Get lines of code
 	if which cloc
 	then
-		cloc ${TMP}
+		choice "Generate cloc analysis?" && cloc ${TMP} | tee -a ${LOG}
 		RVAL=$?
 	fi
 	if [ -d ${TMP}/.git ]
 	then
 		pushd .
 		cd ${TMP}
-		LOC=$(git ls-files | xargs wc -l)
+		choice "Generate git ls-files analysis?" && LOC=$(git ls-files | xargs wc -l)
 		RVAL=$?
 		popd
-		echo "TOTAL git ls-files: ${LOC}"
+		echo "TOTAL git ls-files: ${LOC}" | tee -a ${LOG}
 	fi
-
+	choice "Publish log file: ${LOG}?" && echo "Report generated: $(share ${LOG})"
 	choice "Remove tmp ${REPO_NAME} dir: ${TMP}?" && rm -rf ${TMP}
-
+	choice "Remove log file: ${LOG}?" && rm -f ${LOG}
 	return 0
 }
 
 # logging
-alias gl="git log --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+alias gl="git log --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'"
 alias gl1="git log --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' -n 1"
 alias glg="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 gln() {
@@ -122,6 +124,9 @@ alias rez_git='printf "
 	gdc	-	show staged (added) diffs
 	grm	- 	git rm
 	gcd	- 	git checkout
+	gbk	- 	git branck create
+	gbc	- 	git branch kill
+	gloc	- 	git lines of code
 	gl	-	git log
 	gl1	-	show last log
 	gln <n>	-	show last 'n' logs
