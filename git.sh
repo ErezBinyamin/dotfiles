@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# Helper function
+choice() {
+	PROMPT=${1:-'Yes or No? '}
+	while true; do
+		read -p "${PROMPT}" yn
+		case $yn in
+			[Yy]* ) break;;
+			[Nn]* ) exit;;
+			    * ) echo "Please answer yes or no.";;
+		esac
+	done
+}
+
+
 # Everyday stuff
 alias ga='git add'
 alias gA='git add -A'
@@ -12,6 +26,56 @@ alias gba='git branch --all'
 alias gdc='git diff --cached'
 alias grm="git rm"
 alias gcd='git checkout'
+# Git Branch Kill
+gbk() {
+	local BRANCH=${1}
+	git branch -D ${BRANCH} && git push -u origin :${BRANCH}
+}
+# Git Branch Create
+gbc() {
+	local BRANCH=${1}
+	git checkout -b ${BRANCH} && git push -u origin ${BRANCH}
+}
+# Git lines of code
+gloc() {
+	local REPO_NAME=${1}
+	local VALID_REPO=0
+	local TMP=$(mktemp -d)
+	local LOC=0
+	local RVAL=1
+
+	# Make sure repo exists
+	if echo ${REPO_NAME} | grep -q -e 'http' -e '\.git' -e '\.com'
+	then
+		git clone --recurse-submodules ${REPO_NAME} ${TMP}
+	elif [ -d ${REPO_NAME} ]
+	then
+		cp -r ${REPO_NAME} ${TMP}
+	else
+		>&2 echo "InvalidRepoName: ${REPO_NAME}"
+		return 1
+	fi
+
+	# Get lines of code
+	if which cloc
+	then
+		cloc ${TMP}
+		RVAL=$?
+	fi
+	if [ -d ${TMP}/.git ]
+	then
+		pushd .
+		cd ${TMP}
+		LOC=$(git ls-files | xargs wc -l)
+		RVAL=$?
+		popd
+		echo "TOTAL git ls-files: ${LOC}"
+	fi
+
+	choice "Remove tmp ${REPO_NAME} dir: ${TMP}?" && rm -rf ${TMP}
+
+	return 0
+}
 
 # logging
 alias gl="git log --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
