@@ -166,16 +166,17 @@ cAdvisor() {
 # Usefull docker aliases/functions
 docker-del() (
 	usage() {
-		echo "${FUNCNAME[-1]}: usage: ${FUNCNAME[-1]} -[a|c|i|v|h]"
+		echo "${FUNCNAME[-1]}: usage: ${FUNCNAME[-1]} -[a|c|i|v|o|h]"
 		return 0
 	}
 
 	help() {
-		echo "${FUNCNAME[-1]}: usage: ${FUNCNAME[-1]} -[a|c|i|v|h]"
+		echo "${FUNCNAME[-1]}: usage: ${FUNCNAME[-1]} -[a|c|i|v|o|h]"
 		printf "  -a\t Delete all docker containers, images, and volumes\n"
 		printf "  -c\t Delete all docker containers\n"
 		printf "  -i\t Delete all docker images\n"
 		printf "  -v\t Delete all docker volumes\n"
+		printf "  -o\t Delete all docker orpahn images\n"
 		printf "  -h\t Help\n"
 		return 0
 	}
@@ -198,12 +199,22 @@ docker-del() (
 	       	[ $(docker volume ls | wc -l) -gt 1 ] || echo "No more volumes to remove"
 	}
 
+	rm_orphans() {
+		if [ $(docker image ls | grep 'none' | wc -l) -gt 0 ]
+		then
+			docker container prune -f
+			docker images | grep 'none' | grep -oE '[0-9a-z]{12,}' | xargs docker image rm
+		else
+			echo "No more orphan images to remove"
+		fi
+	}
+
 	[ $# -eq 0 ] && usage
-	while getopts "acivh" o
+	while getopts "acivoh" o
 	do
 		case "${o}" in
 		a)
-			echo "Delete all docker containers, images, and volumes? [Y/N]: "
+			printf "Delete all docker containers, images, and volumes? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
 			docker system prune -f
@@ -212,22 +223,28 @@ docker-del() (
 			rm_volumes
 			;;
 		c)
-			echo "Delete all docker containers? [Y/N]: "
+			printf "Delete all docker containers? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
 			rm_containers
 			;;
 		i)
-			echo "Delete all docker images? [Y/N]: "
+			printf "Delete all docker images? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
 			rm_images
 			;;
 		v)
-			echo "Delete all docker volumes? [Y/N]: "
+			printf "Delete all docker volumes? [Y/N]: "
 			read -sn1 CH
 			[[ 'Yy' =~ "${CH}" ]] || return 0
 			rm_volumes
+			;;
+		o)
+			printf "Delete all orphan images? [Y/N]:"
+			read -sn1 CH
+			[[ 'Yy' =~ "${CH}" ]] || return 0
+			rm_orphans
 			;;
 		h)
 			help
