@@ -103,6 +103,49 @@ up() {
 	[[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT} || echo 'up: usage: up [n]'
 }
 
+# Get bash dependencies
+shdeps () (
+	[ $# -lt 1 ] && return 0
+	DEPS=()
+
+	# Pass a single file to this function
+	fdeps() {
+		if ! echo ${1} | grep -q '\.sh'
+		then
+			if ! head ${1} | grep -q '#.*/*.sh'
+			then
+				return 1
+			fi
+		fi
+		for DEP in `sed 's/|/\n/g; s/#/\n#/g; s/\$(/\n/g' ${1} | sed 's/^[ \t]*//; /^#/d' | awk '{print $1}' | sort -u`
+		do
+			which ${DEP} &>/dev/null && DEPS+=( ${DEP} )
+		done
+	}
+
+	for arg in $@
+	do
+		[ ${#arg} -lt 1 ] && continue
+		if [ -d $arg ]
+		then
+			for d in `shdeps ${arg}/*`
+			do
+				DEPS+=( $d )
+			done
+		elif [ -f $arg ]
+		then
+			fdeps ${arg}
+		else
+			echo "InvalidArgumentError: ${arg}"
+			return 1
+		fi
+	done
+
+	# Complete
+	echo ${DEPS[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '
+	printf '\n'
+)
+
 alias erez="printf '
 	bashrc		-	reload bashrc
 	CLEAR		-	big boy clear
