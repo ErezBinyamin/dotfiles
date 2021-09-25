@@ -106,7 +106,8 @@ up() {
 # Get bash dependencies
 shdeps () (
 	[ $# -lt 1 ] && return 0
-	DEPS=()
+	PRESENT_DEPS=()
+	MISSING_DEPS=()
 
 	# Pass a single file to this function
 	fdeps() {
@@ -119,7 +120,21 @@ shdeps () (
 		fi
 		for DEP in `sed 's/|/\n/g; s/#/\n#/g; s/\$(/\n/g' ${1} | sed 's/^[ \t]*//; /^#/d' | awk '{print $1}' | sort -u`
 		do
-			which ${DEP} &>/dev/null && DEPS+=( ${DEP} )
+			[[ ${#DEP} -gt 20 || ${#DEP} -lt 1 ]] && continue
+			compgen -b | grep -q "\<${DEP}\>" 2>/dev/null && continue
+			echo ${DEP} | grep -q \
+				-e '=' \
+				-e '()' \
+				-e ';' \
+				-e '!' \
+				-e '\.' \
+				-e '"' \
+				-e "'" \
+				-e '`' \
+				-e '&' \
+				-e '*' && continue
+			which ${DEP} &>/dev/null && PRESENT_DEPS+=( ${DEP} )
+			which ${DEP} &>/dev/null || MISSING_DEPS+=( ${DEP} )
 		done
 	}
 
@@ -142,7 +157,10 @@ shdeps () (
 	done
 
 	# Complete
-	echo ${DEPS[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '
+	printf "\nPresent: "
+	echo ${PRESENT_DEPS[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '
+	printf "\n\nMissing: "
+	echo ${MISSING_DEPS[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '
 	printf '\n'
 )
 
