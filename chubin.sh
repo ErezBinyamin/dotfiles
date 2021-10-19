@@ -61,7 +61,7 @@ share_get() {
 define() {
 	if net_check
 	then
-		/usr/bin/curl -s https://www.vocabulary.com/dictionary/$1 | \
+		/usr/bin/curl -s https://www.vocabulary.com/dictionary/$(echo $@ | tr ' ' '-') | \
 		grep 'og:description' | sed 's/&#[0-9][0-9][0-9]//g' | awk -F "\"" '{print $4}'
 	else
 		echo "ERROR: No network connectivity"
