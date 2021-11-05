@@ -13,7 +13,7 @@ alias ps1="source ${INIT_DIR}/prompt/PS1.sh"
 alias rez_update='pushd .; cd $INIT_DIR; git pull; popd'
 
 # Aggressive clear
-alias CLEAR='printf "\ec"'
+alias CLEAR='which tput &>/dev/null && tput reset; printf "\ec"'
 
 # Renames
 alias hi='history'
