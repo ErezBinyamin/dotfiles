@@ -96,6 +96,7 @@ alias gps='git push'
 alias gpl='git pull'
 alias gre='git remote'
 ghome() {
+	local REMOTE URL
 	if [ -z ${1+x} ]
 	then
 		REMOTE='origin'
@@ -106,7 +107,14 @@ ghome() {
 		echo "Invalid remote: $1"
 		return 1
 	fi
-	git config --get remote.${REMOTE}.url &>/dev/null && git config --get remote.${REMOTE}.url | sed 's/\.git//; s/git@//; s#https://##; s#:#/#g' | xargs firefox || echo 'Error: no git remote URL'
+	URL=$(git config --get remote.${REMOTE}.url &>/dev/null && git config --get remote.${REMOTE}.url | sed 's/\.git//; s/git@//; s#https://##; s#:#/#g')
+	URL=${URL}/tree/$(git rev-parse --abbrev-ref HEAD)
+	if curl --output /dev/null --silent --fail -r 0-0 ${URL} &>/dev/null
+	then
+		firefox ${URL} &
+	else
+		>&2 echo "NetworkError: Cannot reach ${URL}"
+	fi
 }
 
 # Submodules
