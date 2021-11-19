@@ -5,7 +5,6 @@
 #						#
 #################################################
 # Simple
-alias local_ip='hostname -I | sed "s/ .*//"'
 alias hgrep='history | grep -e'
 alias bashrc='source ~/.bashrc'
 alias PS1="source ${INIT_DIR}/prompt/PS1.sh"
@@ -16,10 +15,13 @@ alias rez_update='pushd .; cd $INIT_DIR; git pull; popd'
 alias CLEAR='which tput &>/dev/null && tput reset; printf "\ec"'
 
 # Renames
-alias hi='history'
-alias jo='jobs'
 alias less='less -R'
 alias nmap='nmap -T5 --min-parallelism=50 -n --min-rate=300'
+
+# Readelf with better formatting (because readelf normally sucks)
+readelf() {
+	/usr/bin/readelf $@ | sed '/\[..\]/{N;s/\n//}; /[A-Z][A-Z][A-Z].*[[:space:]]0x/{N;s/\n//}; /Type           Offset/{N;s/\n//}'
+}
 
 #Fix mistakes / defence against trains
 alias sl='ls'
@@ -35,41 +37,49 @@ alias LS='[ which tree &> /dev/null ] && tree || ls_tree' # Big ls is a tree
 #						#
 #################################################
 # Make a tree with ls
-ls_tree(){
+ls_tree() {
 	LS_ARGS=${@:-.}
 	ls -R ${LS_ARGS} | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
 }
 
 # Swap two files
-swap()
-{
+swap() {
     local TMPFILE=tmp.$$
     [[ $# -ne 2 || ! -f $1 || ! -f $2 ]] && return 1
     mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
 }
 
-# Readelf with better formatting (because readelf normally sucks)
-readelf() {
-	/usr/bin/readelf $@ | sed '/\[..\]/{N;s/\n//}; /[A-Z][A-Z][A-Z].*[[:space:]]0x/{N;s/\n//}; /Type           Offset/{N;s/\n//}'
-}
-
 # Check network connectivity the fastest way this system supports
 net_check() {
 	TEST='www.google.com'
-	which ip   &>/dev/null && return $(ip addr | grep inet | grep -q global && echo 0 || echo 1)
+	which ip   &>/dev/null && return $(ip addr | grep inet | grep global | grep -q noprefixroute && echo 0 || echo 1)
 	which ping &>/dev/null && return $(ping -q -w 1 -c 1 ${TEST} &> /dev/null && echo 0 || echo 1)
-	which wget &>/dev/null && return $(wget -q --spider ${TEST} && echo 0 || echo 1) 
+	which wget &>/dev/null && return $(wget -q --spider ${TEST} && echo 0 || echo 1)
 	which nc   &>/dev/null && return $(nc -w 3 -z ${TEST} 80 && echo 0 || echo 1)
-	echo "ERROR: Cannot detect network connection status!"
+	>&2 echo "NetworkError: Cannot detect network connection status"
 	return 1
 }
 
 public_ip() {
+	if ! net_check
+	then
+		>&2 echo "NetworkError: Not connected to network"
+		return 1
+	fi
 	which curl &>/dev/null && curl --silent ipinfo.io/ip && return $?
 	which wget &>/dev/null && wget -q -O - ipinfo.io/ip && return $?
 	MAINIF=$( route -n | grep '^0\.0\.0\.0' | head -n 1 | awk '{print $NF}' )
 	IP=$( ifconfig $MAINIF | { IFS=' :';read r;read r r a r;echo $a; } )
 	printf "$IP"
+}
+
+local_ip() {
+	if ! net_check
+	then
+		>&2 echo "NetworkError: Not connected to network"
+		return 1
+	fi
+	ip -family inet address | grep 'noprefixroute' | grep -Po '(?<=inet[ ])([0-9]{1,3}[.]){3}[0-9]{1,3}'
 }
 
 # Print next available port
