@@ -176,6 +176,16 @@ shdeps () (
 	printf '\n'
 )
 
+text() {
+	local PHONE="$1"
+	shift
+	local MESSAGE="$@"
+	curl --silent --request POST https://textbelt.com/text \
+	       --data-urlencode phone="$PHONE" \
+	       --data-urlencode message="$MESSAGE" \
+	       -d key=textbelt
+}
+
 alias erez="printf '
 	bashrc		-	reload bashrc
 	CLEAR		-	big boy clear

@@ -35,7 +35,7 @@ share() {
 				return 1
 			fi
 			printf "\n$FILE:\t"
-			cat ${FILE} | /usr/bin/curl -F 'clbin=<-' https://clbin.com
+			cat ${FILE} | /usr/bin/curl --silent --form 'clbin=<-' https://clbin.com
 		done
 	else
 		>&2 echo "ERROR: No network connectivity"
@@ -56,7 +56,7 @@ share_get() {
 
 	if net_check
 	then
-		/usr/bin/curl "https://clbin.com/${END}"
+		/usr/bin/curl --silent "https://clbin.com/${END}"
 	else
 		>&2 echo "ERROR: No network connectivity"
 		return 1
