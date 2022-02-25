@@ -7,9 +7,10 @@ alias map='printf "\n\nA:\tZoom In +\nZ:\tZoom Out -\nArrows:\tMove\nQ:\tQuit\n\
 
 # Help from cheat.sh git repo:
 cheat() {
+	local URL="cht.sh"
 	if net_check
 	then
-		/usr/bin/curl 'cheat.sh/'"$(echo $@ | tr ' ' '+')"
+		/usr/bin/curl --silent "${URL}/$(echo $@ | tr ' ' '+')"
 	else
 		>&2 echo "ERROR: No network connectivity"
 		return 1
