@@ -188,7 +188,7 @@ docker-del() (
 	}
 
 	rm_containers() {
-		[ $(docker container ls | wc -l) -gt 1 ] && docker container prune -f
+		docker container prune -f
 		[ $(docker container ls | wc -l) -gt 1 ] && docker rm -vf $(docker ps -a -q)
 	       	[ $(docker container ls | wc -l) -gt 1 ] || echo "No more containers to remove"
 	}
