@@ -96,7 +96,7 @@ alias gps='git push'
 alias gpl='git pull'
 alias gre='git remote'
 ghome() {
-	local REMOTE URL
+	local REPO_NAME REMOTE URL
 	if [ -z ${1+x} ]
 	then
 		REMOTE='origin'
@@ -109,6 +109,7 @@ ghome() {
 	fi
 	URL=$(git config --get remote.${REMOTE}.url &>/dev/null && git config --get remote.${REMOTE}.url | sed 's/\.git//; s/git@//; s#https://##; s#:#/#g')
 	URL=${URL}/tree/$(git rev-parse --abbrev-ref HEAD)
+        URL=${URL}$(pwd | grep -o "$(basename `git rev-parse --show-toplevel`).*" | grep -o '/.*')
 	if curl --output /dev/null --silent --fail -r 0-0 ${URL} &>/dev/null
 	then
 		firefox ${URL} &
