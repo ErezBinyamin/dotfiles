@@ -1,15 +1,5 @@
 #!/bin/bash
-# Dependency check
-declare -a DEPS=( "git" )
-for dep in "${DEPS[@]}"
-do
-	echo $dep
-	if ! command -v ${dep} &>/dev/null
-	then
-		>&2 echo "DependencyError missing package: ${dep}"
-		exit
-	fi
-done
+dependency_check "git"
 
 
 # Helper function

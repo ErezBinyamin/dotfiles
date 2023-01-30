@@ -36,6 +36,19 @@ alias LS='[ which tree &> /dev/null ] && tree || ls_tree' # Big ls is a tree
 #	       ----FUNCTIONS----	        #
 #						#
 #################################################
+# Check that all specified dependncies are installed, error if not
+dependency_check() {
+	for dep in "$@"
+	do
+	        if ! command -v ${dep} &>/dev/null
+	        then
+	                >&2 echo "DependencyError missing package: ${dep}"
+	                return 1
+	        fi
+	done
+	return 0
+}
+
 # Make a tree with ls
 ls_tree() {
 	LS_ARGS=${@:-.}
@@ -61,11 +74,6 @@ net_check() {
 }
 
 public_ip() {
-	if ! net_check
-	then
-		>&2 echo "NetworkError: Not connected to network"
-		return 1
-	fi
 	which curl &>/dev/null && curl --silent ipinfo.io/ip && return $?
 	which wget &>/dev/null && wget -q -O - ipinfo.io/ip && return $?
 	MAINIF=$( route -n | grep '^0\.0\.0\.0' | head -n 1 | awk '{print $NF}' )
@@ -74,11 +82,6 @@ public_ip() {
 }
 
 local_ip() {
-	if ! net_check
-	then
-		>&2 echo "NetworkError: Not connected to network"
-		return 1
-	fi
 	ip -family inet address | grep 'noprefixroute' | grep -Po '(?<=inet[ ])([0-9]{1,3}[.]){3}[0-9]{1,3}'
 }
 
@@ -113,7 +116,7 @@ up() {
 	[[ ! ${HEIGHT} == '' ]] && cd ${HEIGHT} || echo 'up: usage: up [n]'
 }
 
-# Get bash dependencies
+# Get bash dependencies in a specified bash script file
 shdeps () (
 	[ $# -lt 1 ] && return 0
 	PRESENT_DEPS=()
@@ -180,6 +183,11 @@ text() {
 	local PHONE="$1"
 	shift
 	local MESSAGE="$@"
+	if [ $(echo "${MESSAGE}" | wc -w) -lt 2 ]
+	then
+		>&2 echo 'USAGE: text <phone-number> "<message>"'
+		return 1
+	fi
 	curl --silent --request POST https://textbelt.com/text \
 	       --data-urlencode phone="$PHONE" \
 	       --data-urlencode message="$MESSAGE" \
