@@ -57,7 +57,8 @@ print_components() {
 # sed script removes escape codes ^A and ^B
 print_preview() {
 	printf "PREVIEW   :\n"
-	echo "${PS1@P@P}"  | sed "s#\x1##g; s#\x2##g;"
+	#echo "${PS1@P@P}"  | sed "s#\x1##g; s#\x2##g;"
+	bash -c "echo \"${PS1@P}\""
 }
 CHOICE='-'
 while [[ ! ${CHOICE^^} == 'Q' ]]
