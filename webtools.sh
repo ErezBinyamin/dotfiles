@@ -10,7 +10,7 @@ cheat() {
 	local URL="cht.sh"
 	if net_check
 	then
-		/usr/bin/curl --silent "${URL}/$(echo $@ | tr ' ' '+')"
+		curl --silent "${URL}/$(echo $@ | tr ' ' '+')"
 	else
 		>&2 echo "ERROR: No network connectivity"
 		return 1
@@ -36,7 +36,7 @@ share() {
 				return 1
 			fi
 			printf "\n$FILE:\t"
-			cat ${FILE} | /usr/bin/curl --silent --form 'clbin=<-' https://clbin.com
+			cat ${FILE} | curl --silent --form 'clbin=<-' https://clbin.com
 		done
 	else
 		>&2 echo "ERROR: No network connectivity"
@@ -57,7 +57,7 @@ share_get() {
 
 	if net_check
 	then
-		/usr/bin/curl --silent "https://clbin.com/${END}"
+		curl --silent "https://clbin.com/${END}"
 	else
 		>&2 echo "ERROR: No network connectivity"
 		return 1
@@ -69,7 +69,7 @@ share_get() {
 define() {
 	if net_check
 	then
-		/usr/bin/curl -s https://www.vocabulary.com/dictionary/$(echo $@ | tr ' ' '-') | \
+		curl --silent https://www.vocabulary.com/dictionary/$(echo $@ | tr ' ' '-') | \
 		grep 'og:description' | sed 's/&#[0-9][0-9][0-9]//g' | awk -F "\"" '{print $4}'
 	else
 		>&2 echo "ERROR: No network connectivity"
