@@ -11,9 +11,12 @@ then
 			if hostname -I &>/dev/null
 			then
 				hostname -I | cut -d" " -f1
-			elif ip addr | grep inet | grep global &>/dev/null
+			elif ip addr &>/dev/null
 			then
 				ip addr | grep inet | grep global | head -n1 | tr " " "\t" | tr "//" "\t"| cut -f6
+			elif ifconfig &>/dev/null
+				then
+					ifconfig | grep "inet " | grep -ve "inet.*\.1 .*n" -e "inet.*\.255 .*n" | grep -o "inet.*n" | cut -d" " -f2
 			fi
 		else
 			echo "OFFLINE"
@@ -32,9 +35,12 @@ else
 				if hostname -I &>/dev/null
 				then
 					hostname -I | cut -d" " -f1
-				elif ip addr | grep inet | grep global &>/dev/null
+				elif ip addr &>/dev/null
 				then
 					ip addr | grep inet | grep global | head -n1 | tr " " "\t" | tr "//" "\t"| cut -f6
+				elif ifconfig &>/dev/null
+				then
+					ifconfig | grep 'inet ' | grep -ve 'inet.*\.1 .*n' -e 'inet.*\.255 .*n' | grep -o 'inet.*n' | cut -d' ' -f2
 				fi
 			else
 				echo "OFFLINE"
