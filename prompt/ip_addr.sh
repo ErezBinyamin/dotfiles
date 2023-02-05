@@ -8,10 +8,10 @@ then
 	then
 		if net_check
 		then
-			if which hostname &>/dev/null
+			if hostname -I &>/dev/null
 			then
 				hostname -I | cut -d" " -f1
-			elif which ip &>/dev/null
+			elif ip addr | grep inet | grep global &>/dev/null
 			then
 				ip addr | grep inet | grep global | head -n1 | tr " " "\t" | tr "//" "\t"| cut -f6
 			fi
@@ -29,10 +29,10 @@ else
 		then
 			if net_check
 			then
-				if which hostname &>/dev/null
+				if hostname -I &>/dev/null
 				then
 					hostname -I | cut -d" " -f1
-				elif which ip &>/dev/null
+				elif ip addr | grep inet | grep global &>/dev/null
 				then
 					ip addr | grep inet | grep global | head -n1 | tr " " "\t" | tr "//" "\t"| cut -f6
 				fi
