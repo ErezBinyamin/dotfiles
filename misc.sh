@@ -212,6 +212,7 @@ alias erez="printf '
 	rez_update	-	update this project
 	share		-	quick share a file
 	share_get	-	quick recieve shared file
+	shdeps		-	list dependencys of a bash script
 	swap		-	swap two files
 	swb		-	toggle PS1 prompt bar
 	up		-	go up n directories
