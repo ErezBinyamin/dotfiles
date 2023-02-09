@@ -1,20 +1,6 @@
 #!/bin/bash
 dependency_check "git"
 
-# Helper function
-choice() {
-	PROMPT=${1:-'Yes or No? '}
-	while true; do
-		read -p "${PROMPT}" yn
-		case $yn in
-			[Yy]* ) RVAL=0; break;;
-			[Nn]* ) RVAL=1; break;;
-			    * ) echo "Please answer yes or no.";;
-		esac
-	done
-	return $RVAL
-}
-
 # Everyday stuff
 alias ga='git add'
 alias gA='git add -A'
@@ -48,7 +34,7 @@ gln() {
 
 # Reseting
 alias grhh='git reset --hard HEAD'                            # Reset to last commit
-alias groh='git fetch origin; git reset --hard origin/master' # Reset really hard to origin state
+alias groh='git fetch origin; git reset --hard origin/$(git branch 2>/dev/null | grep -e ^* | sed "s:* ::")' # Reset really hard to origin state
 
 # Remote interaction
 alias gps='git push'
@@ -63,7 +49,7 @@ ghome() {
 	then
 		REMOTE="$1"
 	else
-		echo "Invalid remote: $1"
+		>&2 echo "Invalid remote: $1"
 		return 1
 	fi
 	URL=$(git config --get remote.${REMOTE}.url &>/dev/null && git config --get remote.${REMOTE}.url | sed 's/\.git//; s/git@//; s#https://##; s#:#/#g')
