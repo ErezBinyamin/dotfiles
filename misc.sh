@@ -142,14 +142,12 @@ shdeps () (
 				-e '!' \
 				-e '\.' \
 				-e '\\' \
-				-e '-' \
 				-e '"' \
 				-e "'" \
 				-e '`' \
 				-e '&' \
 				-e '*' && continue
-			command -v ${DEP} &>/dev/null && PRESENT_DEPS+=( ${DEP} )
-			command -v ${DEP} &>/dev/null || MISSING_DEPS+=( ${DEP} )
+			command -v ${DEP} &>/dev/null && PRESENT_DEPS+=( ${DEP} ) || MISSING_DEPS+=( ${DEP} )
 		done
 	}
 
@@ -158,9 +156,10 @@ shdeps () (
 		[ ${#arg} -lt 1 ] && continue
 		if [ -d $arg ]
 		then
-			for d in `shdeps ${arg}/*`
+			for d in `${arg}/*`
 			do
-				DEPS+=( $d )
+				# @ RECURSE
+				shdeps ${d}
 			done
 		elif [ -f $arg ]
 		then
