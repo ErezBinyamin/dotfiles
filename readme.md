@@ -17,8 +17,8 @@ git clone --recursive https://github.com/ErezBinyamin/dotfiles.git
 
 printf "
 # Dotfiles: https://github.com/ErezBinyamin/dotfiles.git
-INIT_DIR=${PWD}/dotfiles"'
-[ -d ${INIT_DIR} ] && source ${INIT_DIR}/top.sh || echo "[ERROR] DirectoryNotFound: ${INIT_DIR}"
+DOTFILES=${PWD}/dotfiles"'
+[ -d ${DOTFILES} ] && source ${DOTFILES}/top.sh || echo "[ERROR] DirectoryNotFound: ${DOTFILES}"
 ' >> ~/.bashrc
 
 source ~/.bashrc
@@ -61,7 +61,7 @@ Prompt is either a shell or a secure shell
 * [X] Automatically shorten prompt based upon ```tput cols```  
 * [X] Create single script that when sourced delivers enviroment. (No for loop in ```.bashrc```)
 * [X] Installer script with dependencies
-* [ ] Allow configuration of prompt symbols in global config file (outside of [prompt](prompt/) dir)
+* [X] Allow configuration of prompt symbols in global config file (outside of [prompt](prompt/) dir)
 * [ ] Allow configuration of commands (eg ```${BROWSER}``` instead of using ```firefox```) 
 * [ ] Do not store information in enviroment variables. Use some other method.
 * [ ] Maintain _emoji_ branch somehow
