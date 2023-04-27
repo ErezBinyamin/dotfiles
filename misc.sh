@@ -7,9 +7,9 @@
 # Simple
 alias hgrep='history | grep -e'
 alias bashrc='source ~/.bashrc'
-alias PS1="source ${INIT_DIR}/prompt/PS1.sh"
-alias ps1="source ${INIT_DIR}/prompt/PS1.sh"
-alias rez_update='pushd .; cd $INIT_DIR; git pull; popd'
+alias PS1="source ${DOTFILES}/prompt/PS1.sh"
+alias ps1="source ${DOTFILES}/prompt/PS1.sh"
+alias rez_update='pushd .; cd $DOTFILES; git pull; popd'
 
 # Aggressive clear
 alias CLEAR='which tput &>/dev/null && tput reset; printf "\ec"'
