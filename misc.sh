@@ -12,7 +12,7 @@ alias ps1="source ${DOTFILES}/prompt/PS1.sh"
 alias rez_update='pushd .; cd $DOTFILES; git pull; popd'
 
 # Aggressive clear
-alias CLEAR='which tput &>/dev/null && tput reset; printf "\ec"'
+alias CLEAR='command -v tput &>/dev/null && tput reset; printf "\ec"'
 
 # Renames
 alias less='less -R'
@@ -30,7 +30,7 @@ alias Sl='ls'
 alias SL='ls'
 alias lS='ls'
 alias Ls='ls'
-alias LS='[ which tree &> /dev/null ] && tree || ls_tree' # Big ls is a tree
+alias LS='[ command -v tree &> /dev/null ] && tree || ls_tree' # Big ls is a tree
 #################################################
 #						#
 #	       ----FUNCTIONS----	        #
@@ -65,17 +65,17 @@ swap() {
 # Check network connectivity the fastest way this system supports
 net_check() {
 	TEST='www.google.com'
-	which ip   &>/dev/null && return $(ip addr | grep inet | grep global | grep -q noprefixroute && echo 0 || echo 1)
-	which ping &>/dev/null && return $(ping -q -w 1 -c 1 ${TEST} &> /dev/null && echo 0 || echo 1)
-	which wget &>/dev/null && return $(wget -q --spider ${TEST} && echo 0 || echo 1)
-	which nc   &>/dev/null && return $(nc -w 3 -z ${TEST} 80 && echo 0 || echo 1)
+	command -v ip   &>/dev/null && return $(ip addr | grep inet | grep global | grep -q noprefixroute && echo 0 || echo 1)
+	command -v ping &>/dev/null && return $(ping -q -w 1 -c 1 ${TEST} &> /dev/null && echo 0 || echo 1)
+	command -v wget &>/dev/null && return $(wget -q --spider ${TEST} && echo 0 || echo 1)
+	command -v nc   &>/dev/null && return $(nc -w 3 -z ${TEST} 80 && echo 0 || echo 1)
 	>&2 echo "NetworkError: Cannot detect network connection status"
 	return 1
 }
 
 public_ip() {
-	which curl &>/dev/null && curl --silent ipinfo.io/ip && return $?
-	which wget &>/dev/null && wget -q -O - ipinfo.io/ip && return $?
+	command -v curl &>/dev/null && curl --silent ipinfo.io/ip && return $?
+	command -v wget &>/dev/null && wget -q -O - ipinfo.io/ip && return $?
 	MAINIF=$( route -n | grep '^0\.0\.0\.0' | head -n 1 | awk '{print $NF}' )
 	IP=$( ifconfig $MAINIF | { IFS=' :';read r;read r r a r;echo $a; } )
 	printf "$IP"
@@ -142,14 +142,12 @@ shdeps () (
 				-e '!' \
 				-e '\.' \
 				-e '\\' \
-				-e '-' \
 				-e '"' \
 				-e "'" \
 				-e '`' \
 				-e '&' \
 				-e '*' && continue
-			which ${DEP} &>/dev/null && PRESENT_DEPS+=( ${DEP} )
-			which ${DEP} &>/dev/null || MISSING_DEPS+=( ${DEP} )
+			command -v ${DEP} &>/dev/null && PRESENT_DEPS+=( ${DEP} ) || MISSING_DEPS+=( ${DEP} )
 		done
 	}
 
@@ -158,9 +156,10 @@ shdeps () (
 		[ ${#arg} -lt 1 ] && continue
 		if [ -d $arg ]
 		then
-			for d in `shdeps ${arg}/*`
+			for d in `${arg}/*`
 			do
-				DEPS+=( $d )
+				# @ RECURSE
+				shdeps ${d}
 			done
 		elif [ -f $arg ]
 		then
@@ -212,6 +211,7 @@ alias erez="printf '
 	rez_update	-	update this project
 	share		-	quick share a file
 	share_get	-	quick recieve shared file
+	shdeps		-	list dependencys of a bash script
 	swap		-	swap two files
 	swb		-	toggle PS1 prompt bar
 	up		-	go up n directories
