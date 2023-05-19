@@ -182,7 +182,7 @@ text() {
 	local PHONE="$1"
 	shift
 	local MESSAGE="$@"
-	if [ $(echo "${MESSAGE}" | wc -w) -lt 2 ]
+	if [ $(echo "${MESSAGE}" | wc -c) -lt 2 ]
 	then
 		>&2 echo 'USAGE: text <phone-number> "<message>"'
 		return 1
