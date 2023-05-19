@@ -193,6 +193,15 @@ text() {
 	       -d key=textbelt
 }
 
+clip() {
+	if [ $# -lt 1 ]
+	then
+		>&2 echo 'USAGE: clip text to copy to clipboard ...'
+		return 1
+	fi
+	echo $@ | xclip -sel clip
+}
+
 alias erez="printf '
 	bashrc		-	reload bashrc
 	CLEAR		-	big boy clear
@@ -216,6 +225,5 @@ alias erez="printf '
 	swb		-	toggle PS1 prompt bar
 	up		-	go up n directories
 	weather		-	the weather
-
 '
 "
