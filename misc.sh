@@ -17,7 +17,14 @@ alias CLEAR='command -v tput &>/dev/null && tput reset; printf "\ec"'
 # Renames
 alias less='less -R'
 alias nmap='nmap -T5 --min-parallelism=50 -n --min-rate=300'
+lsport() {
+	printf "> lsof -i -P\n"
+	[ $# -ge 1 ] && sudo lsof -i -P || lsof -i -P
 
+	echo "> netstat -tulnp\n"
+	[ $# -ge 1 ] && sudo netstat -tulnp || netstat -tulnp
+}
+ 
 # Readelf with better formatting (because readelf normally sucks)
 readelf() {
 	/usr/bin/readelf $@ | sed '/\[..\]/{N;s/\n//}; /[A-Z][A-Z][A-Z].*[[:space:]]0x/{N;s/\n//}; /Type           Offset/{N;s/\n//}'
