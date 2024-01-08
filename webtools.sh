@@ -2,7 +2,7 @@
 # Weather report
 alias weather='curl wttr.in'
 alias moon='curl wttr.in/Moon'
-alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -'
 alias map='printf "\n\nA:\tZoom In +\nZ:\tZoom Out -\nArrows:\tMove\nQ:\tQuit\n\nPress any key to continue...\n"; read -s -n 1; telnet mapscii.me'
 
 # Help from cheat.sh git repo:
