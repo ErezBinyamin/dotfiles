@@ -211,7 +211,7 @@ shdeps () (
 	printf '\n'
 )
 
-text() {
+txsms() {
 	local PHONE="$1"
 	shift
 	local MESSAGE="$@"
