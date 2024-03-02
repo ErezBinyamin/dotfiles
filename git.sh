@@ -57,6 +57,8 @@ ghome() {
         URL=${URL}$(pwd | grep -o "$(basename `git rev-parse --show-toplevel`).*" | grep -o '/.*')
 	if curl --output /dev/null --silent --fail -r 0-0 ${URL} &>/dev/null
 	then
+		URL="https://${URL}"
+		echo "Repo URL: ${URL}"
 		xdg-open ${URL} &>/dev/null &
 	else
 		>&2 echo "NetworkError: Cannot reach ${URL}"
