@@ -131,30 +131,56 @@ shdeps () (
 
 	# Pass a single file to this function
 	fdeps() {
+		local NET_CHECK=false
+		net_check && NET_CHECK=true
+
 		if ! echo ${1} | grep -q '\.sh'
 		then
 			if ! head ${1} | grep -q '#.*/*.sh'
 			then
+				echo "ERROR: ${1} does not seem to be a bash script"
 				return 1
 			fi
 		fi
-		for DEP in `sed 's/|/\n/g; s/#/\n#/g; s/\$(/\n/g' ${1} | sed 's/^[ \t]*//; /^#/d' | awk '{print $1}' | sort -u`
+		for DEP in `sed '/^[ \t]*#/d; s/|/\n/g; s/#/\n#/g; s/\$(/\n/g' ${1} | sed 's/^[ \t]*//; /^#/d' | awk '{print $1}' | sort -u`
 		do
-			[[ ${#DEP} -gt 20 || ${#DEP} -lt 1 ]] && continue
+			[[ ${#DEP} -gt 20 || ${#DEP} -lt 2 || "${DEP}" =~ '-' || "${DEP}" == "no" ]] && continue
 			compgen -b | grep -q "\<${DEP}\>" 2>/dev/null && continue
 			echo ${DEP} | grep -q \
-				-e '=' \
-				-e '()' \
+				-e '(' \
+				-e ')' \
+				-e '<' \
+				-e '>' \
+				-e ':' \
 				-e ';' \
-				-e '!' \
-				-e '\.' \
-				-e '\\' \
 				-e '"' \
 				-e "'" \
 				-e '`' \
+				-e '\.' \
+				-e '\\' \
+				-e '\$' \
+				-e '\-' \
+				-e '\^' \
+				-e '=' \
+				-e '@' \
+				-e '#' \
+				-e '+' \
+				-e '%' \
+				-e '/' \
+				-e '!' \
+				-e '?' \
 				-e '&' \
 				-e '*' && continue
-			command -v ${DEP} &>/dev/null && PRESENT_DEPS+=( ${DEP} ) || MISSING_DEPS+=( ${DEP} )
+			
+			if command -v ${DEP} &>/dev/null
+			then
+				PRESENT_DEPS+=( ${DEP} )
+			elif grep -q "${DEP}()" "${1}"
+			then
+				continue
+			else
+				MISSING_DEPS+=( ${DEP} )
+			fi
 		done
 	}
 
@@ -170,7 +196,7 @@ shdeps () (
 			done
 		elif [ -f $arg ]
 		then
-			fdeps ${arg}
+			fdeps ${arg} || return 1
 		else
 			echo "InvalidArgumentError: ${arg}"
 			return 1
@@ -180,8 +206,8 @@ shdeps () (
 	# Complete
 	printf "\nPresent: "
 	echo ${PRESENT_DEPS[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '
-	printf "\n\nMissing: "
-	echo ${MISSING_DEPS[@]} | tr ' ' '\n' | sort -u | tr '\n' ' '
+	printf "\n\nMissing: \n  > "
+	echo ${MISSING_DEPS[@]} | tr ' ' '\n' | sort -u | tr '\n' '#' | sed 's/#/\n  > /g' | head -n -1
 	printf '\n'
 )
 
