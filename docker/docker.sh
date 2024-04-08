@@ -93,7 +93,7 @@ pihole() {
 		local P_HTTPS=$(next_port 443)
 		local TIMEZONE='America/New_York' # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 		local EXTERNAL_IP=$(public_ip)
-		docker run -d --rm \
+		docker run -d \
 		    --name pihole \
 		    -p ${P_DNS}:53/tcp \
 		    -p ${P_DNS}:53/udp \
