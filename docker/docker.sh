@@ -53,25 +53,42 @@ osrs() {
 
 
 bettercap() {
-	TMP=$(mktemp -d /tmp/bettercap.XXXXX)
-	VOLUME_ARG=${TMP}:/tmp/out
+	local TMP=$(mktemp -d /tmp/bettercap.XXXXX)
+	local VOLUME_ARG=${TMP}:/tmp/out
 	echo "TMP DIR mounted: ${VOLUME_ARG}"
-	docker run -it --privileged --rm --net=host -p 8080:8080 -v ${VOLUME_ARG} bettercap/bettercap
-	read -p "Delete mounted directory: $TMP? [y/n]: " X
-	[[ "${X,,}" =~ "y" ]] && rm -rf ${TMP}
+
+	docker run -it --rm \
+		--privileged \
+		--net=host \
+		--port 8080:8080 \
+		--volume "${VOLUME_ARG}" \
+		bettercap/bettercap
+
+	read -p "Delete mounted directory: ${TMP}? [y/n]: " READ
+	[[ "${READ,,}" =~ "y" ]] && rm -rf ${TMP}
 }
 
 metasploit() {
-    docker run --net=host --rm -it metasploitframework/metasploit-framework
+    docker run --rm -it \
+	    --net=host \
+	    metasploitframework/metasploit-framework
 }
 
 smtp_server() {
-	docker run --net=host --rm maildev/maildev
+	docker run --rm \
+		--net=host \
+		maildev/maildev
 }
 
 matlab() {
-	xhost +
-	docker run --net=host --rm -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro --shm-size=512M mathworks/matlab:r2021a
+	xhost +local:$(id -un)
+
+	docker run --rm -it \
+		--net=host \
+		--env DISPLAY="${DISPLAY}" \
+		--volume /tmp/.X11-unix:/tmp/.X11-unix:ro \
+		--shm-size=512M \
+		mathworks/matlab:r2021a
 }
 
 pihole() {
@@ -93,24 +110,25 @@ pihole() {
 		local P_HTTPS=$(next_port 443)
 		local TIMEZONE='America/New_York' # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 		local EXTERNAL_IP=$(public_ip)
-		docker run -d \
+
+		docker run --detach \
 		    --name pihole \
-		    -p ${P_DNS}:53/tcp \
-		    -p ${P_DNS}:53/udp \
-		    -p ${P_67}:67/udp \
-		    -p ${P_HTTP}:80/tcp \
-		    -p ${P_HTTPS}:443/tcp \
-		    -v "${PIHOLE_BASE}/etc-pihole/:/etc/pihole/" \
-		    -v "${PIHOLE_BASE}/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
+		    --port ${P_DNS}:53/tcp \
+		    --port ${P_DNS}:53/udp \
+		    --port ${P_67}:67/udp \
+		    --port ${P_HTTP}:80/tcp \
+		    --port ${P_HTTPS}:443/tcp \
+		    --volume "${PIHOLE_BASE}/etc-pihole/:/etc/pihole/" \
+		    --volume "${PIHOLE_BASE}/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
 		    --dns=127.0.0.1 \
 		    --dns=1.1.1.1 \
 		    --restart=unless-stopped \
 		    --hostname pi.hole \
-		    -e VIRTUAL_HOST="pi.hole" \
-		    -e PROXY_LOCATION="pi.hole" \
-		    -e PIHOLE_DNS_="127.0.0.1#5353;8.8.8.8;8.8.4.4;1.1.1.1" \
-		    -e TZ=${TIMEZONE} \
-		    -e ServerIP=${EXTERNAL_IP} \
+		    --env VIRTUAL_HOST="pi.hole" \
+		    --env PROXY_LOCATION="pi.hole" \
+		    --env PIHOLE_DNS_="127.0.0.1#5353;8.8.8.8;8.8.4.4;1.1.1.1" \
+		    --env TZ=${TIMEZONE} \
+		    --env ServerIP=${EXTERNAL_IP} \
 		    --restart=unless-stopped \
 		    pihole/pihole:latest
 
