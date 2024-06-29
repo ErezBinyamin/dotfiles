@@ -51,6 +51,37 @@ osrs() {
 	return $?
 }
 
+ee2wine() { 	
+	local IMAGE_NAME=erezbinyamin/ee2wine:latest
+	if [ "${USER_VOLUME}" == "winehome" ] && ! docker volume ls -qf "name=winehome" | grep -q "^winehome$"
+	then
+		echo "INFO: Creating Docker volume container 'winehome'..."
+		docker volume create winehome
+	fi
+	if [ -z "${XAUTHORITY:-${HOME}/.Xauthority}" ]
+	then
+		echo "ERROR: No valid .Xauthority file found for X11"
+		return 1
+	fi
+	xhost +local:$(id -un)
+	xauth list "${DISPLAY}" | head -n1 | awk '{print $3}' > ~/.docker-wine.Xkey
+	
+	sudo chrt --fifo 99 docker run -it --rm \
+		--name=wine2 \
+		--hostname=$(hostname) \
+		--shm-size=1g \
+		--workdir=/ \
+		--env=RUN_AS_ROOT=yes \
+		--env=DISPLAY \
+		--env=TZ=America/New_York \
+		--volume=/home/${USER}/.docker-wine.Xkey:/root/.Xkey:ro \
+		--volume=/tmp/pulse-socket:/tmp/pulse-socket \
+		--volume=/tmp/.X11-unix:/tmp/.X11-unix:ro \
+		--volume=winehome:/home/wineuser \
+		--cap-add=NET_ADMIN \
+		--privileged \
+		${IMAGE_NAME} bash
+}
 
 bettercap() {
 	local TMP=$(mktemp -d /tmp/bettercap.XXXXX)
@@ -60,7 +91,7 @@ bettercap() {
 	docker run -it --rm \
 		--privileged \
 		--net=host \
-		--port 8080:8080 \
+		--publish 8080:8080 \
 		--volume "${VOLUME_ARG}" \
 		bettercap/bettercap
 
@@ -105,19 +136,26 @@ pihole() {
 
 		# Note: ServerIP should be replaced with your external ip.
 		local P_DNS=$(next_port 53)
-		local P_67=$(next_port 67)
+		local P_DHCP=$(next_port 67)
 		local P_HTTP=$(next_port 80)
 		local P_HTTPS=$(next_port 443)
 		local TIMEZONE='America/New_York' # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+		local WEBPASSWORD='pipass'
 		local EXTERNAL_IP=$(public_ip)
+		
+		printf "\nStarting up pihole container: http://localhost:${P_HTTP}\n\n"
+		#printf "\nUsing Ports:\n\tDNS: ${P_DNS}\n\tHTTP: ${P_HTTP}\n\tHTTPS: ${P_HTTPS}\n\tDHCP: ${P_DHCP}\n\n"
+		printf "\nUsing Ports:\n\tDNS: ${P_DNS}\n\tHTTP: ${P_HTTP}\n\tHTTPS: ${P_HTTPS}\n\n"
 
+		# Required if you are using Pi-hole as your DHCP server, else not needed
+		#    --publish ${P_DHCP}:67/udp
+		#    --privileged
 		docker run --detach \
 		    --name pihole \
-		    --port ${P_DNS}:53/tcp \
-		    --port ${P_DNS}:53/udp \
-		    --port ${P_67}:67/udp \
-		    --port ${P_HTTP}:80/tcp \
-		    --port ${P_HTTPS}:443/tcp \
+		    --publish ${P_DNS}:53/tcp \
+		    --publish ${P_DNS}:53/udp \
+		    --publish ${P_HTTP}:80/tcp \
+		    --publish ${P_HTTPS}:443/tcp \
 		    --volume "${PIHOLE_BASE}/etc-pihole/:/etc/pihole/" \
 		    --volume "${PIHOLE_BASE}/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
 		    --dns=127.0.0.1 \
@@ -129,11 +167,11 @@ pihole() {
 		    --env PIHOLE_DNS_="127.0.0.1#5353;8.8.8.8;8.8.4.4;1.1.1.1" \
 		    --env TZ=${TIMEZONE} \
 		    --env ServerIP=${EXTERNAL_IP} \
+		    --env WEBPASSWORD=${WEBPASSWORD} \
 		    --restart=unless-stopped \
+		    --cap-add=NET_ADMIN
 		    pihole/pihole:latest
 
-		printf "\nStarting up pihole container: http://localhost:${P_HTTP}"
-		printf "\nUsing Ports:\n\tDNS: ${P_DNS}\n\tHTTP: ${P_HTTP}\n\tHTTPS: ${P_HTTPS}\n\t67: ${P_67}\n"
 		sleep 10
 		wait
 
