@@ -18,11 +18,18 @@ alias CLEAR='command -v tput &>/dev/null && tput reset; printf "\ec"'
 alias less='less -R'
 alias nmap='nmap -T5 --min-parallelism=50 -n --min-rate=300'
 lsport() {
-	printf "> lsof -i -P\n"
-	[ $# -ge 1 ] && sudo lsof -i -P || lsof -i -P
-
-	echo "> netstat -tulnp\n"
-	[ $# -ge 1 ] && sudo netstat -tulnp || netstat -tulnp
+	if [ $# -ge 1 ]
+	then
+		set -x
+		sudo lsof -i -P
+		sudo netstat -tulnp
+		set +x
+	else
+		set -x
+		lsof -i -P
+		netstat -tulnp
+		set +x
+	fi
 }
  
 # Readelf with better formatting (because readelf normally sucks)
