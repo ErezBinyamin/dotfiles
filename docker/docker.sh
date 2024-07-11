@@ -169,7 +169,7 @@ pihole() {
 		    --env ServerIP=${EXTERNAL_IP} \
 		    --env WEBPASSWORD=${WEBPASSWORD} \
 		    --restart=unless-stopped \
-		    --cap-add=NET_ADMIN
+		    --cap-add=NET_ADMIN \
 		    pihole/pihole:latest
 
 		sleep 10
