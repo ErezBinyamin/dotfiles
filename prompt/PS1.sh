@@ -11,7 +11,7 @@
 #     PROMPT_GIT_SYMBOLS	# Git change-file/add-file symbols
 #     PROMPT_GIT_BRANCH		# Git branch name / commit status
 #     PROMPT_CAPS_LOCK		# Caps lock awareness symbol
-#     PROMPT_SSH_ENDING		# SSH awareness symbol
+#     PROMPT_ENV_ENDING		# SSH awareness symbol
 #--##############################
 
 # Print each command char highlighted with the ON(blue) or OFF(yellow) color
@@ -29,7 +29,7 @@ print_commands() {
 	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}S${RST}" || S="${OFF}S${RST}"
 	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON}R${RST}" || R="${OFF}R${RST}"
 	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}C${RST}" || C="${OFF}C${RST}"
-	[ $PROMPT_SSH_ENDING -eq 1 ]  && E="${ON}E${RST}" || E="${OFF}E${RST}"
+	[ $PROMPT_ENV_ENDING -eq 1 ]  && E="${ON}E${RST}" || E="${OFF}E${RST}"
 	printf "COMMANDS  :     $B         $D              $I         $W       $G     $P   $S    $R      $C    $E\n"
 }
 
@@ -48,7 +48,7 @@ print_components() {
 	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}v^ ${RST}"          || P="${OFF}v^ ${RST}"
 	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}@*+${RST}"          || S="${OFF}@*+${RST}"
 	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON} branch ${RST}"     || R="${OFF} branch ${RST}"
-	[ $PROMPT_SSH_ENDING -eq 1 ]  && E="${ON} \$§H ${RST}"       || E="${OFF} \$§H ${RST}"
+	[ $PROMPT_ENV_ENDING -eq 1 ]  && E="${ON} \$§H ${RST}"       || E="${OFF} \$§H ${RST}"
 	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}©CAP©${RST}"        || C="${OFF}©CAP©${RST}"
 	printf "COMPONENTS:  $B$D$U$I$W$G$P$S$R$C$E\n\n"
 }
@@ -95,7 +95,7 @@ do
 			PROMPT_GIT_BRANCH=$(( (${PROMPT_GIT_BRANCH} + 1) % 2))
 			;;
 		"E")
-			PROMPT_SSH_ENDING=$(( (${PROMPT_SSH_ENDING} + 1) % 2))
+			PROMPT_ENV_ENDING=$(( (${PROMPT_ENV_ENDING} + 1) % 2))
 			;;
 		"C")
 			PROMPT_CAPS_LOCK=$(( (${PROMPT_CAPS_LOCK} + 1) % 2))

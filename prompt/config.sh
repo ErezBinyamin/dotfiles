@@ -45,4 +45,4 @@ export PROMPT_GIT_SYMBOLS=1
 export PROMPT_CAPS_LOCK=1	
 
 # SSH awareness symbol
-export PROMPT_SSH_ENDING=1	
+export PROMPT_ENV_ENDING=1	

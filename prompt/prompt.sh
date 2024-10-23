@@ -22,21 +22,26 @@ fi
 `'
 
 # Define ending symbol
-#	ssh  = §
-#	root = #
-#	else = $
+#	ssh    = §
+#	docker = +
+#	else   = $
 export __prompt_ending='`
-PROMPT_SSH_SYMBOL="§"
-if [ ${PROMPT_SSH_ENDING} -eq 1 ]
+PROMPT_SSH_SYMBOL="§ "
+PROMPT_DOCKER_SYMBOL="+ "
+PROMPT_DEFAULT_SYMBOL="\$ "
+if [ ${PROMPT_ENV_ENDING} -eq 1 ]
 then
 	if [ ! -x ${SSH_CLIENT+x} ]
 	then
-		printf "${PROMPT_SSH_SYMBOL} "
+		printf "${PROMPT_SSH_SYMBOL}"
+	elif grep -q docker /proc/1/cgroup || [ -f /.dockerenv ]
+	then
+		printf "${PROMPT_DOCKER_SYMBOL}"
 	else
-		printf "\$ "
+		printf "${PROMPT_DEFAULT_SYMBOL}"
 	fi
 else
-	printf "\$ "
+	printf "${PROMPT_DEFAULT_SYMBOL}"
 fi
 `'
 
