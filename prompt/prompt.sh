@@ -23,11 +23,11 @@ fi
 
 # Define ending symbol
 #	ssh    = §
-#	docker = +
+#	docker = <o))>{
 #	else   = $
 export __prompt_ending='`
 PROMPT_SSH_SYMBOL="§ "
-PROMPT_DOCKER_SYMBOL="+ "
+PROMPT_DOCKER_SYMBOL="<o))>{ "
 PROMPT_DEFAULT_SYMBOL="\$ "
 if [ ${PROMPT_ENV_ENDING} -eq 1 ]
 then
@@ -60,7 +60,7 @@ then
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_1}${__prompt_date_time}"		# Date and time
 	PS1+="${RST}"
-	PS1+="${__prompt_COLOR_2}${USER}"			# Username
+	PS1+="${__prompt_COLOR_2}${USER:-SUPERUSER}"		# Username
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_3}${__prompt_ip_addr}"		# IP address
 	PS1+="${RST}"
