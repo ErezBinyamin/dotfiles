@@ -23,11 +23,11 @@ fi
 
 # Define ending symbol
 #	ssh    = §
-#	docker = <o))>{
+#	docker = {
 #	else   = $
 export __prompt_ending='`
 PROMPT_SSH_SYMBOL="§ "
-PROMPT_DOCKER_SYMBOL="<o))>{ "
+PROMPT_DOCKER_SYMBOL="{ "
 PROMPT_DEFAULT_SYMBOL="\$ "
 if [ ${PROMPT_ENV_ENDING} -eq 1 ]
 then
