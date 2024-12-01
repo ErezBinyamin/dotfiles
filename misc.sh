@@ -255,7 +255,6 @@ alias erez="printf '
 	map		-	interactive ascii map
 	PS1		-	interactive PS1 prompt editor
 	public_ip	-	ya
-	rez_docker	-	list of docker aliases/tools
 	rez_git		-	list of git aliases/tools
 	rez_update	-	update this project
 	share		-	quick share a file
