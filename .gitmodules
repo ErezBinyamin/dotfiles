@@ -4,3 +4,6 @@
 [submodule "submodules/ticker.sh"]
 	path = submodules/ticker.sh
 	url = https://github.com/pstadler/ticker.sh.git
+[submodule "Neverland"]
+	path = Neverland
+	url = git@github.com:ErezBinyamin/Neverland.git
