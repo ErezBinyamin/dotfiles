@@ -8,3 +8,4 @@ source ${TOP_DIR}/git.sh
 source ${TOP_DIR}/manpage_colors.sh
 source ${TOP_DIR}/prompt.sh
 source ${TOP_DIR}/submodules/submodules.sh
+source ${TOP_DIR}/docker.sh
