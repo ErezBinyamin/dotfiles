@@ -12,6 +12,9 @@ source ${DIR}/osrs.sh
 source ${DIR}/pihole.sh
 source ${DIR}/smtp_server.sh
 
+alias cyber='docker run -it --network host --privileged erezbinyamin/cyber'
+alias sst='docker run -it erezbinyamin/sst'
+
 alias rez_docker='printf "
 	arduino		-	arduino GUI
 	bettercap    	-	bettercap CLI console
