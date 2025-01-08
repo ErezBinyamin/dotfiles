@@ -152,6 +152,7 @@ shdeps () (
 		for DEP in `sed '/^[ \t]*#/d; s/|/\n/g; s/#/\n#/g; s/\$(/\n/g' ${1} | sed 's/^[ \t]*//; /^#/d' | awk '{print $1}' | sort -u`
 		do
 			[[ ${#DEP} -gt 20 || ${#DEP} -lt 2 || "${DEP}" =~ '-' || "${DEP}" == "no" ]] && continue
+			type ${DEP} 2>/dev/null | grep -q -e 'alias' -e 'function' && continue
 			compgen -b | grep -q "\<${DEP}\>" 2>/dev/null && continue
 			echo ${DEP} | grep -q \
 				-e '(' \
