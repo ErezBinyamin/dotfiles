@@ -2,7 +2,7 @@
 
 # Get other prompt tools
 PROMPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-TOOLS=( 'battery.sh' 'coloring.sh' 'date_time.sh' 'default.sh' 'git.sh' 'ip_addr.sh' 'wrk_dir.sh' )
+TOOLS=( 'battery.sh' 'coloring.sh' 'datetime.sh' 'default.sh' 'git.sh' 'ipaddr.sh' 'wrkdir.sh' )
 source "${PROMPT_DIR}/config.sh"
 for prompt_tool in ${TOOLS[@]}
 do
@@ -56,15 +56,15 @@ RST="\[\033[00m\]"
 if [ ${PROMPT_DEFAULT} -ne 1 ]
 then
 	unset PS1
-	PS1="${__prompt_bat_life}"				# Battery life
+	PS1="${__prompt_battery}"				# Battery life
 	PS1+="${RST}"
-	PS1+="${__prompt_COLOR_1}${__prompt_date_time}"		# Date and time
+	PS1+="${__prompt_COLOR_1}${__prompt_datetime}"		# Date and time
 	PS1+="${RST}"
 	PS1+="${__prompt_COLOR_2}${USER:-SUPERUSER}"		# Username
 	PS1+="${RST}"
-	PS1+="${__prompt_COLOR_3}${__prompt_ip_addr}"		# IP address
+	PS1+="${__prompt_COLOR_3}${__prompt_ipaddr}"		# IP address
 	PS1+="${RST}"
-	PS1+="${__prompt_COLOR_4}${__prompt_wrk_dir}"		# Working directory
+	PS1+="${__prompt_COLOR_4}${__prompt_wrkdir}"		# Working directory
 	PS1+="${RST}"
 	PS1+="${__prompt_git_repo}"				# Repo name
 	PS1+="${RST}"
@@ -78,10 +78,10 @@ then
 	PS1+="${RST}"
 
 	unset PS1_noDir
-	PS1_noDir="${__prompt_bat_life}"			 # Battery life
-	PS1_noDir+="${__prompt_date_time}"			 # Date and time
+	PS1_noDir="${__prompt_battery}"			 # Battery life
+	PS1_noDir+="${__prompt_datetime}"			 # Date and time
 	PS1_noDir+="${USER:-SUPERUSER}"				 # Username
-	PS1_noDir+="${__prompt_ip_addr}"			 # IP address
+	PS1_noDir+="${__prompt_ipaddr}"			 # IP address
 	PS1_noDir+="${__prompt_git_repo}"			 # Repo name
 	PS1_noDir+="${__prompt_git_pull}${__prompt_git_push}"	 # Push pull arrows
 	PS1_noDir+="${__prompt_git_color}${__prompt_git_branch}" # Colored git branch/status

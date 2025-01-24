@@ -18,10 +18,10 @@ export PROMPT_RANDOM_COLORING=0
 export PROMPT_BATTERY=1		
 
 # date/time
-export PROMPT_DATE_TIME=1	
+export PROMPT_DATETIME=1	
 
 # Local IP address
-export PROMPT_IP_ADDR=1		
+export PROMPT_IPADDR=1		
 
 # Current working dir
 export PROMPT_WRK_DIR=1		

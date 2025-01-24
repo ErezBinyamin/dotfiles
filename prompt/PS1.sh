@@ -3,8 +3,8 @@
 # CONTROLS
 #--##############################
 #     PROMPT_BATTERY		# Battery life status
-#     PROMPT_DATE_TIME		# date/time
-#     PROMPT_IP_ADDR		# Local IP address
+#     PROMPT_DATETIME		# date/time
+#     PROMPT_IPADDR		# Local IP address
 #     PROMPT_WRK_DIR		# Current working dir
 #     PROMPT_GIT_REPO		# Git Repo name
 #     PROMPT_GIT_REMOTE		# Git Push/Pull status
@@ -21,8 +21,8 @@ print_commands() {
 	local OFF="\e[7;33m"	# Highlight Yellow
 	local B D I W G P S R E C
 	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}B${RST}" || B="${OFF}B${RST}"
-	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}D${RST}" || D="${OFF}D${RST}"
-	[ $PROMPT_IP_ADDR -eq 1 ]     && I="${ON}I${RST}" || I="${OFF}I${RST}"
+	[ $PROMPT_DATETIME -eq 1 ]   && D="${ON}D${RST}" || D="${OFF}D${RST}"
+	[ $PROMPT_IPADDR -eq 1 ]     && I="${ON}I${RST}" || I="${OFF}I${RST}"
 	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}W${RST}" || W="${OFF}W${RST}"
 	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON}G${RST}" || G="${OFF}G${RST}"
 	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}P${RST}" || P="${OFF}P${RST}"
@@ -40,9 +40,9 @@ print_components() {
 	local OFF="\e[38;5;9m"	# Red
 	local B D U I W G P S R E C
 	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}[ BAT ]${RST}"      || B="${OFF}[ BAT ]${RST}"
-	[ $PROMPT_DATE_TIME -eq 1 ]   && D="${ON}[DATE  TIME]${RST}" || D="${OFF}[DATE  TIME]${RST}"
+	[ $PROMPT_DATETIME -eq 1 ]   && D="${ON}[DATE  TIME]${RST}" || D="${OFF}[DATE  TIME]${RST}"
 	U=$(printf "${__prompt_COLOR_2@P}user\e[0m" | sed "s#\x1##g; s#\x2##g;")
-	[ $PROMPT_IP_ADDR -eq 1 ]     && I="${ON}:IP.A.DD.R${RST}"   || I="${OFF}:IP.A.DD.R${RST}"
+	[ $PROMPT_IPADDR -eq 1 ]     && I="${ON}:IP.A.DD.R${RST}"   || I="${OFF}:IP.A.DD.R${RST}"
 	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}:/wrk/dir${RST}"    || W="${OFF}:/wrk/dir${RST}"
 	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON} | Repo | ${RST}"   || G="${OFF} | Repo | ${RST}"
 	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}v^ ${RST}"          || P="${OFF}v^ ${RST}"
@@ -74,10 +74,10 @@ do
 			PROMPT_BATTERY=$(( (${PROMPT_BATTERY} + 1) % 2))
 			;;
 		"D")
-			PROMPT_DATE_TIME=$(( (${PROMPT_DATE_TIME} + 1) % 2))
+			PROMPT_DATETIME=$(( (${PROMPT_DATETIME} + 1) % 2))
 			;;
 		"I")
-			PROMPT_IP_ADDR=$(( (${PROMPT_IP_ADDR} + 1) % 2))
+			PROMPT_IPADDR=$(( (${PROMPT_IPADDR} + 1) % 2))
 			;;
 		"W")
 			PROMPT_WRK_DIR=$(( (${PROMPT_WRK_DIR} + 1) % 2))

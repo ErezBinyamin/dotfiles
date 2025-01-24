@@ -1,8 +1,8 @@
 #!/bin/bash
 
-__prompt_ip_addr_func() {
+__prompt_ipaddr_func() {
     local ERRVAL
-		if [ ${PROMPT_IP_ADDR} -eq 1 ]
+		if [ ${PROMPT_IPADDR} -eq 1 ]
 		then
 			if net_check
 			then
@@ -28,9 +28,9 @@ __prompt_ip_addr_func() {
 # IP address definition, either live or on source define
 if [ $PROMPT_SLOW_NETWORK -eq 0 ]
 then
-	export __prompt_ip_addr='`__prompt_ip_addr_func`'
+	export __prompt_ipaddr='`__prompt_ipaddr_func`'
 else
-  __prompt_ip_addr='`[ ${PROMPT_IP_ADDR} -eq 1 ] && printf ":" && REPLACE`'
-	__prompt_ip_addr_local_ip="`__prompt_ip_addr_func`"
-	export __prompt_ip_addr=$(echo $__prompt_ip_addr | sed "s/REPLACE/printf \"${__prompt_ip_addr_local_ip}\"/")
+  __prompt_ipaddr='`[ ${PROMPT_IPADDR} -eq 1 ] && printf ":" && REPLACE`'
+	__prompt_ipaddr_local_ip="`__prompt_ipaddr_func`"
+	export __prompt_ipaddr=$(echo $__prompt_ipaddr | sed "s/REPLACE/printf \"${__prompt_ipaddr_local_ip}\"/")
 fi

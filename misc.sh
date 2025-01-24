@@ -82,7 +82,10 @@ net_check() {
 	local TEST='_gateway'
 	command -v ip   &>/dev/null && return $(ip addr | grep inet | grep global | grep -q noprefixroute && echo 0 || echo 1)
 	command -v ping &>/dev/null && return $(ping -q -w 1 -c 1 ${TEST} &> /dev/null && echo 0 || echo 1)
-	command -v wget &>/dev/null && return $(wget -q --spider ${TEST} && echo 0 || echo 1)
+	if command -v wget &>/dev/null && timeout 3 wget -q --spider ${TEST}
+  then
+    return $(wget -q --spider ${TEST} && echo 0 || echo 1)
+  fi
 	command -v nc   &>/dev/null && return $(nc -w 3 -z ${TEST} 80 && echo 0 || echo 1)
 	>&2 echo "NetworkError: Cannot detect network connection status"
 	return 1
