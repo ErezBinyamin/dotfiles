@@ -4,17 +4,19 @@
 # Helper function for generating IP-color string
 # Replaces hard to see colors with highlighed backgrounds
 __assign_color() {
+    local TXT
     case "$1" in
      "")
-        echo '\[\033[48;5;m\]'
+        TXT='\033[48;5;m'
         ;;
      "0" | "8" | "17" | "18" | "16" | "232" | "233" | "234" | "235" | "236" | "237")
-        echo '\[\033[48;5;'"$1"'m\]'
+        TXT='\033[48;5;'"$1"'m'
         ;;
      *)
-        echo '\[\033[38;5;'"$1"'m\]'
+        TXT='\033[38;5;'"$1"'m'
         ;;
     esac
+    printf "${TXT}"
 }
 export __assign_color
 
