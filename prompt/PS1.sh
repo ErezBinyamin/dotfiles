@@ -20,16 +20,16 @@ print_commands() {
 	local ON="\e[7;36m"	# Highlight Blue
 	local OFF="\e[7;33m"	# Highlight Yellow
 	local B D I W G P S R E C
-	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}B${RST}" || B="${OFF}B${RST}"
-	[ $PROMPT_DATETIME -eq 1 ]   && D="${ON}D${RST}" || D="${OFF}D${RST}"
-	[ $PROMPT_IPADDR -eq 1 ]     && I="${ON}I${RST}" || I="${OFF}I${RST}"
-	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}W${RST}" || W="${OFF}W${RST}"
-	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON}G${RST}" || G="${OFF}G${RST}"
-	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}P${RST}" || P="${OFF}P${RST}"
-	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}S${RST}" || S="${OFF}S${RST}"
-	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON}R${RST}" || R="${OFF}R${RST}"
-	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}C${RST}" || C="${OFF}C${RST}"
-	[ $PROMPT_ENV_ENDING -eq 1 ]  && E="${ON}E${RST}" || E="${OFF}E${RST}"
+	[ ${PROMPT_BATTERY:-0} -eq 1 ]     && B="${ON}B${RST}" || B="${OFF}B${RST}"
+	[ ${PROMPT_DATETIME:-0} -eq 1 ]    && D="${ON}D${RST}" || D="${OFF}D${RST}"
+	[ ${PROMPT_IPADDR:-0} -eq 1 ]      && I="${ON}I${RST}" || I="${OFF}I${RST}"
+	[ ${PROMPT_WRK_DIR:-0} -eq 1 ]     && W="${ON}W${RST}" || W="${OFF}W${RST}"
+	[ ${PROMPT_GIT_REPO:-0} -eq 1 ]    && G="${ON}G${RST}" || G="${OFF}G${RST}"
+	[ ${PROMPT_GIT_REMOTE:-0} -eq 1 ]  && P="${ON}P${RST}" || P="${OFF}P${RST}"
+	[ ${PROMPT_GIT_SYMBOLS:-0} -eq 1 ] && S="${ON}S${RST}" || S="${OFF}S${RST}"
+	[ ${PROMPT_GIT_BRANCH:-0} -eq 1 ]  && R="${ON}R${RST}" || R="${OFF}R${RST}"
+	[ ${PROMPT_CAPS_LOCK:-0}  -eq 1 ]  && C="${ON}C${RST}" || C="${OFF}C${RST}"
+	[ ${PROMPT_ENV_ENDING:-0} -eq 1 ]  && E="${ON}E${RST}" || E="${OFF}E${RST}"
 	printf "COMMANDS  :     $B         $D              $I         $W       $G     $P   $S    $R      $C    $E\n"
 }
 
@@ -39,17 +39,17 @@ print_components() {
 	local ON="\e[38;5;10m"	# Green
 	local OFF="\e[38;5;9m"	# Red
 	local B D U I W G P S R E C
-	[ $PROMPT_BATTERY -eq 1 ]     && B="${ON}[ BAT ]${RST}"      || B="${OFF}[ BAT ]${RST}"
-	[ $PROMPT_DATETIME -eq 1 ]   && D="${ON}[DATE  TIME]${RST}" || D="${OFF}[DATE  TIME]${RST}"
+	[ ${PROMPT_BATTERY:-0} -eq 1 ]     && B="${ON}[ BAT ]${RST}"      || B="${OFF}[ BAT ]${RST}"
+	[ ${PROMPT_DATETIME:-0} -eq 1 ]   && D="${ON}[DATE  TIME]${RST}" || D="${OFF}[DATE  TIME]${RST}"
 	U=$(printf "${__prompt_COLOR_2@P}user\e[0m" | sed "s#\x1##g; s#\x2##g;")
-	[ $PROMPT_IPADDR -eq 1 ]     && I="${ON}:IP.A.DD.R${RST}"   || I="${OFF}:IP.A.DD.R${RST}"
-	[ $PROMPT_WRK_DIR -eq 1 ]     && W="${ON}:/wrk/dir${RST}"    || W="${OFF}:/wrk/dir${RST}"
-	[ $PROMPT_GIT_REPO -eq 1 ]    && G="${ON} | Repo | ${RST}"   || G="${OFF} | Repo | ${RST}"
-	[ $PROMPT_GIT_REMOTE -eq 1 ]  && P="${ON}v^ ${RST}"          || P="${OFF}v^ ${RST}"
-	[ $PROMPT_GIT_SYMBOLS -eq 1 ] && S="${ON}@*+${RST}"          || S="${OFF}@*+${RST}"
-	[ $PROMPT_GIT_BRANCH -eq 1 ]  && R="${ON} branch ${RST}"     || R="${OFF} branch ${RST}"
-	[ $PROMPT_ENV_ENDING -eq 1 ]  && E="${ON} \$§H ${RST}"       || E="${OFF} \$§H ${RST}"
-	[ $PROMPT_CAPS_LOCK  -eq 1 ]  && C="${ON}©CAP©${RST}"        || C="${OFF}©CAP©${RST}"
+	[ ${PROMPT_IPADDR:-0} -eq 1 ]     && I="${ON}:IP.A.DD.R${RST}"   || I="${OFF}:IP.A.DD.R${RST}"
+	[ ${PROMPT_WRK_DIR:-0} -eq 1 ]     && W="${ON}:/wrk/dir${RST}"    || W="${OFF}:/wrk/dir${RST}"
+	[ ${PROMPT_GIT_REPO:-0} -eq 1 ]    && G="${ON} | Repo | ${RST}"   || G="${OFF} | Repo | ${RST}"
+	[ ${PROMPT_GIT_REMOTE:-0} -eq 1 ]  && P="${ON}v^ ${RST}"          || P="${OFF}v^ ${RST}"
+	[ ${PROMPT_GIT_SYMBOLS:-0} -eq 1 ] && S="${ON}@*+${RST}"          || S="${OFF}@*+${RST}"
+	[ ${PROMPT_GIT_BRANCH:-0} -eq 1 ]  && R="${ON} branch ${RST}"     || R="${OFF} branch ${RST}"
+	[ ${PROMPT_ENV_ENDING:-0} -eq 1 ]  && E="${ON} \$§H ${RST}"       || E="${OFF} \$§H ${RST}"
+	[ ${PROMPT_CAPS_LOCK:-0}  -eq 1 ]  && C="${ON}©CAP©${RST}"        || C="${OFF}©CAP©${RST}"
 	printf "COMPONENTS:  $B$D$U$I$W$G$P$S$R$C$E\n\n"
 }
 

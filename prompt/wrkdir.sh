@@ -6,7 +6,7 @@
 __prompt_wrkdir_func() {
   local MIN_SPACE=15
   local WID=0
-  if [ $PROMPT_WRK_DIR -eq 1 ]
+  if [ ${PROMPT_WRK_DIR:-0} -eq 1 ]
   then
   	printf ":"
   	WID=$(printf "${PS1_noDir@P}" | sed "s#\x1##g; s#\x2##g; s/\x1B\\[[0-9;]\\+[A-Za-z]//g;" | wc -c)

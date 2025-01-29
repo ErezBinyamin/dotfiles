@@ -4,26 +4,24 @@
 # Helper function for generating IP-color string
 # Replaces hard to see colors with highlighed backgrounds
 __assign_color() {
-    local TXT
     case "$1" in
      "")
-        TXT='\033[48;5;m'
+        printf '\033[48;5;m'
         ;;
      "0" | "8" | "17" | "18" | "16" | "232" | "233" | "234" | "235" | "236" | "237")
-        TXT='\033[48;5;'"$1"'m'
+        printf '\033[48;5;'"${1}m"
         ;;
      *)
-        TXT='\033[38;5;'"$1"'m'
+        printf '\033[38;5;'"${1}m"
         ;;
     esac
-    printf "${TXT}"
 }
 export __assign_color
 
-if [ $PROMPT_IP_COLORING -eq 1 ]
+if [ ${PROMPT_IP_COLORING:-0} -eq 1 ]
 then
     # IF OFFLINE then print gray else color
-	if [ $PROMPT_SLOW_NETWORK -eq 1 ]
+	if [ ${PROMPT_SLOW_NETWORK:-0} -eq 1 ]
 	then
 		if net_check
 		then
@@ -45,7 +43,7 @@ then
 	fi
 
     # Poll google servers for each color
-    if [ $PROMPT_SLOW_NETWORK -eq 0 ]
+    if [ ${PROMPT_SLOW_NETWORK:-0} -eq 0 ]
     then
          export __prompt_COLOR_1='`net_check && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f1)"m\]" || echo "\[\033[48;5;m\]"`'
          export __prompt_COLOR_2='`net_check && echo "\[\033[38;5;"$(hostname -I | tr "." " " | cut -d" " -f2)"m\]" || echo "\[\033[48;5;m\]"`'
