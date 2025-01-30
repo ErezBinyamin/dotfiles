@@ -2,48 +2,15 @@
 
 # Get other prompt tools
 PROMPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-TOOLS=( 'battery.sh' 'coloring.sh' 'datetime.sh' 'default.sh' 'git.sh' 'ipaddr.sh' 'wrkdir.sh' )
+TOOLS=( 'battery.sh' 'capslock.sh' 'coloring.sh' 'datetime.sh' 'default.sh' 'ending.sh' 'git.sh' 'ipaddr.sh' 'wrkdir.sh' )
 source "${PROMPT_DIR}/config.sh"
 for prompt_tool in ${TOOLS[@]}
 do
 	source "${PROMPT_DIR}/${prompt_tool}"
 done
 
-# CAPS LOCK notification symbol
-__prompt_capslock_func(){
-  PROMPT_CAPS_LOCK_SYMBOL="©"
-  __prompt_capslock_str=''
-  if [ ${PROMPT_CAPS_LOCK:-0} -eq 1 ] && xset -h &>/dev/null
-  then
-  	xset q | grep -q "00: Caps Lock:   off" || __prompt_capslock_str="${PROMPT_CAPS_LOCK_SYMBOL}"
-  fi
-  export __prompt_capslock_str
-}
-
-# Define ending symbol
-#	ssh    = §
-#	docker = {
-#	else   = $
-__prompt_ending_func(){
-  PROMPT_SSH_SYMBOL="§ "
-  PROMPT_DOCKER_SYMBOL="{ "
-  PROMPT_DEFAULT_SYMBOL="\$ "
-  if [ ${PROMPT_ENV_ENDING:-0} -eq 1 ]
-  then
-  	if [ ! -x ${SSH_CLIENT+x} ]
-  	then
-  		printf "${PROMPT_SSH_SYMBOL}"
-  	elif grep -q docker /proc/1/cgroup || [ -f /.dockerenv ]
-  	then
-  		__prompt_ending_str="${PROMPT_DOCKER_SYMBOL}"
-  	else
-  		__prompt_ending_str="${PROMPT_DEFAULT_SYMBOL}"
-  	fi
-  else
-  	__prompt_ending_str="${PROMPT_DEFAULT_SYMBOL}"
-  fi
-  export __prompt_ending_str
-}
+# Run some functions to define some more envars
+export NC='\[\033[0m\]\[\033[39;49m\]'
 __prompt_ending_func
 if [ -z ${USER} ]
 then
@@ -51,13 +18,14 @@ then
   export USER
 fi
 
+# Define prompt command sequence to run every command
 __prompt_command(){
   __prompt_battery_func
   __prompt_capslock_func
   #__prompt_ending_func
 }
 PROMPT_COMMAND=__prompt_command
-export NC='\[\033[0m\]\[\033[39;49m\]'
+
 #################################################
 #	                                              #
 #	         ----ACTUALLY SET THE PS1----         #
