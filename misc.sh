@@ -31,6 +31,14 @@ lsport() {
 		set +x
 	fi
 }
+
+rainbow(){
+  for i in {0..255}
+  do
+    printf "\033[38;5;${i}m%3d " "$i"
+    ((i % 16 == 15)) && echo
+  done
+}
  
 # Readelf with better formatting (because readelf normally sucks)
 readelf() {
