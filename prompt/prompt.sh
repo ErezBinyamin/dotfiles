@@ -45,6 +45,11 @@ __prompt_ending_func(){
   export __prompt_ending_str
 }
 __prompt_ending_func
+if [ -z ${USER} ]
+then
+  USER=$(whoami) || USER=SUPERUSER
+  export USER
+fi
 
 __prompt_command(){
   __prompt_battery_func
@@ -61,35 +66,35 @@ export NC='\[\033[0m\]\[\033[39;49m\]'
 if [ ${PROMPT_DEFAULT:-0} -ne 1 ]
 then
 	unset PS1
-	PS1="\${__prompt_battery_str@P}"				# Battery life
+	PS1="\${__prompt_battery_str@P}"
 	PS1+="${NC}"
-	PS1+="${__prompt_COLOR_1}${__prompt_datetime}"		# Date and time
+	PS1+="${__prompt_COLOR_1}${__prompt_datetime}"
 	PS1+="${NC}"
-	PS1+="${__prompt_COLOR_2}${USER:-SUPERUSER}"		# Username
+	PS1+="${__prompt_COLOR_2}${USER}"
 	PS1+="${NC}"
-	PS1+="${__prompt_COLOR_3}${__prompt_ipaddr}"		# IP address
+	PS1+="${__prompt_COLOR_3}${__prompt_ipaddr}"
 	PS1+="${NC}"
-	PS1+="${__prompt_COLOR_4}${__prompt_wrkdir}"		# Working directory
+	PS1+="${__prompt_COLOR_4}${__prompt_wrkdir}"
 	PS1+="${NC}"
-	PS1+="${__prompt_git_repo}"				# Repo name
+	PS1+="${__prompt_git_repo}"
 	PS1+="${NC}"
-	PS1+="${__prompt_git_pull}${__prompt_git_push}"		# Push pull arrows
+	PS1+="${__prompt_git_pull}${__prompt_git_push}"
 	PS1+="${NC}"
-	PS1+="${__prompt_git_color}${__prompt_git_branch}"	# Colored git branch/status
+	PS1+="${__prompt_git_color}${__prompt_git_branch}"
 	PS1+="${NC}"
-	PS1+="\${__prompt_capslock_str@P}"				# Caps lock notification
+	PS1+="\${__prompt_capslock_str@P}"
 	PS1+="${NC}"
-	PS1+="\${__prompt_ending_str@P}"				# End with: "${__prompt_ending}"
+	PS1+="\${__prompt_ending_str@P}"
 	PS1+="${NC}"
 
 	unset PS1_noDir
-	PS1_noDir="${__prompt_battery}"			 # Battery life
-	PS1_noDir+="${__prompt_datetime}"			 # Date and time
-	PS1_noDir+="${USER:-SUPERUSER}"				 # Username
-	PS1_noDir+="${__prompt_ipaddr}"			 # IP address
-	PS1_noDir+="${__prompt_git_repo}"			 # Repo name
-	PS1_noDir+="${__prompt_git_pull}${__prompt_git_push}"	 # Push pull arrows
-	PS1_noDir+="${__prompt_git_color}${__prompt_git_branch}" # Colored git branch/status
-	PS1_noDir+="${__prompt_caps_lock}"			 # Caps lock notification
-	PS1_noDir+="${__prompt_ending}"				 # End with: "${__prompt_ending}"
+	PS1_noDir="${__prompt_battery}"
+	PS1_noDir+="${__prompt_datetime}"
+	PS1_noDir+="${USER}"
+	PS1_noDir+="${__prompt_ipaddr}"
+	PS1_noDir+="${__prompt_git_repo}"
+	PS1_noDir+="${__prompt_git_pull}${__prompt_git_push}"
+	PS1_noDir+="${__prompt_git_color}${__prompt_git_branch}"
+	PS1_noDir+="${__prompt_caps_lock}"
+	PS1_noDir+="${__prompt_ending}"
 fi
