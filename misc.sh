@@ -10,6 +10,7 @@ alias bashrc='source ~/.bashrc'
 alias PS1="source ${DOTFILES}/prompt/PS1.sh"
 alias ps1="source ${DOTFILES}/prompt/PS1.sh"
 alias rez_update='pushd .; cd $DOTFILES; git pull; cd ${HOME}; source .bashrc; popd'
+alias curl='curl -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" --compressed --retry 5 --retry-delay 3 --connect-timeout 10 --max-time 30 --fail --insecure -b cookies.txt -c cookies.txt -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" -H "Accept-Language: en-US,en;q=0.9" -H "Cache-Control: max-age=0" -H "Connection: keep-alive" -H "Upgrade-Insecure-Requests: 1"'
 
 # Aggressive clear
 alias CLEAR='command -v tput &>/dev/null && tput reset; printf "\ec"'
@@ -231,25 +232,10 @@ shdeps () (
 	printf '\n'
 )
 
-txsms() {
-	local PHONE="$1"
-	shift
-	local MESSAGE="$@"
-	if [ $(echo "${MESSAGE}" | wc -c) -lt 2 ]
-	then
-		>&2 echo 'USAGE: text <phone-number> "<message>"'
-		return 1
-	fi
-	curl --silent --request POST https://textbelt.com/text \
-	       --data-urlencode phone="$PHONE" \
-	       --data-urlencode message="$MESSAGE" \
-	       -d key=textbelt
-}
-
 clip() {
 	if [ $# -lt 1 ]
 	then
-		>&2 echo 'USAGE: clip text to copy to clipboard ...'
+		>&2 echo 'USAGE: clip "BLOB" ... or: clip $(command) '
 		return 1
 	fi
 	echo $@ | xclip -sel clip
