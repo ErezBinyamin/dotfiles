@@ -5,6 +5,7 @@
 #						#
 #################################################
 # Simple
+alias ls='ls --color=auto' 
 alias hgrep='history | grep -e'
 alias bashrc='source ~/.bashrc'
 alias PS1="source ${DOTFILES}/prompt/PS1.sh"
