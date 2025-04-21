@@ -14,12 +14,14 @@ source ${DIR}/smtp_server.sh
 
 alias cyber='docker run -it --network host --privileged erezbinyamin/cyber'
 alias sst='docker run -it erezbinyamin/sst'
+alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm ghcr.io/laniksj/dfimage"
 
 alias rez_docker='printf "
 	arduino		-	arduino GUI
 	bettercap    	-	bettercap CLI console
 	cAdvisor        -       Container Advisor web UI
 	docker-del   	-	Brute force docker deleting tool
+	dfimage   	-	Reverse engineer docker image to show original dockerfile
 	ee2wine         -       Play Empire Earth2 in wine in docker
 	matlab       	-	MatLab GUI
 	osrs         	-	Oldschool Runescape GUI
