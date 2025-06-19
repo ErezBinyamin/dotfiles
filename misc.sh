@@ -87,17 +87,22 @@ swap() {
 
 # Check network connectivity the fastest way this system supports
 net_check() {
-	#local TEST='www.google.com'
-	local TEST='_gateway'
-	command -v ip   &>/dev/null && return $(ip addr | grep inet | grep global | grep -q noprefixroute && echo 0 || echo 1)
-	command -v ping &>/dev/null && return $(ping -q -w 1 -c 1 ${TEST} &> /dev/null && echo 0 || echo 1)
-	if command -v wget &>/dev/null && timeout 3 wget -q --spider ${TEST}
-  then
-    return $(wget -q --spider ${TEST} && echo 0 || echo 1)
-  fi
-	command -v nc   &>/dev/null && return $(nc -w 3 -z ${TEST} 80 && echo 0 || echo 1)
-	>&2 echo "NetworkError: Cannot detect network connection status"
-	return 1
+    # 1. Use `ip` if available
+    if command -v ip &>/dev/null; then
+        ip -o addr show scope global up 2>/dev/null | grep -q 'inet' && return 0
+        return 1
+    fi
+    # 2. Fallback: check ifconfig for inet (older systems)
+    if command -v ifconfig &>/dev/null; then
+        ifconfig | grep -A1 'flags=.*UP' | grep -q 'inet ' && return 0
+        return 1
+    fi
+    # 3. As a last resort: check /sys for interfaces with carrier
+    for iface in /sys/class/net/*; do
+        [ "$(cat "$iface/operstate" 2>/dev/null)" = "up" ] && return 0
+    done
+    echo "NetworkError: Cannot detect network connection status" >&2
+    return 1
 }
 
 public_ip() {
